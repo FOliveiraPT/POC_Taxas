@@ -12,7 +12,7 @@ namespace POC.DAL
         /// <summary>
         /// The context object for the database
         /// </summary>
-        private POC_TAXEntities context = null;
+        private TaxModelContainer context = null;
 
         /// <summary>
         /// The IObjectSet that represents the current entity.
@@ -25,7 +25,7 @@ namespace POC.DAL
         public GenericRepository()
         {
             if (context == null)
-                context = new POC_TAXEntities();
+                context = new TaxModelContainer();
 
             objectSet = context.CreateObjectSet<TEntity>();
         }
