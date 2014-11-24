@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="POC_TAXModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="POC_TAXModelStoreContainer">
+          <EntitySet Name="ORDERTYPE" EntityType="POC_TAXModel.Store.ORDERTYPE" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TAX" EntityType="POC_TAXModel.Store.TAX" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TAXCOND" EntityType="POC_TAXModel.Store.TAXCOND" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_TAX_ORDERTYPE" Association="POC_TAXModel.Store.FK_TAX_ORDERTYPE">
+            <End Role="ORDERTYPE" EntitySet="ORDERTYPE" />
+            <End Role="TAX" EntitySet="TAX" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TAXCOND_TAX" Association="POC_TAXModel.Store.FK_TAXCOND_TAX">
+            <End Role="TAX" EntitySet="TAX" />
+            <End Role="TAXCOND" EntitySet="TAXCOND" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ORDERTYPE">
+          <Key>
+            <PropertyRef Name="ORDERTYPE_ID" />
+          </Key>
+          <Property Name="ORDERTYPE_ID" Type="int" Nullable="false" />
+          <Property Name="ORDERTYPE_TITLE" Type="nvarchar" MaxLength="100" />
+          <Property Name="ORDERTYPE_DESCRIPTION" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ORDERTYPE_XMLFORM" Type="nvarchar(max)" />
+          <Property Name="ORDERTYPE_BUSINESSUNITKEY" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="ORDERTYPE_GDCCID" Type="int" />
+          <Property Name="ORDERTYPE_NEEDSLOGIN" Type="bit" />
+          <Property Name="ORDERTYPE_CREATEDATE" Type="datetime" />
+          <Property Name="ORDERTYPE_PDFFORM_URL" Type="nvarchar" MaxLength="255" />
+          <Property Name="ORDERTYPE_REDIRECT" Type="nvarchar" MaxLength="500" />
+          <Property Name="ORDERTYPE_ORDER_SCHEMA" Type="nvarchar(max)" />
+          <Property Name="ORDERTYPE_ORDER_ROOTNAME" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TAX">
+          <Key>
+            <PropertyRef Name="TAX_ID" />
+          </Key>
+          <Property Name="TAX_ID" Type="int" Nullable="false" />
+          <Property Name="TAX_ORDERTYPEID" Type="int" />
+          <Property Name="TAX_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="TAX_DESCRIPTION" Type="varchar" MaxLength="255" />
+          <Property Name="TAX_DISCOUNT" Type="float" />
+          <Property Name="TAX_VALUE" Type="float" />
+          <Property Name="TAX_CHANNELID" Type="int" />
+          <Property Name="TAX_FORMITEMNAME" Type="varchar" MaxLength="255" />
+          <Property Name="TAX_START_DATE" Type="datetime" />
+          <Property Name="TAX_END_DATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TAXCOND">
+          <Key>
+            <PropertyRef Name="TAXCOND_ID" />
+          </Key>
+          <Property Name="TAXCOND_ID" Type="int" Nullable="false" />
+          <Property Name="TAXCOND_TAXID" Type="int" />
+          <Property Name="TAXCOND_FORMITEMNAME" Type="varchar" MaxLength="255" />
+          <Property Name="TAXCOND_FORMITEMOP" Type="varchar" MaxLength="255" />
+          <Property Name="TAXCOND_FORMITEMVALUE" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK_TAX_ORDERTYPE">
+          <End Role="ORDERTYPE" Type="POC_TAXModel.Store.ORDERTYPE" Multiplicity="0..1" />
+          <End Role="TAX" Type="POC_TAXModel.Store.TAX" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDERTYPE">
+              <PropertyRef Name="ORDERTYPE_ID" />
+            </Principal>
+            <Dependent Role="TAX">
+              <PropertyRef Name="TAX_ORDERTYPEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TAXCOND_TAX">
+          <End Role="TAX" Type="POC_TAXModel.Store.TAX" Multiplicity="0..1" />
+          <End Role="TAXCOND" Type="POC_TAXModel.Store.TAXCOND" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAX">
+              <PropertyRef Name="TAX_ID" />
+            </Principal>
+            <Dependent Role="TAXCOND">
+              <PropertyRef Name="TAXCOND_TAXID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="POC_TAXModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="POC_TAXEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ORDERTYPE" EntityType="POC_TAXModel.ORDERTYPE" />
+          <EntitySet Name="TAX" EntityType="POC_TAXModel.TAX" />
+          <EntitySet Name="TAXCOND" EntityType="POC_TAXModel.TAXCOND" />
+          <AssociationSet Name="FK_TAX_ORDERTYPE" Association="POC_TAXModel.FK_TAX_ORDERTYPE">
+            <End Role="ORDERTYPE" EntitySet="ORDERTYPE" />
+            <End Role="TAX" EntitySet="TAX" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TAXCOND_TAX" Association="POC_TAXModel.FK_TAXCOND_TAX">
+            <End Role="TAX" EntitySet="TAX" />
+            <End Role="TAXCOND" EntitySet="TAXCOND" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ORDERTYPE">
+          <Key>
+            <PropertyRef Name="ORDERTYPE_ID" />
+          </Key>
+          <Property Name="ORDERTYPE_ID" Type="Int32" Nullable="false" />
+          <Property Name="ORDERTYPE_TITLE" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="ORDERTYPE_DESCRIPTION" Type="String" MaxLength="1000" Unicode="true" FixedLength="false" />
+          <Property Name="ORDERTYPE_XMLFORM" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ORDERTYPE_BUSINESSUNITKEY" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="ORDERTYPE_GDCCID" Type="Int32" />
+          <Property Name="ORDERTYPE_NEEDSLOGIN" Type="Boolean" />
+          <Property Name="ORDERTYPE_CREATEDATE" Type="DateTime" />
+          <Property Name="ORDERTYPE_PDFFORM_URL" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="ORDERTYPE_REDIRECT" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="ORDERTYPE_ORDER_SCHEMA" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ORDERTYPE_ORDER_ROOTNAME" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="TAX" Relationship="POC_TAXModel.FK_TAX_ORDERTYPE" FromRole="ORDERTYPE" ToRole="TAX" />
+        </EntityType>
+        <EntityType Name="TAX">
+          <Key>
+            <PropertyRef Name="TAX_ID" />
+          </Key>
+          <Property Name="TAX_ID" Type="Int32" Nullable="false" />
+          <Property Name="TAX_ORDERTYPEID" Type="Int32" />
+          <Property Name="TAX_NAME" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="TAX_DESCRIPTION" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="TAX_DISCOUNT" Type="Double" />
+          <Property Name="TAX_VALUE" Type="Double" />
+          <Property Name="TAX_CHANNELID" Type="Int32" />
+          <Property Name="TAX_FORMITEMNAME" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="TAX_START_DATE" Type="DateTime" />
+          <Property Name="TAX_END_DATE" Type="DateTime" />
+          <NavigationProperty Name="ORDERTYPE" Relationship="POC_TAXModel.FK_TAX_ORDERTYPE" FromRole="TAX" ToRole="ORDERTYPE" />
+          <NavigationProperty Name="TAXCOND" Relationship="POC_TAXModel.FK_TAXCOND_TAX" FromRole="TAX" ToRole="TAXCOND" />
+        </EntityType>
+        <EntityType Name="TAXCOND">
+          <Key>
+            <PropertyRef Name="TAXCOND_ID" />
+          </Key>
+          <Property Name="TAXCOND_ID" Type="Int32" Nullable="false" />
+          <Property Name="TAXCOND_TAXID" Type="Int32" />
+          <Property Name="TAXCOND_FORMITEMNAME" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="TAXCOND_FORMITEMOP" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="TAXCOND_FORMITEMVALUE" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="TAX" Relationship="POC_TAXModel.FK_TAXCOND_TAX" FromRole="TAXCOND" ToRole="TAX" />
+        </EntityType>
+        <Association Name="FK_TAX_ORDERTYPE">
+          <End Role="ORDERTYPE" Type="POC_TAXModel.ORDERTYPE" Multiplicity="0..1" />
+          <End Role="TAX" Type="POC_TAXModel.TAX" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDERTYPE">
+              <PropertyRef Name="ORDERTYPE_ID" />
+            </Principal>
+            <Dependent Role="TAX">
+              <PropertyRef Name="TAX_ORDERTYPEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TAXCOND_TAX">
+          <End Role="TAX" Type="POC_TAXModel.TAX" Multiplicity="0..1" />
+          <End Role="TAXCOND" Type="POC_TAXModel.TAXCOND" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAX">
+              <PropertyRef Name="TAX_ID" />
+            </Principal>
+            <Dependent Role="TAXCOND">
+              <PropertyRef Name="TAXCOND_TAXID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="POC_TAXModelStoreContainer" CdmEntityContainer="POC_TAXEntities">
+          <EntitySetMapping Name="ORDERTYPE">
+            <EntityTypeMapping TypeName="POC_TAXModel.ORDERTYPE">
+              <MappingFragment StoreEntitySet="ORDERTYPE">
+                <ScalarProperty Name="ORDERTYPE_ID" ColumnName="ORDERTYPE_ID" />
+                <ScalarProperty Name="ORDERTYPE_TITLE" ColumnName="ORDERTYPE_TITLE" />
+                <ScalarProperty Name="ORDERTYPE_DESCRIPTION" ColumnName="ORDERTYPE_DESCRIPTION" />
+                <ScalarProperty Name="ORDERTYPE_XMLFORM" ColumnName="ORDERTYPE_XMLFORM" />
+                <ScalarProperty Name="ORDERTYPE_BUSINESSUNITKEY" ColumnName="ORDERTYPE_BUSINESSUNITKEY" />
+                <ScalarProperty Name="ORDERTYPE_GDCCID" ColumnName="ORDERTYPE_GDCCID" />
+                <ScalarProperty Name="ORDERTYPE_NEEDSLOGIN" ColumnName="ORDERTYPE_NEEDSLOGIN" />
+                <ScalarProperty Name="ORDERTYPE_CREATEDATE" ColumnName="ORDERTYPE_CREATEDATE" />
+                <ScalarProperty Name="ORDERTYPE_PDFFORM_URL" ColumnName="ORDERTYPE_PDFFORM_URL" />
+                <ScalarProperty Name="ORDERTYPE_REDIRECT" ColumnName="ORDERTYPE_REDIRECT" />
+                <ScalarProperty Name="ORDERTYPE_ORDER_SCHEMA" ColumnName="ORDERTYPE_ORDER_SCHEMA" />
+                <ScalarProperty Name="ORDERTYPE_ORDER_ROOTNAME" ColumnName="ORDERTYPE_ORDER_ROOTNAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TAX">
+            <EntityTypeMapping TypeName="POC_TAXModel.TAX">
+              <MappingFragment StoreEntitySet="TAX">
+                <ScalarProperty Name="TAX_ID" ColumnName="TAX_ID" />
+                <ScalarProperty Name="TAX_ORDERTYPEID" ColumnName="TAX_ORDERTYPEID" />
+                <ScalarProperty Name="TAX_NAME" ColumnName="TAX_NAME" />
+                <ScalarProperty Name="TAX_DESCRIPTION" ColumnName="TAX_DESCRIPTION" />
+                <ScalarProperty Name="TAX_DISCOUNT" ColumnName="TAX_DISCOUNT" />
+                <ScalarProperty Name="TAX_VALUE" ColumnName="TAX_VALUE" />
+                <ScalarProperty Name="TAX_CHANNELID" ColumnName="TAX_CHANNELID" />
+                <ScalarProperty Name="TAX_FORMITEMNAME" ColumnName="TAX_FORMITEMNAME" />
+                <ScalarProperty Name="TAX_START_DATE" ColumnName="TAX_START_DATE" />
+                <ScalarProperty Name="TAX_END_DATE" ColumnName="TAX_END_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TAXCOND">
+            <EntityTypeMapping TypeName="POC_TAXModel.TAXCOND">
+              <MappingFragment StoreEntitySet="TAXCOND">
+                <ScalarProperty Name="TAXCOND_ID" ColumnName="TAXCOND_ID" />
+                <ScalarProperty Name="TAXCOND_TAXID" ColumnName="TAXCOND_TAXID" />
+                <ScalarProperty Name="TAXCOND_FORMITEMNAME" ColumnName="TAXCOND_FORMITEMNAME" />
+                <ScalarProperty Name="TAXCOND_FORMITEMOP" ColumnName="TAXCOND_FORMITEMOP" />
+                <ScalarProperty Name="TAXCOND_FORMITEMVALUE" ColumnName="TAXCOND_FORMITEMVALUE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model">
+        <EntityTypeShape EntityType="POC_TAXModel.ORDERTYPE" Width="1.5" PointX="0.75" PointY="1" Height="3.5186979166666665" IsExpanded="true" />
+        <EntityTypeShape EntityType="POC_TAXModel.TAX" Width="1.5" PointX="3" PointY="1.125" Height="3.326396484375" IsExpanded="true" />
+        <EntityTypeShape EntityType="POC_TAXModel.TAXCOND" Width="1.5" PointX="5.25" PointY="1.625" Height="2.1725878906249996" IsExpanded="true" />
+        <AssociationConnector Association="POC_TAXModel.FK_TAX_ORDERTYPE" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="2.7881982421875" />
+          <ConnectorPoint PointX="3" PointY="2.7881982421875" />
+        </AssociationConnector>
+        <AssociationConnector Association="POC_TAXModel.FK_TAXCOND_TAX" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="2.7112939453125" />
+          <ConnectorPoint PointX="5.25" PointY="2.7112939453125" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
