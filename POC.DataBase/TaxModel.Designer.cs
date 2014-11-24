@@ -17,6 +17,17 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
+#region EDM Relationship Metadata
+
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_ORDERTYPE", "TAX", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAX), "ORDERTYPE", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.ORDERTYPE), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_DISCOUNT_TAX", "TAX", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAX), "DISCOUNT", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(POC.DataBase.DISCOUNT), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAXCOND_TAX", "TAX", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.TAX), "TAXCOND", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXCOND), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPE", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.ORDERTYPE), "TAXEXCLUSIONS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXEXCLUSIONS), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAXEXCLUSIONS_TAXCOND", "TAXCOND", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.TAXCOND), "TAXEXCLUSIONS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXEXCLUSIONS), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_CHANNEL", "CHANNEL", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.CHANNEL), "TAX", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAX), true)]
+
+#endregion
+
 namespace POC.DataBase
 {
     #region Contexts
@@ -62,6 +73,2219 @@ namespace POC.DataBase
         partial void OnContextCreated();
     
         #endregion
+    
+        #region ObjectSet Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<FORMULAS> FORMULAS
+        {
+            get
+            {
+                if ((_FORMULAS == null))
+                {
+                    _FORMULAS = base.CreateObjectSet<FORMULAS>("FORMULAS");
+                }
+                return _FORMULAS;
+            }
+        }
+        private ObjectSet<FORMULAS> _FORMULAS;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ORDERTYPE> ORDERTYPE
+        {
+            get
+            {
+                if ((_ORDERTYPE == null))
+                {
+                    _ORDERTYPE = base.CreateObjectSet<ORDERTYPE>("ORDERTYPE");
+                }
+                return _ORDERTYPE;
+            }
+        }
+        private ObjectSet<ORDERTYPE> _ORDERTYPE;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<TAX> TAX
+        {
+            get
+            {
+                if ((_TAX == null))
+                {
+                    _TAX = base.CreateObjectSet<TAX>("TAX");
+                }
+                return _TAX;
+            }
+        }
+        private ObjectSet<TAX> _TAX;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<TAXCOND> TAXCOND
+        {
+            get
+            {
+                if ((_TAXCOND == null))
+                {
+                    _TAXCOND = base.CreateObjectSet<TAXCOND>("TAXCOND");
+                }
+                return _TAXCOND;
+            }
+        }
+        private ObjectSet<TAXCOND> _TAXCOND;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<OPERATORS> OPERATORS
+        {
+            get
+            {
+                if ((_OPERATORS == null))
+                {
+                    _OPERATORS = base.CreateObjectSet<OPERATORS>("OPERATORS");
+                }
+                return _OPERATORS;
+            }
+        }
+        private ObjectSet<OPERATORS> _OPERATORS;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<DISCOUNT> DISCOUNT
+        {
+            get
+            {
+                if ((_DISCOUNT == null))
+                {
+                    _DISCOUNT = base.CreateObjectSet<DISCOUNT>("DISCOUNT");
+                }
+                return _DISCOUNT;
+            }
+        }
+        private ObjectSet<DISCOUNT> _DISCOUNT;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<UOPG> UOPG
+        {
+            get
+            {
+                if ((_UOPG == null))
+                {
+                    _UOPG = base.CreateObjectSet<UOPG>("UOPG");
+                }
+                return _UOPG;
+            }
+        }
+        private ObjectSet<UOPG> _UOPG;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<TAXEXCLUSIONS> TAXEXCLUSIONS
+        {
+            get
+            {
+                if ((_TAXEXCLUSIONS == null))
+                {
+                    _TAXEXCLUSIONS = base.CreateObjectSet<TAXEXCLUSIONS>("TAXEXCLUSIONS");
+                }
+                return _TAXEXCLUSIONS;
+            }
+        }
+        private ObjectSet<TAXEXCLUSIONS> _TAXEXCLUSIONS;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<CHANNEL> CHANNEL
+        {
+            get
+            {
+                if ((_CHANNEL == null))
+                {
+                    _CHANNEL = base.CreateObjectSet<CHANNEL>("CHANNEL");
+                }
+                return _CHANNEL;
+            }
+        }
+        private ObjectSet<CHANNEL> _CHANNEL;
+
+        #endregion
+
+        #region AddTo Methods
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the FORMULAS EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToFORMULAS(FORMULAS fORMULAS)
+        {
+            base.AddObject("FORMULAS", fORMULAS);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ORDERTYPE EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToORDERTYPE(ORDERTYPE oRDERTYPE)
+        {
+            base.AddObject("ORDERTYPE", oRDERTYPE);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the TAX EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTAX(TAX tAX)
+        {
+            base.AddObject("TAX", tAX);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the TAXCOND EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTAXCOND(TAXCOND tAXCOND)
+        {
+            base.AddObject("TAXCOND", tAXCOND);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the OPERATORS EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToOPERATORS(OPERATORS oPERATORS)
+        {
+            base.AddObject("OPERATORS", oPERATORS);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the DISCOUNT EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToDISCOUNT(DISCOUNT dISCOUNT)
+        {
+            base.AddObject("DISCOUNT", dISCOUNT);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the UOPG EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToUOPG(UOPG uOPG)
+        {
+            base.AddObject("UOPG", uOPG);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the TAXEXCLUSIONS EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTAXEXCLUSIONS(TAXEXCLUSIONS tAXEXCLUSIONS)
+        {
+            base.AddObject("TAXEXCLUSIONS", tAXEXCLUSIONS);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the CHANNEL EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToCHANNEL(CHANNEL cHANNEL)
+        {
+            base.AddObject("CHANNEL", cHANNEL);
+        }
+
+        #endregion
+
+    }
+
+    #endregion
+
+    #region Entities
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="CHANNEL")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class CHANNEL : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new CHANNEL object.
+        /// </summary>
+        /// <param name="cHANNEL_ID">Initial value of the CHANNEL_ID property.</param>
+        /// <param name="cHANNEL_CODE">Initial value of the CHANNEL_CODE property.</param>
+        public static CHANNEL CreateCHANNEL(global::System.Int32 cHANNEL_ID, global::System.String cHANNEL_CODE)
+        {
+            CHANNEL cHANNEL = new CHANNEL();
+            cHANNEL.CHANNEL_ID = cHANNEL_ID;
+            cHANNEL.CHANNEL_CODE = cHANNEL_CODE;
+            return cHANNEL;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 CHANNEL_ID
+        {
+            get
+            {
+                return _CHANNEL_ID;
+            }
+            set
+            {
+                if (_CHANNEL_ID != value)
+                {
+                    OnCHANNEL_IDChanging(value);
+                    ReportPropertyChanging("CHANNEL_ID");
+                    _CHANNEL_ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("CHANNEL_ID");
+                    OnCHANNEL_IDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _CHANNEL_ID;
+        partial void OnCHANNEL_IDChanging(global::System.Int32 value);
+        partial void OnCHANNEL_IDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String CHANNEL_DESCRIPTION
+        {
+            get
+            {
+                return _CHANNEL_DESCRIPTION;
+            }
+            set
+            {
+                OnCHANNEL_DESCRIPTIONChanging(value);
+                ReportPropertyChanging("CHANNEL_DESCRIPTION");
+                _CHANNEL_DESCRIPTION = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("CHANNEL_DESCRIPTION");
+                OnCHANNEL_DESCRIPTIONChanged();
+            }
+        }
+        private global::System.String _CHANNEL_DESCRIPTION;
+        partial void OnCHANNEL_DESCRIPTIONChanging(global::System.String value);
+        partial void OnCHANNEL_DESCRIPTIONChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> CHANNEL_CREATEDATE
+        {
+            get
+            {
+                return _CHANNEL_CREATEDATE;
+            }
+            set
+            {
+                OnCHANNEL_CREATEDATEChanging(value);
+                ReportPropertyChanging("CHANNEL_CREATEDATE");
+                _CHANNEL_CREATEDATE = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CHANNEL_CREATEDATE");
+                OnCHANNEL_CREATEDATEChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _CHANNEL_CREATEDATE;
+        partial void OnCHANNEL_CREATEDATEChanging(Nullable<global::System.DateTime> value);
+        partial void OnCHANNEL_CREATEDATEChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String CHANNEL_CODE
+        {
+            get
+            {
+                return _CHANNEL_CODE;
+            }
+            set
+            {
+                OnCHANNEL_CODEChanging(value);
+                ReportPropertyChanging("CHANNEL_CODE");
+                _CHANNEL_CODE = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("CHANNEL_CODE");
+                OnCHANNEL_CODEChanged();
+            }
+        }
+        private global::System.String _CHANNEL_CODE;
+        partial void OnCHANNEL_CODEChanging(global::System.String value);
+        partial void OnCHANNEL_CODEChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_CHANNEL", "TAX")]
+        public EntityCollection<TAX> FK_TAX
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAX>("TaxModel.FK_TAX_CHANNEL", "TAX");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAX>("TaxModel.FK_TAX_CHANNEL", "TAX", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="DISCOUNT")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class DISCOUNT : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new DISCOUNT object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        /// <param name="vALUE">Initial value of the VALUE property.</param>
+        public static DISCOUNT CreateDISCOUNT(global::System.Int32 id, global::System.Double vALUE)
+        {
+            DISCOUNT dISCOUNT = new DISCOUNT();
+            dISCOUNT.ID = id;
+            dISCOUNT.VALUE = vALUE;
+            return dISCOUNT;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ID;
+        partial void OnIDChanging(global::System.Int32 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Double VALUE
+        {
+            get
+            {
+                return _VALUE;
+            }
+            set
+            {
+                OnVALUEChanging(value);
+                ReportPropertyChanging("VALUE");
+                _VALUE = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("VALUE");
+                OnVALUEChanged();
+            }
+        }
+        private global::System.Double _VALUE;
+        partial void OnVALUEChanging(global::System.Double value);
+        partial void OnVALUEChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_DISCOUNT_TAX", "TAX")]
+        public EntityCollection<TAX> FK_DISCOUNT_TAX
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAX>("TaxModel.FK_DISCOUNT_TAX", "TAX");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAX>("TaxModel.FK_DISCOUNT_TAX", "TAX", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="FORMULAS")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class FORMULAS : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new FORMULAS object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        /// <param name="nAME">Initial value of the NAME property.</param>
+        /// <param name="fORMULA">Initial value of the FORMULA property.</param>
+        public static FORMULAS CreateFORMULAS(global::System.Int32 id, global::System.String nAME, global::System.String fORMULA)
+        {
+            FORMULAS fORMULAS = new FORMULAS();
+            fORMULAS.ID = id;
+            fORMULAS.NAME = nAME;
+            fORMULAS.FORMULA = fORMULA;
+            return fORMULAS;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ID;
+        partial void OnIDChanging(global::System.Int32 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String NAME
+        {
+            get
+            {
+                return _NAME;
+            }
+            set
+            {
+                OnNAMEChanging(value);
+                ReportPropertyChanging("NAME");
+                _NAME = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("NAME");
+                OnNAMEChanged();
+            }
+        }
+        private global::System.String _NAME;
+        partial void OnNAMEChanging(global::System.String value);
+        partial void OnNAMEChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String FORMULA
+        {
+            get
+            {
+                return _FORMULA;
+            }
+            set
+            {
+                OnFORMULAChanging(value);
+                ReportPropertyChanging("FORMULA");
+                _FORMULA = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("FORMULA");
+                OnFORMULAChanged();
+            }
+        }
+        private global::System.String _FORMULA;
+        partial void OnFORMULAChanging(global::System.String value);
+        partial void OnFORMULAChanged();
+
+        #endregion
+
+    
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="OPERATORS")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class OPERATORS : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new OPERATORS object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        /// <param name="oPERATOR">Initial value of the OPERATOR property.</param>
+        /// <param name="vALUE">Initial value of the VALUE property.</param>
+        public static OPERATORS CreateOPERATORS(global::System.Int32 id, global::System.String oPERATOR, global::System.String vALUE)
+        {
+            OPERATORS oPERATORS = new OPERATORS();
+            oPERATORS.ID = id;
+            oPERATORS.OPERATOR = oPERATOR;
+            oPERATORS.VALUE = vALUE;
+            return oPERATORS;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ID;
+        partial void OnIDChanging(global::System.Int32 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String OPERATOR
+        {
+            get
+            {
+                return _OPERATOR;
+            }
+            set
+            {
+                OnOPERATORChanging(value);
+                ReportPropertyChanging("OPERATOR");
+                _OPERATOR = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("OPERATOR");
+                OnOPERATORChanged();
+            }
+        }
+        private global::System.String _OPERATOR;
+        partial void OnOPERATORChanging(global::System.String value);
+        partial void OnOPERATORChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String VALUE
+        {
+            get
+            {
+                return _VALUE;
+            }
+            set
+            {
+                OnVALUEChanging(value);
+                ReportPropertyChanging("VALUE");
+                _VALUE = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("VALUE");
+                OnVALUEChanged();
+            }
+        }
+        private global::System.String _VALUE;
+        partial void OnVALUEChanging(global::System.String value);
+        partial void OnVALUEChanged();
+
+        #endregion
+
+    
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="ORDERTYPE")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ORDERTYPE : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ORDERTYPE object.
+        /// </summary>
+        /// <param name="oRDERTYPE_ID">Initial value of the ORDERTYPE_ID property.</param>
+        /// <param name="oRDERTYPE_BUSINESSUNITKEY">Initial value of the ORDERTYPE_BUSINESSUNITKEY property.</param>
+        public static ORDERTYPE CreateORDERTYPE(global::System.Int32 oRDERTYPE_ID, global::System.String oRDERTYPE_BUSINESSUNITKEY)
+        {
+            ORDERTYPE oRDERTYPE = new ORDERTYPE();
+            oRDERTYPE.ORDERTYPE_ID = oRDERTYPE_ID;
+            oRDERTYPE.ORDERTYPE_BUSINESSUNITKEY = oRDERTYPE_BUSINESSUNITKEY;
+            return oRDERTYPE;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ORDERTYPE_ID
+        {
+            get
+            {
+                return _ORDERTYPE_ID;
+            }
+            set
+            {
+                if (_ORDERTYPE_ID != value)
+                {
+                    OnORDERTYPE_IDChanging(value);
+                    ReportPropertyChanging("ORDERTYPE_ID");
+                    _ORDERTYPE_ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ORDERTYPE_ID");
+                    OnORDERTYPE_IDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ORDERTYPE_ID;
+        partial void OnORDERTYPE_IDChanging(global::System.Int32 value);
+        partial void OnORDERTYPE_IDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ORDERTYPE_TITLE
+        {
+            get
+            {
+                return _ORDERTYPE_TITLE;
+            }
+            set
+            {
+                OnORDERTYPE_TITLEChanging(value);
+                ReportPropertyChanging("ORDERTYPE_TITLE");
+                _ORDERTYPE_TITLE = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ORDERTYPE_TITLE");
+                OnORDERTYPE_TITLEChanged();
+            }
+        }
+        private global::System.String _ORDERTYPE_TITLE;
+        partial void OnORDERTYPE_TITLEChanging(global::System.String value);
+        partial void OnORDERTYPE_TITLEChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ORDERTYPE_DESCRIPTION
+        {
+            get
+            {
+                return _ORDERTYPE_DESCRIPTION;
+            }
+            set
+            {
+                OnORDERTYPE_DESCRIPTIONChanging(value);
+                ReportPropertyChanging("ORDERTYPE_DESCRIPTION");
+                _ORDERTYPE_DESCRIPTION = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ORDERTYPE_DESCRIPTION");
+                OnORDERTYPE_DESCRIPTIONChanged();
+            }
+        }
+        private global::System.String _ORDERTYPE_DESCRIPTION;
+        partial void OnORDERTYPE_DESCRIPTIONChanging(global::System.String value);
+        partial void OnORDERTYPE_DESCRIPTIONChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ORDERTYPE_XMLFORM
+        {
+            get
+            {
+                return _ORDERTYPE_XMLFORM;
+            }
+            set
+            {
+                OnORDERTYPE_XMLFORMChanging(value);
+                ReportPropertyChanging("ORDERTYPE_XMLFORM");
+                _ORDERTYPE_XMLFORM = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ORDERTYPE_XMLFORM");
+                OnORDERTYPE_XMLFORMChanged();
+            }
+        }
+        private global::System.String _ORDERTYPE_XMLFORM;
+        partial void OnORDERTYPE_XMLFORMChanging(global::System.String value);
+        partial void OnORDERTYPE_XMLFORMChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ORDERTYPE_BUSINESSUNITKEY
+        {
+            get
+            {
+                return _ORDERTYPE_BUSINESSUNITKEY;
+            }
+            set
+            {
+                OnORDERTYPE_BUSINESSUNITKEYChanging(value);
+                ReportPropertyChanging("ORDERTYPE_BUSINESSUNITKEY");
+                _ORDERTYPE_BUSINESSUNITKEY = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ORDERTYPE_BUSINESSUNITKEY");
+                OnORDERTYPE_BUSINESSUNITKEYChanged();
+            }
+        }
+        private global::System.String _ORDERTYPE_BUSINESSUNITKEY;
+        partial void OnORDERTYPE_BUSINESSUNITKEYChanging(global::System.String value);
+        partial void OnORDERTYPE_BUSINESSUNITKEYChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> ORDERTYPE_GDCCID
+        {
+            get
+            {
+                return _ORDERTYPE_GDCCID;
+            }
+            set
+            {
+                OnORDERTYPE_GDCCIDChanging(value);
+                ReportPropertyChanging("ORDERTYPE_GDCCID");
+                _ORDERTYPE_GDCCID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ORDERTYPE_GDCCID");
+                OnORDERTYPE_GDCCIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _ORDERTYPE_GDCCID;
+        partial void OnORDERTYPE_GDCCIDChanging(Nullable<global::System.Int32> value);
+        partial void OnORDERTYPE_GDCCIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> ORDERTYPE_NEEDSLOGIN
+        {
+            get
+            {
+                return _ORDERTYPE_NEEDSLOGIN;
+            }
+            set
+            {
+                OnORDERTYPE_NEEDSLOGINChanging(value);
+                ReportPropertyChanging("ORDERTYPE_NEEDSLOGIN");
+                _ORDERTYPE_NEEDSLOGIN = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ORDERTYPE_NEEDSLOGIN");
+                OnORDERTYPE_NEEDSLOGINChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _ORDERTYPE_NEEDSLOGIN;
+        partial void OnORDERTYPE_NEEDSLOGINChanging(Nullable<global::System.Boolean> value);
+        partial void OnORDERTYPE_NEEDSLOGINChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> ORDERTYPE_CREATEDATE
+        {
+            get
+            {
+                return _ORDERTYPE_CREATEDATE;
+            }
+            set
+            {
+                OnORDERTYPE_CREATEDATEChanging(value);
+                ReportPropertyChanging("ORDERTYPE_CREATEDATE");
+                _ORDERTYPE_CREATEDATE = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ORDERTYPE_CREATEDATE");
+                OnORDERTYPE_CREATEDATEChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _ORDERTYPE_CREATEDATE;
+        partial void OnORDERTYPE_CREATEDATEChanging(Nullable<global::System.DateTime> value);
+        partial void OnORDERTYPE_CREATEDATEChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ORDERTYPE_PDFFORM_URL
+        {
+            get
+            {
+                return _ORDERTYPE_PDFFORM_URL;
+            }
+            set
+            {
+                OnORDERTYPE_PDFFORM_URLChanging(value);
+                ReportPropertyChanging("ORDERTYPE_PDFFORM_URL");
+                _ORDERTYPE_PDFFORM_URL = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ORDERTYPE_PDFFORM_URL");
+                OnORDERTYPE_PDFFORM_URLChanged();
+            }
+        }
+        private global::System.String _ORDERTYPE_PDFFORM_URL;
+        partial void OnORDERTYPE_PDFFORM_URLChanging(global::System.String value);
+        partial void OnORDERTYPE_PDFFORM_URLChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ORDERTYPE_REDIRECT
+        {
+            get
+            {
+                return _ORDERTYPE_REDIRECT;
+            }
+            set
+            {
+                OnORDERTYPE_REDIRECTChanging(value);
+                ReportPropertyChanging("ORDERTYPE_REDIRECT");
+                _ORDERTYPE_REDIRECT = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ORDERTYPE_REDIRECT");
+                OnORDERTYPE_REDIRECTChanged();
+            }
+        }
+        private global::System.String _ORDERTYPE_REDIRECT;
+        partial void OnORDERTYPE_REDIRECTChanging(global::System.String value);
+        partial void OnORDERTYPE_REDIRECTChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ORDERTYPE_ORDER_SCHEMA
+        {
+            get
+            {
+                return _ORDERTYPE_ORDER_SCHEMA;
+            }
+            set
+            {
+                OnORDERTYPE_ORDER_SCHEMAChanging(value);
+                ReportPropertyChanging("ORDERTYPE_ORDER_SCHEMA");
+                _ORDERTYPE_ORDER_SCHEMA = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ORDERTYPE_ORDER_SCHEMA");
+                OnORDERTYPE_ORDER_SCHEMAChanged();
+            }
+        }
+        private global::System.String _ORDERTYPE_ORDER_SCHEMA;
+        partial void OnORDERTYPE_ORDER_SCHEMAChanging(global::System.String value);
+        partial void OnORDERTYPE_ORDER_SCHEMAChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ORDERTYPE_ORDER_ROOTNAME
+        {
+            get
+            {
+                return _ORDERTYPE_ORDER_ROOTNAME;
+            }
+            set
+            {
+                OnORDERTYPE_ORDER_ROOTNAMEChanging(value);
+                ReportPropertyChanging("ORDERTYPE_ORDER_ROOTNAME");
+                _ORDERTYPE_ORDER_ROOTNAME = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ORDERTYPE_ORDER_ROOTNAME");
+                OnORDERTYPE_ORDER_ROOTNAMEChanged();
+            }
+        }
+        private global::System.String _ORDERTYPE_ORDER_ROOTNAME;
+        partial void OnORDERTYPE_ORDER_ROOTNAMEChanging(global::System.String value);
+        partial void OnORDERTYPE_ORDER_ROOTNAMEChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_ORDERTYPE", "TAX")]
+        public EntityCollection<TAX> FK_ORDERTYPE_ID
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAX>("TaxModel.FK_TAX_ORDERTYPE", "TAX");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAX>("TaxModel.FK_TAX_ORDERTYPE", "TAX", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXEXCLUSIONS_ORDERTYPE", "TAXEXCLUSIONS")]
+        public EntityCollection<TAXEXCLUSIONS> FK_ORDERTYPE_TAXEXCLUSIONS
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAXEXCLUSIONS>("TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE", "TAXEXCLUSIONS");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAXEXCLUSIONS>("TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE", "TAXEXCLUSIONS", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="TAX")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class TAX : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new TAX object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        /// <param name="oRDERTYPE_ID">Initial value of the ORDERTYPE_ID property.</param>
+        /// <param name="dISCOUNT_ID">Initial value of the DISCOUNT_ID property.</param>
+        /// <param name="cHANNEL_ID">Initial value of the CHANNEL_ID property.</param>
+        /// <param name="nAME">Initial value of the NAME property.</param>
+        /// <param name="dESCRIPTION">Initial value of the DESCRIPTION property.</param>
+        /// <param name="sTART_DATE">Initial value of the START_DATE property.</param>
+        /// <param name="oRDERTYPEORDERTYPE_ID">Initial value of the ORDERTYPEORDERTYPE_ID property.</param>
+        /// <param name="cHANNELCHANNEL_ID">Initial value of the CHANNELCHANNEL_ID property.</param>
+        public static TAX CreateTAX(global::System.Int32 id, global::System.Int32 oRDERTYPE_ID, global::System.Int32 dISCOUNT_ID, global::System.Int32 cHANNEL_ID, global::System.String nAME, global::System.String dESCRIPTION, global::System.DateTime sTART_DATE, global::System.Int32 oRDERTYPEORDERTYPE_ID, global::System.Int32 cHANNELCHANNEL_ID)
+        {
+            TAX tAX = new TAX();
+            tAX.ID = id;
+            tAX.ORDERTYPE_ID = oRDERTYPE_ID;
+            tAX.DISCOUNT_ID = dISCOUNT_ID;
+            tAX.CHANNEL_ID = cHANNEL_ID;
+            tAX.NAME = nAME;
+            tAX.DESCRIPTION = dESCRIPTION;
+            tAX.START_DATE = sTART_DATE;
+            tAX.ORDERTYPEORDERTYPE_ID = oRDERTYPEORDERTYPE_ID;
+            tAX.CHANNELCHANNEL_ID = cHANNELCHANNEL_ID;
+            return tAX;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ID;
+        partial void OnIDChanging(global::System.Int32 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ORDERTYPE_ID
+        {
+            get
+            {
+                return _ORDERTYPE_ID;
+            }
+            set
+            {
+                OnORDERTYPE_IDChanging(value);
+                ReportPropertyChanging("ORDERTYPE_ID");
+                _ORDERTYPE_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ORDERTYPE_ID");
+                OnORDERTYPE_IDChanged();
+            }
+        }
+        private global::System.Int32 _ORDERTYPE_ID;
+        partial void OnORDERTYPE_IDChanging(global::System.Int32 value);
+        partial void OnORDERTYPE_IDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DISCOUNT_ID
+        {
+            get
+            {
+                return _DISCOUNT_ID;
+            }
+            set
+            {
+                OnDISCOUNT_IDChanging(value);
+                ReportPropertyChanging("DISCOUNT_ID");
+                _DISCOUNT_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DISCOUNT_ID");
+                OnDISCOUNT_IDChanged();
+            }
+        }
+        private global::System.Int32 _DISCOUNT_ID;
+        partial void OnDISCOUNT_IDChanging(global::System.Int32 value);
+        partial void OnDISCOUNT_IDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 CHANNEL_ID
+        {
+            get
+            {
+                return _CHANNEL_ID;
+            }
+            set
+            {
+                OnCHANNEL_IDChanging(value);
+                ReportPropertyChanging("CHANNEL_ID");
+                _CHANNEL_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CHANNEL_ID");
+                OnCHANNEL_IDChanged();
+            }
+        }
+        private global::System.Int32 _CHANNEL_ID;
+        partial void OnCHANNEL_IDChanging(global::System.Int32 value);
+        partial void OnCHANNEL_IDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String NAME
+        {
+            get
+            {
+                return _NAME;
+            }
+            set
+            {
+                OnNAMEChanging(value);
+                ReportPropertyChanging("NAME");
+                _NAME = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("NAME");
+                OnNAMEChanged();
+            }
+        }
+        private global::System.String _NAME;
+        partial void OnNAMEChanging(global::System.String value);
+        partial void OnNAMEChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String DESCRIPTION
+        {
+            get
+            {
+                return _DESCRIPTION;
+            }
+            set
+            {
+                OnDESCRIPTIONChanging(value);
+                ReportPropertyChanging("DESCRIPTION");
+                _DESCRIPTION = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("DESCRIPTION");
+                OnDESCRIPTIONChanged();
+            }
+        }
+        private global::System.String _DESCRIPTION;
+        partial void OnDESCRIPTIONChanging(global::System.String value);
+        partial void OnDESCRIPTIONChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime START_DATE
+        {
+            get
+            {
+                return _START_DATE;
+            }
+            set
+            {
+                OnSTART_DATEChanging(value);
+                ReportPropertyChanging("START_DATE");
+                _START_DATE = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("START_DATE");
+                OnSTART_DATEChanged();
+            }
+        }
+        private global::System.DateTime _START_DATE;
+        partial void OnSTART_DATEChanging(global::System.DateTime value);
+        partial void OnSTART_DATEChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> END_DATE
+        {
+            get
+            {
+                return _END_DATE;
+            }
+            set
+            {
+                OnEND_DATEChanging(value);
+                ReportPropertyChanging("END_DATE");
+                _END_DATE = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("END_DATE");
+                OnEND_DATEChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _END_DATE;
+        partial void OnEND_DATEChanging(Nullable<global::System.DateTime> value);
+        partial void OnEND_DATEChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ORDERTYPEORDERTYPE_ID
+        {
+            get
+            {
+                return _ORDERTYPEORDERTYPE_ID;
+            }
+            set
+            {
+                OnORDERTYPEORDERTYPE_IDChanging(value);
+                ReportPropertyChanging("ORDERTYPEORDERTYPE_ID");
+                _ORDERTYPEORDERTYPE_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ORDERTYPEORDERTYPE_ID");
+                OnORDERTYPEORDERTYPE_IDChanged();
+            }
+        }
+        private global::System.Int32 _ORDERTYPEORDERTYPE_ID;
+        partial void OnORDERTYPEORDERTYPE_IDChanging(global::System.Int32 value);
+        partial void OnORDERTYPEORDERTYPE_IDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> DISCOUNTID
+        {
+            get
+            {
+                return _DISCOUNTID;
+            }
+            set
+            {
+                OnDISCOUNTIDChanging(value);
+                ReportPropertyChanging("DISCOUNTID");
+                _DISCOUNTID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DISCOUNTID");
+                OnDISCOUNTIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _DISCOUNTID;
+        partial void OnDISCOUNTIDChanging(Nullable<global::System.Int32> value);
+        partial void OnDISCOUNTIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 CHANNELCHANNEL_ID
+        {
+            get
+            {
+                return _CHANNELCHANNEL_ID;
+            }
+            set
+            {
+                OnCHANNELCHANNEL_IDChanging(value);
+                ReportPropertyChanging("CHANNELCHANNEL_ID");
+                _CHANNELCHANNEL_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CHANNELCHANNEL_ID");
+                OnCHANNELCHANNEL_IDChanged();
+            }
+        }
+        private global::System.Int32 _CHANNELCHANNEL_ID;
+        partial void OnCHANNELCHANNEL_IDChanging(global::System.Int32 value);
+        partial void OnCHANNELCHANNEL_IDChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_ORDERTYPE", "ORDERTYPE")]
+        public ORDERTYPE FK_TAX_ORDERTYPE_ID
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPE>("TaxModel.FK_TAX_ORDERTYPE", "ORDERTYPE").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPE>("TaxModel.FK_TAX_ORDERTYPE", "ORDERTYPE").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<ORDERTYPE> FK_TAX_ORDERTYPE_IDReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPE>("TaxModel.FK_TAX_ORDERTYPE", "ORDERTYPE");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ORDERTYPE>("TaxModel.FK_TAX_ORDERTYPE", "ORDERTYPE", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_DISCOUNT_TAX", "DISCOUNT")]
+        public DISCOUNT FK_TAX_DISCOUNT
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<DISCOUNT>("TaxModel.FK_DISCOUNT_TAX", "DISCOUNT").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<DISCOUNT>("TaxModel.FK_DISCOUNT_TAX", "DISCOUNT").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<DISCOUNT> FK_TAX_DISCOUNTReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<DISCOUNT>("TaxModel.FK_DISCOUNT_TAX", "DISCOUNT");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<DISCOUNT>("TaxModel.FK_DISCOUNT_TAX", "DISCOUNT", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXCOND_TAX", "TAXCOND")]
+        public EntityCollection<TAXCOND> FK_TAX_TAXCOND
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAXCOND>("TaxModel.FK_TAXCOND_TAX", "TAXCOND");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAXCOND>("TaxModel.FK_TAXCOND_TAX", "TAXCOND", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_CHANNEL", "CHANNEL")]
+        public CHANNEL FK_TAX_CHANNEL
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CHANNEL>("TaxModel.FK_TAX_CHANNEL", "CHANNEL").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CHANNEL>("TaxModel.FK_TAX_CHANNEL", "CHANNEL").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<CHANNEL> FK_TAX_CHANNELReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CHANNEL>("TaxModel.FK_TAX_CHANNEL", "CHANNEL");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<CHANNEL>("TaxModel.FK_TAX_CHANNEL", "CHANNEL", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="TAXCOND")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class TAXCOND : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new TAXCOND object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        /// <param name="tAX_ID">Initial value of the TAX_ID property.</param>
+        /// <param name="fORM_ITEM_NAME">Initial value of the FORM_ITEM_NAME property.</param>
+        /// <param name="vALUE">Initial value of the VALUE property.</param>
+        /// <param name="tAXID">Initial value of the TAXID property.</param>
+        public static TAXCOND CreateTAXCOND(global::System.Int32 id, global::System.Int32 tAX_ID, global::System.String fORM_ITEM_NAME, global::System.String vALUE, global::System.Int32 tAXID)
+        {
+            TAXCOND tAXCOND = new TAXCOND();
+            tAXCOND.ID = id;
+            tAXCOND.TAX_ID = tAX_ID;
+            tAXCOND.FORM_ITEM_NAME = fORM_ITEM_NAME;
+            tAXCOND.VALUE = vALUE;
+            tAXCOND.TAXID = tAXID;
+            return tAXCOND;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ID;
+        partial void OnIDChanging(global::System.Int32 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 TAX_ID
+        {
+            get
+            {
+                return _TAX_ID;
+            }
+            set
+            {
+                OnTAX_IDChanging(value);
+                ReportPropertyChanging("TAX_ID");
+                _TAX_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TAX_ID");
+                OnTAX_IDChanged();
+            }
+        }
+        private global::System.Int32 _TAX_ID;
+        partial void OnTAX_IDChanging(global::System.Int32 value);
+        partial void OnTAX_IDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String FORM_ITEM_NAME
+        {
+            get
+            {
+                return _FORM_ITEM_NAME;
+            }
+            set
+            {
+                OnFORM_ITEM_NAMEChanging(value);
+                ReportPropertyChanging("FORM_ITEM_NAME");
+                _FORM_ITEM_NAME = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("FORM_ITEM_NAME");
+                OnFORM_ITEM_NAMEChanged();
+            }
+        }
+        private global::System.String _FORM_ITEM_NAME;
+        partial void OnFORM_ITEM_NAMEChanging(global::System.String value);
+        partial void OnFORM_ITEM_NAMEChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String VALUE
+        {
+            get
+            {
+                return _VALUE;
+            }
+            set
+            {
+                OnVALUEChanging(value);
+                ReportPropertyChanging("VALUE");
+                _VALUE = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("VALUE");
+                OnVALUEChanged();
+            }
+        }
+        private global::System.String _VALUE;
+        partial void OnVALUEChanging(global::System.String value);
+        partial void OnVALUEChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> FORMULA_ID
+        {
+            get
+            {
+                return _FORMULA_ID;
+            }
+            set
+            {
+                OnFORMULA_IDChanging(value);
+                ReportPropertyChanging("FORMULA_ID");
+                _FORMULA_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("FORMULA_ID");
+                OnFORMULA_IDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _FORMULA_ID;
+        partial void OnFORMULA_IDChanging(Nullable<global::System.Int32> value);
+        partial void OnFORMULA_IDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 TAXID
+        {
+            get
+            {
+                return _TAXID;
+            }
+            set
+            {
+                OnTAXIDChanging(value);
+                ReportPropertyChanging("TAXID");
+                _TAXID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TAXID");
+                OnTAXIDChanged();
+            }
+        }
+        private global::System.Int32 _TAXID;
+        partial void OnTAXIDChanging(global::System.Int32 value);
+        partial void OnTAXIDChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXCOND_TAX", "TAX")]
+        public TAX FK_TAXCOND_TAX
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAX>("TaxModel.FK_TAXCOND_TAX", "TAX").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAX>("TaxModel.FK_TAXCOND_TAX", "TAX").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<TAX> FK_TAXCOND_TAXReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAX>("TaxModel.FK_TAXCOND_TAX", "TAX");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TAX>("TaxModel.FK_TAXCOND_TAX", "TAX", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXEXCLUSIONS_TAXCOND", "TAXEXCLUSIONS")]
+        public EntityCollection<TAXEXCLUSIONS> FK_TAXCOND_TAXEXCLUSIONS
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAXEXCLUSIONS>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXEXCLUSIONS");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAXEXCLUSIONS>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXEXCLUSIONS", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="TAXEXCLUSIONS")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class TAXEXCLUSIONS : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new TAXEXCLUSIONS object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        /// <param name="oRDERTYPE_ID">Initial value of the ORDERTYPE_ID property.</param>
+        /// <param name="tAXCOND_ID">Initial value of the TAXCOND_ID property.</param>
+        /// <param name="fOR_VIEW">Initial value of the FOR_VIEW property.</param>
+        /// <param name="oRDERTYPEORDERTYPE_ID">Initial value of the ORDERTYPEORDERTYPE_ID property.</param>
+        /// <param name="tAXCONDID">Initial value of the TAXCONDID property.</param>
+        public static TAXEXCLUSIONS CreateTAXEXCLUSIONS(global::System.Int32 id, global::System.Int32 oRDERTYPE_ID, global::System.Int32 tAXCOND_ID, global::System.Boolean fOR_VIEW, global::System.Int32 oRDERTYPEORDERTYPE_ID, global::System.Int32 tAXCONDID)
+        {
+            TAXEXCLUSIONS tAXEXCLUSIONS = new TAXEXCLUSIONS();
+            tAXEXCLUSIONS.ID = id;
+            tAXEXCLUSIONS.ORDERTYPE_ID = oRDERTYPE_ID;
+            tAXEXCLUSIONS.TAXCOND_ID = tAXCOND_ID;
+            tAXEXCLUSIONS.FOR_VIEW = fOR_VIEW;
+            tAXEXCLUSIONS.ORDERTYPEORDERTYPE_ID = oRDERTYPEORDERTYPE_ID;
+            tAXEXCLUSIONS.TAXCONDID = tAXCONDID;
+            return tAXEXCLUSIONS;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ID;
+        partial void OnIDChanging(global::System.Int32 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ORDERTYPE_ID
+        {
+            get
+            {
+                return _ORDERTYPE_ID;
+            }
+            set
+            {
+                OnORDERTYPE_IDChanging(value);
+                ReportPropertyChanging("ORDERTYPE_ID");
+                _ORDERTYPE_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ORDERTYPE_ID");
+                OnORDERTYPE_IDChanged();
+            }
+        }
+        private global::System.Int32 _ORDERTYPE_ID;
+        partial void OnORDERTYPE_IDChanging(global::System.Int32 value);
+        partial void OnORDERTYPE_IDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 TAXCOND_ID
+        {
+            get
+            {
+                return _TAXCOND_ID;
+            }
+            set
+            {
+                OnTAXCOND_IDChanging(value);
+                ReportPropertyChanging("TAXCOND_ID");
+                _TAXCOND_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TAXCOND_ID");
+                OnTAXCOND_IDChanged();
+            }
+        }
+        private global::System.Int32 _TAXCOND_ID;
+        partial void OnTAXCOND_IDChanging(global::System.Int32 value);
+        partial void OnTAXCOND_IDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean FOR_VIEW
+        {
+            get
+            {
+                return _FOR_VIEW;
+            }
+            set
+            {
+                OnFOR_VIEWChanging(value);
+                ReportPropertyChanging("FOR_VIEW");
+                _FOR_VIEW = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("FOR_VIEW");
+                OnFOR_VIEWChanged();
+            }
+        }
+        private global::System.Boolean _FOR_VIEW;
+        partial void OnFOR_VIEWChanging(global::System.Boolean value);
+        partial void OnFOR_VIEWChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ORDERTYPEORDERTYPE_ID
+        {
+            get
+            {
+                return _ORDERTYPEORDERTYPE_ID;
+            }
+            set
+            {
+                OnORDERTYPEORDERTYPE_IDChanging(value);
+                ReportPropertyChanging("ORDERTYPEORDERTYPE_ID");
+                _ORDERTYPEORDERTYPE_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ORDERTYPEORDERTYPE_ID");
+                OnORDERTYPEORDERTYPE_IDChanged();
+            }
+        }
+        private global::System.Int32 _ORDERTYPEORDERTYPE_ID;
+        partial void OnORDERTYPEORDERTYPE_IDChanging(global::System.Int32 value);
+        partial void OnORDERTYPEORDERTYPE_IDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 TAXCONDID
+        {
+            get
+            {
+                return _TAXCONDID;
+            }
+            set
+            {
+                OnTAXCONDIDChanging(value);
+                ReportPropertyChanging("TAXCONDID");
+                _TAXCONDID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TAXCONDID");
+                OnTAXCONDIDChanged();
+            }
+        }
+        private global::System.Int32 _TAXCONDID;
+        partial void OnTAXCONDIDChanging(global::System.Int32 value);
+        partial void OnTAXCONDIDChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPE")]
+        public ORDERTYPE FK_TAXEXCLUSIONS_ORDERTYPE
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPE>("TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPE").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPE>("TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPE").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<ORDERTYPE> FK_TAXEXCLUSIONS_ORDERTYPEReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPE>("TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPE");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ORDERTYPE>("TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPE", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXEXCLUSIONS_TAXCOND", "TAXCOND")]
+        public TAXCOND FK_TAXEXCLUSIONS_TAXCOND
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAXCOND>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXCOND").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAXCOND>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXCOND").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<TAXCOND> FK_TAXEXCLUSIONS_TAXCONDReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAXCOND>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXCOND");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TAXCOND>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXCOND", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="UOPG")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class UOPG : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new UOPG object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        /// <param name="services">Initial value of the Services property.</param>
+        /// <param name="residence">Initial value of the Residence property.</param>
+        /// <param name="industry">Initial value of the Industry property.</param>
+        /// <param name="tourism">Initial value of the Tourism property.</param>
+        public static UOPG CreateUOPG(global::System.Int32 id, global::System.Double services, global::System.Double residence, global::System.Double industry, global::System.Double tourism)
+        {
+            UOPG uOPG = new UOPG();
+            uOPG.ID = id;
+            uOPG.Services = services;
+            uOPG.Residence = residence;
+            uOPG.Industry = industry;
+            uOPG.Tourism = tourism;
+            return uOPG;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ID;
+        partial void OnIDChanging(global::System.Int32 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Double Services
+        {
+            get
+            {
+                return _Services;
+            }
+            set
+            {
+                OnServicesChanging(value);
+                ReportPropertyChanging("Services");
+                _Services = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Services");
+                OnServicesChanged();
+            }
+        }
+        private global::System.Double _Services;
+        partial void OnServicesChanging(global::System.Double value);
+        partial void OnServicesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Double Residence
+        {
+            get
+            {
+                return _Residence;
+            }
+            set
+            {
+                OnResidenceChanging(value);
+                ReportPropertyChanging("Residence");
+                _Residence = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Residence");
+                OnResidenceChanged();
+            }
+        }
+        private global::System.Double _Residence;
+        partial void OnResidenceChanging(global::System.Double value);
+        partial void OnResidenceChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Double Industry
+        {
+            get
+            {
+                return _Industry;
+            }
+            set
+            {
+                OnIndustryChanging(value);
+                ReportPropertyChanging("Industry");
+                _Industry = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Industry");
+                OnIndustryChanged();
+            }
+        }
+        private global::System.Double _Industry;
+        partial void OnIndustryChanging(global::System.Double value);
+        partial void OnIndustryChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Double Tourism
+        {
+            get
+            {
+                return _Tourism;
+            }
+            set
+            {
+                OnTourismChanging(value);
+                ReportPropertyChanging("Tourism");
+                _Tourism = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Tourism");
+                OnTourismChanged();
+            }
+        }
+        private global::System.Double _Tourism;
+        partial void OnTourismChanging(global::System.Double value);
+        partial void OnTourismChanged();
+
+        #endregion
+
     
     }
 
