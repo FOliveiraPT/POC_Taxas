@@ -10,14 +10,22 @@ namespace POC.BLL
 {
     public class GenericBusinessLogic
     {
-        public ServiceTaxResults GetTax(int ordertypeId, int channelId, string orderDate, string orderList)
+        public ServiceTaxResults GetTax(int ordertypeId, int channelId, string orderDate, string orderList, bool forView = false)
         {
             try
             {
                 ServiceTaxResults tax = new ServiceTaxResults();
+                
+                 // Verificar se tem Tax associado
+                
+                 // Verificar se tem TaxCond 
+                 //      Se sim:
+                 //          Verificar se tem TaxExclusions
+                 // Verificar se tem Formula
+                 //      Se sim, calcular
+                 // Verificar se tem Desconto
 
                 return tax;
-
             }
             catch (ArgumentException ae)
             {
