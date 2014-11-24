@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 
 namespace POC.BLL.DataModel
 {
@@ -12,5 +13,6 @@ namespace POC.BLL.DataModel
         public double? Unidades { get; set; }
         public double? TOTAL { get; set; }
         public double? TAX_DISCOUNT { get; set; }
+
     }
 }

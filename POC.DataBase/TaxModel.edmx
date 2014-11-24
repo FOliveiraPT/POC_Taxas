@@ -561,15 +561,15 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram Name="TaxModel" >
-        <EntityTypeShape EntityType="TaxModel.FORMULAS" Width="1.5" PointX="6" PointY="2.5" Height="1.59568359375" />
+        <EntityTypeShape EntityType="TaxModel.FORMULAS" Width="1.5" PointX="5" PointY="5.125" Height="1.59568359375" />
         <EntityTypeShape EntityType="TaxModel.ORDERTYPE" Width="1.5" PointX="0.5" PointY="0.5" Height="3.3263964843749996" />
         <EntityTypeShape EntityType="TaxModel.TAX" Width="1.5" PointX="3.25" PointY="0.5" Height="2.9417936197916665" />
         <EntityTypeShape EntityType="TaxModel.TAXCOND" Width="1.5" PointX="7.875" PointY="0.5" Height="1.9802864583333326" />
-        <EntityTypeShape EntityType="TaxModel.OPERATORS" Width="1.5" PointX="1.625" PointY="4.625" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="TaxModel.OPERATORS" Width="1.5" PointX="1.25" PointY="5.125" Height="1.5956835937499996" />
         <EntityTypeShape EntityType="TaxModel.DISCOUNT" Width="1.5" PointX="5.625" PointY="0.5" Height="1.4033821614583331" />
-        <EntityTypeShape EntityType="TaxModel.UOPG" Width="1.5" PointX="3.625" PointY="4.625" Height="1.9802864583333326" />
-        <EntityTypeShape EntityType="TaxModel.TAXEXCLUSIONS" Width="1.5" PointX="8" PointY="3.375" Height="1.7879850260416665" />
-        <EntityTypeShape EntityType="TaxModel.CHANNEL" Width="1.5" PointX="5.75" PointY="5.125" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="TaxModel.UOPG" Width="1.5" PointX="3.125" PointY="5.125" Height="1.9802864583333326" />
+        <EntityTypeShape EntityType="TaxModel.TAXEXCLUSIONS" Width="1.5" PointX="7.75" PointY="3.375" Height="2.5571907552083326" />
+        <EntityTypeShape EntityType="TaxModel.CHANNEL" Width="1.5" PointX="5.75" PointY="2.75" Height="1.9802864583333335" />
         <AssociationConnector Association="TaxModel.FK_TAX_ORDERTYPE">
           <ConnectorPoint PointX="3.25" PointY="1.9708968098958333" />
           <ConnectorPoint PointX="2" PointY="1.9708968098958333" />
@@ -579,24 +579,21 @@
           <ConnectorPoint PointX="5.625" PointY="1.297841796875" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAXCOND_TAX">
-          <ConnectorPoint PointX="4.75" PointY="2.297841796875" />
-          <ConnectorPoint PointX="7.875" PointY="2.297841796875" />
+          <ConnectorPoint PointX="4.75" PointY="2.422841796875" />
+          <ConnectorPoint PointX="7.875" PointY="2.422841796875" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE">
-          <ConnectorPoint PointX="1.03125" PointY="4.2109993489583326" />
-          <ConnectorPoint PointX="1.03125" PointY="4.514150390625" />
-          <ConnectorPoint PointX="3.3229166666666665" PointY="4.5141503906249989" />
-          <ConnectorPoint PointX="3.4895833333333335" PointY="4.514150390625" />
-          <ConnectorPoint PointX="8" PointY="4.514150390625" />
+          <ConnectorPoint PointX="0.84375" PointY="4.2109993489583326" />
+          <ConnectorPoint PointX="0.84375" PointY="4.9276432291666667" />
+          <ConnectorPoint PointX="7.75" PointY="4.9276432291666667" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAXEXCLUSIONS_TAXCOND">
-          <ConnectorPoint PointX="8.6875" PointY="3.0571907552083331" />
-          <ConnectorPoint PointX="8.6875" PointY="3.375" />
+          <ConnectorPoint PointX="8.5625" PointY="3.0571907552083331" />
+          <ConnectorPoint PointX="8.5625" PointY="3.375" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAX_CHANNEL">
-          <ConnectorPoint PointX="5.75" PointY="6.8865364583333326" />
-          <ConnectorPoint PointX="3.40625" PointY="6.8865364583333326" />
-          <ConnectorPoint PointX="3.40625" PointY="4.40330078125" />
+          <ConnectorPoint PointX="5.75" PointY="3.576650390625" />
+          <ConnectorPoint PointX="4.75" PointY="3.576650390625" />
         </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>
