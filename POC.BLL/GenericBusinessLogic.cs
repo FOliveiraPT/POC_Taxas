@@ -46,22 +46,53 @@ namespace POC.BLL
 
         private bool HasTax(int ordertypeId)
         {
-            return false;
+             using (var locator = new GenericRepository<TAX>())
+            {
+                return locator.Find(c => c.TAX_ORDERTYPEID == ordertypeId).Count() > 0;
+             }
         }
 
         private bool HasTaxExclusion(int ordertypeId)
         {
-            return false;
+            using (var locator = new GenericRepository<TAXEXCLUSIONS>())
+            {
+                return locator.Find(c => c.ORDERTYPE_ID == ordertypeId).Count() > 0;
+            }
         }
 
         private List<FORMULAS> GetFormulas(int taxcondId)
         {
-            return null;
+            var listFormulas = new List<FORMULAS>();
+            using (var locatorTaxCond = new GenericRepository<TAXCOND>())
+            {
+                var formulaId = locatorTaxCond.Single(c => c.ID == taxcondId).FORMULA_ID;
+
+                if (formulaId.HasValue)
+                {
+                    using (var locatorFormula = new GenericRepository<FORMULAS>())
+                    {
+                        listFormulas.AddRange(locatorFormula.Find(c => c.ID == formulaId.Value));
+                    }
+                }
+            }
+
+            return listFormulas;
         }
 
-        private double GetDiscount(int taxId)
+        private double? GetDiscount(int taxId)
         {
-            return 0;
+            double? discount = null;
+            using (var locator = new GenericRepository<TAX>())
+            {
+                var tax = locator.Single(c => c.TAX_ID == taxId);
+
+                using (var loc = new GenericRepository<DISCOUNT>())
+                {
+                    discount = loc.Single(c => c.ID == tax.DISCOUNT_ID).VALUE;
+                }
+            }
+
+            return discount;
         }
 
         private double GetTaxResult() 
