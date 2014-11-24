@@ -11,7 +11,7 @@ namespace ConsoleApplication
         static void Main(string[] args)
         {
             var genBL = new GenericBusinessLogic();
-            var t = genBL.GetTax(7,1);
+            //var t = genBL.GetTax(7,1);
         }
     }
 }

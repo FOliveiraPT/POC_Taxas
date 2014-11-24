@@ -10,19 +10,6 @@ namespace POC.BLL
 {
     public class GenericBusinessLogic
     {
-        public TAX GetTax(int orderType, int channelID)
-        {
-            using (var locator = new GenericRepository<TAX>())
-            {
-                /*
-                 * TERÁ DE SE PEGAR NOS CAMPOS DAS TAX COND E CONSOANTE O OPERADOR, FAZER O TESTE NO VALUE
-                 * PODERÁ SE USAR AS QUERY DINÂMICAS
-                 */
-                var teste = locator.First(c => c.TAX_ORDERTYPEID == 48);
-                return teste;
-            }
-        }
-
         public ServiceTaxResults GetTax(int ordertypeId, int channelId, string orderDate, string orderList)
         {
             try
@@ -48,7 +35,7 @@ namespace POC.BLL
         {
              using (var locator = new GenericRepository<TAX>())
             {
-                return locator.Find(c => c.TAX_ORDERTYPEID == ordertypeId).Count() > 0;
+                return locator.Find(c => c.ORDERTYPE_ID == ordertypeId).Count() > 0;
              }
         }
 
@@ -84,7 +71,7 @@ namespace POC.BLL
             double? discount = null;
             using (var locator = new GenericRepository<TAX>())
             {
-                var tax = locator.Single(c => c.TAX_ID == taxId);
+                var tax = locator.Single(c => c.ID == taxId);
 
                 using (var loc = new GenericRepository<DISCOUNT>())
                 {

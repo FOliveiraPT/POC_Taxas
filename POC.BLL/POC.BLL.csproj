@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModel\CalculableItem.cs" />
+    <Compile Include="DataModel\Enum.cs" />
     <Compile Include="DataModel\GetTax_Result.cs" />
     <Compile Include="DataModel\ServiceTaxResults.cs" />
     <Compile Include="GenericBusinessLogic.cs" />
