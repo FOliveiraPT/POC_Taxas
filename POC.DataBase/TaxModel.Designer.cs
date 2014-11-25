@@ -20,7 +20,9 @@ using System.Xml.Serialization;
 #region EDM Relationship Metadata
 
 [assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_CHANNEL", "CHANNEL", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.CHANNEL), "TAX", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAX), true)]
-[assembly: EdmRelationshipAttribute("TaxModel", "FK_DISCOUNT_TAX", "DISCOUNT", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(POC.DataBase.DISCOUNT), "TAX", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAX), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_DISCOUNT", "DISCOUNT", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(POC.DataBase.DISCOUNT), "TAX", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAX), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_FORMULAS", "FORMULAS", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(POC.DataBase.FORMULAS), "TAX", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAX), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAXCOND_FORMULAS", "FORMULAS", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(POC.DataBase.FORMULAS), "TAXCOND", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXCOND), true)]
 [assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_ORDERTYPE", "ORDERTYPE", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.ORDERTYPE), "TAX", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAX), true)]
 [assembly: EdmRelationshipAttribute("TaxModel", "FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPE", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.ORDERTYPE), "TAXEXCLUSIONS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXEXCLUSIONS), true)]
 [assembly: EdmRelationshipAttribute("TaxModel", "FK_TAXCOND_TAX", "TAX", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.TAX), "TAXCOND", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXCOND), true)]
@@ -550,18 +552,18 @@ namespace POC.DataBase
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_DISCOUNT_TAX", "TAX")]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_DISCOUNT", "TAX")]
         public EntityCollection<TAX> TAX
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAX>("TaxModel.FK_DISCOUNT_TAX", "TAX");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAX>("TaxModel.FK_TAX_DISCOUNT", "TAX");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAX>("TaxModel.FK_DISCOUNT_TAX", "TAX", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAX>("TaxModel.FK_TAX_DISCOUNT", "TAX", value);
                 }
             }
         }
@@ -677,6 +679,54 @@ namespace POC.DataBase
         #endregion
 
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_FORMULAS", "TAX")]
+        public EntityCollection<TAX> TAX
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAX>("TaxModel.FK_TAX_FORMULAS", "TAX");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAX>("TaxModel.FK_TAX_FORMULAS", "TAX", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXCOND_FORMULAS", "TAXCOND")]
+        public EntityCollection<TAXCOND> TAXCOND
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAXCOND>("TaxModel.FK_TAXCOND_FORMULAS", "TAXCOND");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAXCOND>("TaxModel.FK_TAXCOND_FORMULAS", "TAXCOND", value);
+                }
+            }
+        }
+
+        #endregion
+
     }
     
     /// <summary>
@@ -1174,25 +1224,19 @@ namespace POC.DataBase
         /// </summary>
         /// <param name="id">Initial value of the ID property.</param>
         /// <param name="oRDERTYPE_ID">Initial value of the ORDERTYPE_ID property.</param>
-        /// <param name="dISCOUNT_ID">Initial value of the DISCOUNT_ID property.</param>
         /// <param name="cHANNEL_ID">Initial value of the CHANNEL_ID property.</param>
         /// <param name="nAME">Initial value of the NAME property.</param>
         /// <param name="dESCRIPTION">Initial value of the DESCRIPTION property.</param>
         /// <param name="sTART_DATE">Initial value of the START_DATE property.</param>
-        /// <param name="oRDERTYPEORDERTYPE_ID">Initial value of the ORDERTYPEORDERTYPE_ID property.</param>
-        /// <param name="cHANNELCHANNEL_ID">Initial value of the CHANNELCHANNEL_ID property.</param>
-        public static TAX CreateTAX(global::System.Int32 id, global::System.Int32 oRDERTYPE_ID, global::System.Int32 dISCOUNT_ID, global::System.Int32 cHANNEL_ID, global::System.String nAME, global::System.String dESCRIPTION, global::System.DateTime sTART_DATE, global::System.Int32 oRDERTYPEORDERTYPE_ID, global::System.Int32 cHANNELCHANNEL_ID)
+        public static TAX CreateTAX(global::System.Int32 id, global::System.Int32 oRDERTYPE_ID, global::System.Int32 cHANNEL_ID, global::System.String nAME, global::System.String dESCRIPTION, global::System.DateTime sTART_DATE)
         {
             TAX tAX = new TAX();
             tAX.ID = id;
             tAX.ORDERTYPE_ID = oRDERTYPE_ID;
-            tAX.DISCOUNT_ID = dISCOUNT_ID;
             tAX.CHANNEL_ID = cHANNEL_ID;
             tAX.NAME = nAME;
             tAX.DESCRIPTION = dESCRIPTION;
             tAX.START_DATE = sTART_DATE;
-            tAX.ORDERTYPEORDERTYPE_ID = oRDERTYPEORDERTYPE_ID;
-            tAX.CHANNELCHANNEL_ID = cHANNELCHANNEL_ID;
             return tAX;
         }
 
@@ -1254,9 +1298,9 @@ namespace POC.DataBase
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.Int32 DISCOUNT_ID
+        public Nullable<global::System.Int32> DISCOUNT_ID
         {
             get
             {
@@ -1271,8 +1315,8 @@ namespace POC.DataBase
                 OnDISCOUNT_IDChanged();
             }
         }
-        private global::System.Int32 _DISCOUNT_ID;
-        partial void OnDISCOUNT_IDChanging(global::System.Int32 value);
+        private Nullable<global::System.Int32> _DISCOUNT_ID;
+        partial void OnDISCOUNT_IDChanging(Nullable<global::System.Int32> value);
         partial void OnDISCOUNT_IDChanged();
     
         /// <summary>
@@ -1298,6 +1342,30 @@ namespace POC.DataBase
         private global::System.Int32 _CHANNEL_ID;
         partial void OnCHANNEL_IDChanging(global::System.Int32 value);
         partial void OnCHANNEL_IDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> FORMULA_ID
+        {
+            get
+            {
+                return _FORMULA_ID;
+            }
+            set
+            {
+                OnFORMULA_IDChanging(value);
+                ReportPropertyChanging("FORMULA_ID");
+                _FORMULA_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("FORMULA_ID");
+                OnFORMULA_IDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _FORMULA_ID;
+        partial void OnFORMULA_IDChanging(Nullable<global::System.Int32> value);
+        partial void OnFORMULA_IDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1398,74 +1466,26 @@ namespace POC.DataBase
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 ORDERTYPEORDERTYPE_ID
-        {
-            get
-            {
-                return _ORDERTYPEORDERTYPE_ID;
-            }
-            set
-            {
-                OnORDERTYPEORDERTYPE_IDChanging(value);
-                ReportPropertyChanging("ORDERTYPEORDERTYPE_ID");
-                _ORDERTYPEORDERTYPE_ID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("ORDERTYPEORDERTYPE_ID");
-                OnORDERTYPEORDERTYPE_IDChanged();
-            }
-        }
-        private global::System.Int32 _ORDERTYPEORDERTYPE_ID;
-        partial void OnORDERTYPEORDERTYPE_IDChanging(global::System.Int32 value);
-        partial void OnORDERTYPEORDERTYPE_IDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> DISCOUNTID
+        public Nullable<global::System.Decimal> VALUE
         {
             get
             {
-                return _DISCOUNTID;
+                return _VALUE;
             }
             set
             {
-                OnDISCOUNTIDChanging(value);
-                ReportPropertyChanging("DISCOUNTID");
-                _DISCOUNTID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("DISCOUNTID");
-                OnDISCOUNTIDChanged();
+                OnVALUEChanging(value);
+                ReportPropertyChanging("VALUE");
+                _VALUE = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("VALUE");
+                OnVALUEChanged();
             }
         }
-        private Nullable<global::System.Int32> _DISCOUNTID;
-        partial void OnDISCOUNTIDChanging(Nullable<global::System.Int32> value);
-        partial void OnDISCOUNTIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 CHANNELCHANNEL_ID
-        {
-            get
-            {
-                return _CHANNELCHANNEL_ID;
-            }
-            set
-            {
-                OnCHANNELCHANNEL_IDChanging(value);
-                ReportPropertyChanging("CHANNELCHANNEL_ID");
-                _CHANNELCHANNEL_ID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("CHANNELCHANNEL_ID");
-                OnCHANNELCHANNEL_IDChanged();
-            }
-        }
-        private global::System.Int32 _CHANNELCHANNEL_ID;
-        partial void OnCHANNELCHANNEL_IDChanging(global::System.Int32 value);
-        partial void OnCHANNELCHANNEL_IDChanged();
+        private Nullable<global::System.Decimal> _VALUE;
+        partial void OnVALUEChanging(Nullable<global::System.Decimal> value);
+        partial void OnVALUEChanged();
 
         #endregion
 
@@ -1516,16 +1536,16 @@ namespace POC.DataBase
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_DISCOUNT_TAX", "DISCOUNT")]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_DISCOUNT", "DISCOUNT")]
         public DISCOUNT DISCOUNT
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<DISCOUNT>("TaxModel.FK_DISCOUNT_TAX", "DISCOUNT").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<DISCOUNT>("TaxModel.FK_TAX_DISCOUNT", "DISCOUNT").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<DISCOUNT>("TaxModel.FK_DISCOUNT_TAX", "DISCOUNT").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<DISCOUNT>("TaxModel.FK_TAX_DISCOUNT", "DISCOUNT").Value = value;
             }
         }
         /// <summary>
@@ -1537,13 +1557,51 @@ namespace POC.DataBase
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<DISCOUNT>("TaxModel.FK_DISCOUNT_TAX", "DISCOUNT");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<DISCOUNT>("TaxModel.FK_TAX_DISCOUNT", "DISCOUNT");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<DISCOUNT>("TaxModel.FK_DISCOUNT_TAX", "DISCOUNT", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<DISCOUNT>("TaxModel.FK_TAX_DISCOUNT", "DISCOUNT", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_FORMULAS", "FORMULAS")]
+        public FORMULAS FORMULAS
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FORMULAS>("TaxModel.FK_TAX_FORMULAS", "FORMULAS").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FORMULAS>("TaxModel.FK_TAX_FORMULAS", "FORMULAS").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<FORMULAS> FORMULASReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FORMULAS>("TaxModel.FK_TAX_FORMULAS", "FORMULAS");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<FORMULAS>("TaxModel.FK_TAX_FORMULAS", "FORMULAS", value);
                 }
             }
         }
@@ -1629,17 +1687,15 @@ namespace POC.DataBase
         /// <param name="tAX_ID">Initial value of the TAX_ID property.</param>
         /// <param name="fORM_ITEM_NAME">Initial value of the FORM_ITEM_NAME property.</param>
         /// <param name="fORM_ITEM_VALUE">Initial value of the FORM_ITEM_VALUE property.</param>
-        /// <param name="tAXID">Initial value of the TAXID property.</param>
-        /// <param name="vALUE">Initial value of the VALUE property.</param>
-        public static TAXCOND CreateTAXCOND(global::System.Int32 id, global::System.Int32 tAX_ID, global::System.String fORM_ITEM_NAME, global::System.String fORM_ITEM_VALUE, global::System.Int32 tAXID, global::System.Decimal vALUE)
+        /// <param name="vALUE_IS_EQUAL">Initial value of the VALUE_IS_EQUAL property.</param>
+        public static TAXCOND CreateTAXCOND(global::System.Int32 id, global::System.Int32 tAX_ID, global::System.String fORM_ITEM_NAME, global::System.String fORM_ITEM_VALUE, global::System.Boolean vALUE_IS_EQUAL)
         {
             TAXCOND tAXCOND = new TAXCOND();
             tAXCOND.ID = id;
             tAXCOND.TAX_ID = tAX_ID;
             tAXCOND.FORM_ITEM_NAME = fORM_ITEM_NAME;
             tAXCOND.FORM_ITEM_VALUE = fORM_ITEM_VALUE;
-            tAXCOND.TAXID = tAXID;
-            tAXCOND.VALUE = vALUE;
+            tAXCOND.VALUE_IS_EQUAL = vALUE_IS_EQUAL;
             return tAXCOND;
         }
 
@@ -1775,53 +1831,67 @@ namespace POC.DataBase
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 TAXID
+        public global::System.Boolean VALUE_IS_EQUAL
         {
             get
             {
-                return _TAXID;
+                return _VALUE_IS_EQUAL;
             }
             set
             {
-                OnTAXIDChanging(value);
-                ReportPropertyChanging("TAXID");
-                _TAXID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("TAXID");
-                OnTAXIDChanged();
+                OnVALUE_IS_EQUALChanging(value);
+                ReportPropertyChanging("VALUE_IS_EQUAL");
+                _VALUE_IS_EQUAL = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("VALUE_IS_EQUAL");
+                OnVALUE_IS_EQUALChanged();
             }
         }
-        private global::System.Int32 _TAXID;
-        partial void OnTAXIDChanging(global::System.Int32 value);
-        partial void OnTAXIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Decimal VALUE
-        {
-            get
-            {
-                return _VALUE;
-            }
-            set
-            {
-                OnVALUEChanging(value);
-                ReportPropertyChanging("VALUE");
-                _VALUE = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("VALUE");
-                OnVALUEChanged();
-            }
-        }
-        private global::System.Decimal _VALUE;
-        partial void OnVALUEChanging(global::System.Decimal value);
-        partial void OnVALUEChanged();
+        private global::System.Boolean _VALUE_IS_EQUAL;
+        partial void OnVALUE_IS_EQUALChanging(global::System.Boolean value);
+        partial void OnVALUE_IS_EQUALChanged();
 
         #endregion
 
     
         #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXCOND_FORMULAS", "FORMULAS")]
+        public FORMULAS FORMULAS
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FORMULAS>("TaxModel.FK_TAXCOND_FORMULAS", "FORMULAS").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FORMULAS>("TaxModel.FK_TAXCOND_FORMULAS", "FORMULAS").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<FORMULAS> FORMULASReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FORMULAS>("TaxModel.FK_TAXCOND_FORMULAS", "FORMULAS");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<FORMULAS>("TaxModel.FK_TAXCOND_FORMULAS", "FORMULAS", value);
+                }
+            }
+        }
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1904,17 +1974,13 @@ namespace POC.DataBase
         /// <param name="oRDERTYPE_ID">Initial value of the ORDERTYPE_ID property.</param>
         /// <param name="tAXCOND_ID">Initial value of the TAXCOND_ID property.</param>
         /// <param name="fOR_VIEW">Initial value of the FOR_VIEW property.</param>
-        /// <param name="oRDERTYPEORDERTYPE_ID">Initial value of the ORDERTYPEORDERTYPE_ID property.</param>
-        /// <param name="tAXCONDID">Initial value of the TAXCONDID property.</param>
-        public static TAXEXCLUSIONS CreateTAXEXCLUSIONS(global::System.Int32 id, global::System.Int32 oRDERTYPE_ID, global::System.Int32 tAXCOND_ID, global::System.Boolean fOR_VIEW, global::System.Int32 oRDERTYPEORDERTYPE_ID, global::System.Int32 tAXCONDID)
+        public static TAXEXCLUSIONS CreateTAXEXCLUSIONS(global::System.Int32 id, global::System.Int32 oRDERTYPE_ID, global::System.Int32 tAXCOND_ID, global::System.Boolean fOR_VIEW)
         {
             TAXEXCLUSIONS tAXEXCLUSIONS = new TAXEXCLUSIONS();
             tAXEXCLUSIONS.ID = id;
             tAXEXCLUSIONS.ORDERTYPE_ID = oRDERTYPE_ID;
             tAXEXCLUSIONS.TAXCOND_ID = tAXCOND_ID;
             tAXEXCLUSIONS.FOR_VIEW = fOR_VIEW;
-            tAXEXCLUSIONS.ORDERTYPEORDERTYPE_ID = oRDERTYPEORDERTYPE_ID;
-            tAXEXCLUSIONS.TAXCONDID = tAXCONDID;
             return tAXEXCLUSIONS;
         }
 
@@ -2020,54 +2086,6 @@ namespace POC.DataBase
         private global::System.Boolean _FOR_VIEW;
         partial void OnFOR_VIEWChanging(global::System.Boolean value);
         partial void OnFOR_VIEWChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 ORDERTYPEORDERTYPE_ID
-        {
-            get
-            {
-                return _ORDERTYPEORDERTYPE_ID;
-            }
-            set
-            {
-                OnORDERTYPEORDERTYPE_IDChanging(value);
-                ReportPropertyChanging("ORDERTYPEORDERTYPE_ID");
-                _ORDERTYPEORDERTYPE_ID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("ORDERTYPEORDERTYPE_ID");
-                OnORDERTYPEORDERTYPE_IDChanged();
-            }
-        }
-        private global::System.Int32 _ORDERTYPEORDERTYPE_ID;
-        partial void OnORDERTYPEORDERTYPE_IDChanging(global::System.Int32 value);
-        partial void OnORDERTYPEORDERTYPE_IDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 TAXCONDID
-        {
-            get
-            {
-                return _TAXCONDID;
-            }
-            set
-            {
-                OnTAXCONDIDChanging(value);
-                ReportPropertyChanging("TAXCONDID");
-                _TAXCONDID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("TAXCONDID");
-                OnTAXCONDIDChanged();
-            }
-        }
-        private global::System.Int32 _TAXCONDID;
-        partial void OnTAXCONDIDChanging(global::System.Int32 value);
-        partial void OnTAXCONDIDChanged();
 
         #endregion
 

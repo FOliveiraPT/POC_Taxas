@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
 
-namespace POC.DAL
+namespace POC.Common
 {
     public static class DynamicQueryable
     {

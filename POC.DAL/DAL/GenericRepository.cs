@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using POC.DataBase;
 using System.Data.Objects;
+using POC.Common;
 
 namespace POC.DAL
 {

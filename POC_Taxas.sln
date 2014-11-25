@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POC.BLL", "POC.BLL\POC.BLL.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication", "ConsoleApplication\ConsoleApplication.csproj", "{D483E63D-E869-427D-B33D-A01D174E5DF5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{6238C394-7320-451B-86F7-3423DC2AD90D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POC.Common", "POC.Common\POC.Common\POC.Common.csproj", "{F7EB5FBC-A8E1-49F0-B1FD-A0A3AE18DDB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +67,16 @@ Global
 		{D483E63D-E869-427D-B33D-A01D174E5DF5}.Release|Mixed Platforms.Build.0 = Release|x86
 		{D483E63D-E869-427D-B33D-A01D174E5DF5}.Release|x86.ActiveCfg = Release|x86
 		{D483E63D-E869-427D-B33D-A01D174E5DF5}.Release|x86.Build.0 = Release|x86
+		{F7EB5FBC-A8E1-49F0-B1FD-A0A3AE18DDB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7EB5FBC-A8E1-49F0-B1FD-A0A3AE18DDB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7EB5FBC-A8E1-49F0-B1FD-A0A3AE18DDB3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F7EB5FBC-A8E1-49F0-B1FD-A0A3AE18DDB3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F7EB5FBC-A8E1-49F0-B1FD-A0A3AE18DDB3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F7EB5FBC-A8E1-49F0-B1FD-A0A3AE18DDB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7EB5FBC-A8E1-49F0-B1FD-A0A3AE18DDB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7EB5FBC-A8E1-49F0-B1FD-A0A3AE18DDB3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F7EB5FBC-A8E1-49F0-B1FD-A0A3AE18DDB3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F7EB5FBC-A8E1-49F0-B1FD-A0A3AE18DDB3}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,5 +85,6 @@ Global
 		{DB062B3F-42DB-478D-A5D2-6EC261D41C83} = {A6A28993-88F4-4CE7-B53C-0DB157644B3A}
 		{A01B0C3B-7371-4DA0-90CC-AE8694DFAEF2} = {A6A28993-88F4-4CE7-B53C-0DB157644B3A}
 		{34BDD3E4-7556-49D3-AEC7-18DD7C8A78D0} = {74455F70-89D1-4901-9D51-4412062DF094}
+		{F7EB5FBC-A8E1-49F0-B1FD-A0A3AE18DDB3} = {6238C394-7320-451B-86F7-3423DC2AD90D}
 	EndGlobalSection
 EndGlobal

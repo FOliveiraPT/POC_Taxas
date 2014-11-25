@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A01B0C3B-7371-4DA0-90CC-AE8694DFAEF2}</ProjectGuid>
+    <ProjectGuid>{F7EB5FBC-A8E1-49F0-B1FD-A0A3AE18DDB3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>POC.DAL</RootNamespace>
-    <AssemblyName>POC.DAL</AssemblyName>
+    <RootNamespace>POC.Common</RootNamespace>
+    <AssemblyName>POC.Common</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,16 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net40\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net40\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,23 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAL\GenericRepository.cs" />
-    <Compile Include="DAL\IGenericRepository.cs" />
+    <Compile Include="DynamicLibrary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\POC.Common\POC.Common\POC.Common.csproj">
-      <Project>{F7EB5FBC-A8E1-49F0-B1FD-A0A3AE18DDB3}</Project>
-      <Name>POC.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\POC.DataBase\POC.DataBase.csproj">
-      <Project>{DB062B3F-42DB-478D-A5D2-6EC261D41C83}</Project>
-      <Name>POC.DataBase</Name>
-    </ProjectReference>
+    <Compile Include="StringEnum.cs" />
+    <Compile Include="StringValueAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

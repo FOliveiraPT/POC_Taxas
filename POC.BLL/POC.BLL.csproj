@@ -42,13 +42,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataModel\CalculableItem.cs" />
-    <Compile Include="DataModel\Enum.cs" />
+    <Compile Include="DataModel\ElegibleItem.cs" />
+    <Compile Include="DataModel\EnumTax.cs" />
     <Compile Include="DataModel\GetTax_Result.cs" />
     <Compile Include="DataModel\ServiceTaxResults.cs" />
     <Compile Include="GenericBusinessLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\POC.Common\POC.Common\POC.Common.csproj">
+      <Project>{F7EB5FBC-A8E1-49F0-B1FD-A0A3AE18DDB3}</Project>
+      <Name>POC.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\POC.DAL\POC.DAL.csproj">
       <Project>{A01B0C3B-7371-4DA0-90CC-AE8694DFAEF2}</Project>
       <Name>POC.DAL</Name>
