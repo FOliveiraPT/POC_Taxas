@@ -340,6 +340,7 @@ namespace POC.BLL
                         functionCode.Append("){");
                         functionCode.Append(String.Format("numberOfDays = ((Convert.ToDateTime(\"{0}\")) - (Convert.ToDateTime(\"{1}\"))).Days;", elementFinalDate, elementInitialDate));
                         functionCode.Append("}");
+                        functionCode.Append(String.Format("else { numberOfDays = Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA) == EnumTax.Formula.Q46 ? ((Convert.ToDateTime(\"{0}\")) - (Convert.ToDateTime(\"{1}\"))).Days - {0} : {0};}", (int)((EnumTax.Formula)Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA))));
                         functionCode.Append("return numberOfDays;");
                         functionCode.Append("}");
                         functionCode.Append("}");
@@ -347,7 +348,6 @@ namespace POC.BLL
 
                         var delegatedFunction = (Func<int>)Delegate.CreateDelegate(typeof(Func<int>), CreateFunction(functionCode.ToString()));
                         delegatedFunction();
-
 
                         //Já se vê o que fazer com os dias.
                         break;
