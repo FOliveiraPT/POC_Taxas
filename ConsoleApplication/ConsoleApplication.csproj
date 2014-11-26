@@ -52,6 +52,14 @@
       <Project>{34BDD3E4-7556-49D3-AEC7-18DD7C8A78D0}</Project>
       <Name>POC.BLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\POC.Common\POC.Common\POC.Common.csproj">
+      <Project>{F7EB5FBC-A8E1-49F0-B1FD-A0A3AE18DDB3}</Project>
+      <Name>POC.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\POC.DAL\POC.DAL.csproj">
+      <Project>{A01B0C3B-7371-4DA0-90CC-AE8694DFAEF2}</Project>
+      <Name>POC.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\POC.DataBase\POC.DataBase.csproj">
       <Project>{DB062B3F-42DB-478D-A5D2-6EC261D41C83}</Project>
       <Name>POC.DataBase</Name>

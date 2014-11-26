@@ -6,49 +6,54 @@
     <edmx:StorageModels>
     <Schema Namespace="TaxModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="TaxModelStoreContainer">
-          <EntitySet Name="CHANNEL" EntityType="TaxModel.Store.CHANNEL" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="DISCOUNT" EntityType="TaxModel.Store.DISCOUNT" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CHANNELS" EntityType="TaxModel.Store.CHANNELS" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DISCOUNTS" EntityType="TaxModel.Store.DISCOUNTS" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="FORMULAS" EntityType="TaxModel.Store.FORMULAS" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OPERATORS" EntityType="TaxModel.Store.OPERATORS" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ORDERTYPE" EntityType="TaxModel.Store.ORDERTYPE" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="TAX" EntityType="TaxModel.Store.TAX" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="TAXCOND" EntityType="TaxModel.Store.TAXCOND" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ORDERTYPES" EntityType="TaxModel.Store.ORDERTYPES" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TAXCONDS" EntityType="TaxModel.Store.TAXCONDS" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TAXES" EntityType="TaxModel.Store.TAXES" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TAXEXCLUSIONS" EntityType="TaxModel.Store.TAXEXCLUSIONS" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UOPG" EntityType="TaxModel.Store.UOPG" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="VALUETYPES" EntityType="TaxModel.Store.VALUETYPES" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_OPERATORS_VALUETYPES" Association="TaxModel.Store.FK_OPERATORS_VALUETYPES">
+            <End Role="VALUETYPES" EntitySet="VALUETYPES" />
+            <End Role="OPERATORS" EntitySet="OPERATORS" />
+          </AssociationSet>
           <AssociationSet Name="FK_TAX_CHANNEL" Association="TaxModel.Store.FK_TAX_CHANNEL">
-            <End Role="CHANNEL" EntitySet="CHANNEL" />
-            <End Role="TAX" EntitySet="TAX" />
+            <End Role="CHANNELS" EntitySet="CHANNELS" />
+            <End Role="TAXES" EntitySet="TAXES" />
           </AssociationSet>
           <AssociationSet Name="FK_TAX_DISCOUNT" Association="TaxModel.Store.FK_TAX_DISCOUNT">
-            <End Role="DISCOUNT" EntitySet="DISCOUNT" />
-            <End Role="TAX" EntitySet="TAX" />
+            <End Role="DISCOUNTS" EntitySet="DISCOUNTS" />
+            <End Role="TAXES" EntitySet="TAXES" />
           </AssociationSet>
           <AssociationSet Name="FK_TAX_FORMULAS" Association="TaxModel.Store.FK_TAX_FORMULAS">
             <End Role="FORMULAS" EntitySet="FORMULAS" />
-            <End Role="TAX" EntitySet="TAX" />
+            <End Role="TAXES" EntitySet="TAXES" />
           </AssociationSet>
           <AssociationSet Name="FK_TAX_ORDERTYPE" Association="TaxModel.Store.FK_TAX_ORDERTYPE">
-            <End Role="ORDERTYPE" EntitySet="ORDERTYPE" />
-            <End Role="TAX" EntitySet="TAX" />
+            <End Role="ORDERTYPES" EntitySet="ORDERTYPES" />
+            <End Role="TAXES" EntitySet="TAXES" />
           </AssociationSet>
           <AssociationSet Name="FK_TAXCOND_FORMULAS" Association="TaxModel.Store.FK_TAXCOND_FORMULAS">
             <End Role="FORMULAS" EntitySet="FORMULAS" />
-            <End Role="TAXCOND" EntitySet="TAXCOND" />
+            <End Role="TAXCONDS" EntitySet="TAXCONDS" />
           </AssociationSet>
           <AssociationSet Name="FK_TAXCOND_TAX" Association="TaxModel.Store.FK_TAXCOND_TAX">
-            <End Role="TAX" EntitySet="TAX" />
-            <End Role="TAXCOND" EntitySet="TAXCOND" />
+            <End Role="TAXES" EntitySet="TAXES" />
+            <End Role="TAXCONDS" EntitySet="TAXCONDS" />
           </AssociationSet>
           <AssociationSet Name="FK_TAXEXCLUSIONS_ORDERTYPE" Association="TaxModel.Store.FK_TAXEXCLUSIONS_ORDERTYPE">
-            <End Role="ORDERTYPE" EntitySet="ORDERTYPE" />
+            <End Role="ORDERTYPES" EntitySet="ORDERTYPES" />
             <End Role="TAXEXCLUSIONS" EntitySet="TAXEXCLUSIONS" />
           </AssociationSet>
           <AssociationSet Name="FK_TAXEXCLUSIONS_TAXCOND" Association="TaxModel.Store.FK_TAXEXCLUSIONS_TAXCOND">
-            <End Role="TAXCOND" EntitySet="TAXCOND" />
+            <End Role="TAXCONDS" EntitySet="TAXCONDS" />
             <End Role="TAXEXCLUSIONS" EntitySet="TAXEXCLUSIONS" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="CHANNEL">
+        <EntityType Name="CHANNELS">
           <Key>
             <PropertyRef Name="CHANNEL_ID" />
           </Key>
@@ -57,7 +62,7 @@
           <Property Name="CHANNEL_CREATEDATE" Type="datetime" />
           <Property Name="CHANNEL_CODE" Type="varchar" Nullable="false" MaxLength="10" />
         </EntityType>
-        <EntityType Name="DISCOUNT">
+        <EntityType Name="DISCOUNTS">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -77,10 +82,11 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="VALUETYPE_ID" Type="int" Nullable="false" />
           <Property Name="OPERATOR" Type="nvarchar(max)" Nullable="false" />
           <Property Name="VALUE" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
-        <EntityType Name="ORDERTYPE">
+        <EntityType Name="ORDERTYPES">
           <Key>
             <PropertyRef Name="ORDERTYPE_ID" />
           </Key>
@@ -97,7 +103,18 @@
           <Property Name="ORDERTYPE_ORDER_SCHEMA" Type="nvarchar(max)" />
           <Property Name="ORDERTYPE_ORDER_ROOTNAME" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="TAX">
+        <EntityType Name="TAXCONDS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TAX_ID" Type="int" Nullable="false" />
+          <Property Name="FORM_ITEM_NAME" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FORM_ITEM_VALUE" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FORMULA_ID" Type="int" />
+          <Property Name="VALUE_IS_EQUAL" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TAXES">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -111,17 +128,6 @@
           <Property Name="START_DATE" Type="datetime" Nullable="false" />
           <Property Name="END_DATE" Type="datetime" />
           <Property Name="VALUE" Type="decimal" />
-        </EntityType>
-        <EntityType Name="TAXCOND">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="TAX_ID" Type="int" Nullable="false" />
-          <Property Name="FORM_ITEM_NAME" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="FORM_ITEM_VALUE" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="FORMULA_ID" Type="int" />
-          <Property Name="VALUE_IS_EQUAL" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="TAXEXCLUSIONS">
           <Key>
@@ -142,83 +148,102 @@
           <Property Name="Industry" Type="float" Nullable="false" />
           <Property Name="Tourism" Type="float" Nullable="false" />
         </EntityType>
-        <Association Name="FK_TAX_CHANNEL">
-          <End Role="CHANNEL" Type="TaxModel.Store.CHANNEL" Multiplicity="1" />
-          <End Role="TAX" Type="TaxModel.Store.TAX" Multiplicity="*" />
+        <EntityType Name="VALUETYPES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="VALUETYPE" Type="varchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK_OPERATORS_VALUETYPES">
+          <End Role="VALUETYPES" Type="TaxModel.Store.VALUETYPES" Multiplicity="1" />
+          <End Role="OPERATORS" Type="TaxModel.Store.OPERATORS" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="CHANNEL">
+            <Principal Role="VALUETYPES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OPERATORS">
+              <PropertyRef Name="VALUETYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TAX_CHANNEL">
+          <End Role="CHANNELS" Type="TaxModel.Store.CHANNELS" Multiplicity="1" />
+          <End Role="TAXES" Type="TaxModel.Store.TAXES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CHANNELS">
               <PropertyRef Name="CHANNEL_ID" />
             </Principal>
-            <Dependent Role="TAX">
+            <Dependent Role="TAXES">
               <PropertyRef Name="CHANNEL_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TAX_DISCOUNT">
-          <End Role="DISCOUNT" Type="TaxModel.Store.DISCOUNT" Multiplicity="0..1" />
-          <End Role="TAX" Type="TaxModel.Store.TAX" Multiplicity="*" />
+          <End Role="DISCOUNTS" Type="TaxModel.Store.DISCOUNTS" Multiplicity="0..1" />
+          <End Role="TAXES" Type="TaxModel.Store.TAXES" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="DISCOUNT">
+            <Principal Role="DISCOUNTS">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TAX">
+            <Dependent Role="TAXES">
               <PropertyRef Name="DISCOUNT_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TAX_FORMULAS">
           <End Role="FORMULAS" Type="TaxModel.Store.FORMULAS" Multiplicity="0..1" />
-          <End Role="TAX" Type="TaxModel.Store.TAX" Multiplicity="*" />
+          <End Role="TAXES" Type="TaxModel.Store.TAXES" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FORMULAS">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TAX">
+            <Dependent Role="TAXES">
               <PropertyRef Name="FORMULA_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TAX_ORDERTYPE">
-          <End Role="ORDERTYPE" Type="TaxModel.Store.ORDERTYPE" Multiplicity="1" />
-          <End Role="TAX" Type="TaxModel.Store.TAX" Multiplicity="*" />
+          <End Role="ORDERTYPES" Type="TaxModel.Store.ORDERTYPES" Multiplicity="1" />
+          <End Role="TAXES" Type="TaxModel.Store.TAXES" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ORDERTYPE">
+            <Principal Role="ORDERTYPES">
               <PropertyRef Name="ORDERTYPE_ID" />
             </Principal>
-            <Dependent Role="TAX">
+            <Dependent Role="TAXES">
               <PropertyRef Name="ORDERTYPE_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TAXCOND_FORMULAS">
           <End Role="FORMULAS" Type="TaxModel.Store.FORMULAS" Multiplicity="0..1" />
-          <End Role="TAXCOND" Type="TaxModel.Store.TAXCOND" Multiplicity="*" />
+          <End Role="TAXCONDS" Type="TaxModel.Store.TAXCONDS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FORMULAS">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TAXCOND">
+            <Dependent Role="TAXCONDS">
               <PropertyRef Name="FORMULA_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TAXCOND_TAX">
-          <End Role="TAX" Type="TaxModel.Store.TAX" Multiplicity="1" />
-          <End Role="TAXCOND" Type="TaxModel.Store.TAXCOND" Multiplicity="*" />
+          <End Role="TAXES" Type="TaxModel.Store.TAXES" Multiplicity="1" />
+          <End Role="TAXCONDS" Type="TaxModel.Store.TAXCONDS" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TAX">
+            <Principal Role="TAXES">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TAXCOND">
+            <Dependent Role="TAXCONDS">
               <PropertyRef Name="TAX_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TAXEXCLUSIONS_ORDERTYPE">
-          <End Role="ORDERTYPE" Type="TaxModel.Store.ORDERTYPE" Multiplicity="1" />
+          <End Role="ORDERTYPES" Type="TaxModel.Store.ORDERTYPES" Multiplicity="1" />
           <End Role="TAXEXCLUSIONS" Type="TaxModel.Store.TAXEXCLUSIONS" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ORDERTYPE">
+            <Principal Role="ORDERTYPES">
               <PropertyRef Name="ORDERTYPE_ID" />
             </Principal>
             <Dependent Role="TAXEXCLUSIONS">
@@ -227,10 +252,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TAXEXCLUSIONS_TAXCOND">
-          <End Role="TAXCOND" Type="TaxModel.Store.TAXCOND" Multiplicity="1" />
+          <End Role="TAXCONDS" Type="TaxModel.Store.TAXCONDS" Multiplicity="1" />
           <End Role="TAXEXCLUSIONS" Type="TaxModel.Store.TAXEXCLUSIONS" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TAXCOND">
+            <Principal Role="TAXCONDS">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="TAXEXCLUSIONS">
@@ -243,49 +268,54 @@
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="TaxModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
         <EntityContainer Name="TaxModelContainer" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="CHANNEL" EntityType="TaxModel.CHANNEL" />
-          <EntitySet Name="DISCOUNT" EntityType="TaxModel.DISCOUNT" />
+          <EntitySet Name="CHANNELS" EntityType="TaxModel.CHANNELS" />
+          <EntitySet Name="DISCOUNTS" EntityType="TaxModel.DISCOUNTS" />
           <EntitySet Name="FORMULAS" EntityType="TaxModel.FORMULAS" />
           <EntitySet Name="OPERATORS" EntityType="TaxModel.OPERATORS" />
-          <EntitySet Name="ORDERTYPE" EntityType="TaxModel.ORDERTYPE" />
-          <EntitySet Name="TAX" EntityType="TaxModel.TAX" />
-          <EntitySet Name="TAXCOND" EntityType="TaxModel.TAXCOND" />
+          <EntitySet Name="ORDERTYPES" EntityType="TaxModel.ORDERTYPES" />
+          <EntitySet Name="TAXCONDS" EntityType="TaxModel.TAXCONDS" />
+          <EntitySet Name="TAXES" EntityType="TaxModel.TAXES" />
           <EntitySet Name="TAXEXCLUSIONS" EntityType="TaxModel.TAXEXCLUSIONS" />
           <EntitySet Name="UOPG" EntityType="TaxModel.UOPG" />
+          <EntitySet Name="VALUETYPES" EntityType="TaxModel.VALUETYPES" />
           <AssociationSet Name="FK_TAX_CHANNEL" Association="TaxModel.FK_TAX_CHANNEL">
-            <End Role="CHANNEL" EntitySet="CHANNEL" />
-            <End Role="TAX" EntitySet="TAX" />
+            <End Role="CHANNELS" EntitySet="CHANNELS" />
+            <End Role="TAXES" EntitySet="TAXES" />
           </AssociationSet>
           <AssociationSet Name="FK_TAX_DISCOUNT" Association="TaxModel.FK_TAX_DISCOUNT">
-            <End Role="DISCOUNT" EntitySet="DISCOUNT" />
-            <End Role="TAX" EntitySet="TAX" />
+            <End Role="DISCOUNTS" EntitySet="DISCOUNTS" />
+            <End Role="TAXES" EntitySet="TAXES" />
           </AssociationSet>
           <AssociationSet Name="FK_TAX_FORMULAS" Association="TaxModel.FK_TAX_FORMULAS">
             <End Role="FORMULAS" EntitySet="FORMULAS" />
-            <End Role="TAX" EntitySet="TAX" />
+            <End Role="TAXES" EntitySet="TAXES" />
           </AssociationSet>
           <AssociationSet Name="FK_TAXCOND_FORMULAS" Association="TaxModel.FK_TAXCOND_FORMULAS">
             <End Role="FORMULAS" EntitySet="FORMULAS" />
-            <End Role="TAXCOND" EntitySet="TAXCOND" />
+            <End Role="TAXCONDS" EntitySet="TAXCONDS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OPERATORS_VALUETYPES" Association="TaxModel.FK_OPERATORS_VALUETYPES">
+            <End Role="VALUETYPES" EntitySet="VALUETYPES" />
+            <End Role="OPERATORS" EntitySet="OPERATORS" />
           </AssociationSet>
           <AssociationSet Name="FK_TAX_ORDERTYPE" Association="TaxModel.FK_TAX_ORDERTYPE">
-            <End Role="ORDERTYPE" EntitySet="ORDERTYPE" />
-            <End Role="TAX" EntitySet="TAX" />
+            <End Role="ORDERTYPES" EntitySet="ORDERTYPES" />
+            <End Role="TAXES" EntitySet="TAXES" />
           </AssociationSet>
           <AssociationSet Name="FK_TAXEXCLUSIONS_ORDERTYPE" Association="TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE">
-            <End Role="ORDERTYPE" EntitySet="ORDERTYPE" />
+            <End Role="ORDERTYPES" EntitySet="ORDERTYPES" />
             <End Role="TAXEXCLUSIONS" EntitySet="TAXEXCLUSIONS" />
           </AssociationSet>
           <AssociationSet Name="FK_TAXCOND_TAX" Association="TaxModel.FK_TAXCOND_TAX">
-            <End Role="TAX" EntitySet="TAX" />
-            <End Role="TAXCOND" EntitySet="TAXCOND" />
+            <End Role="TAXES" EntitySet="TAXES" />
+            <End Role="TAXCONDS" EntitySet="TAXCONDS" />
           </AssociationSet>
           <AssociationSet Name="FK_TAXEXCLUSIONS_TAXCOND" Association="TaxModel.FK_TAXEXCLUSIONS_TAXCOND">
-            <End Role="TAXCOND" EntitySet="TAXCOND" />
+            <End Role="TAXCONDS" EntitySet="TAXCONDS" />
             <End Role="TAXEXCLUSIONS" EntitySet="TAXEXCLUSIONS" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="CHANNEL">
+        <EntityType Name="CHANNELS">
           <Key>
             <PropertyRef Name="CHANNEL_ID" />
           </Key>
@@ -293,15 +323,15 @@
           <Property Type="String" Name="CHANNEL_DESCRIPTION" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="CHANNEL_CREATEDATE" />
           <Property Type="String" Name="CHANNEL_CODE" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="TAX" Relationship="TaxModel.FK_TAX_CHANNEL" FromRole="CHANNEL" ToRole="TAX" />
+          <NavigationProperty Name="TAXES" Relationship="TaxModel.FK_TAX_CHANNEL" FromRole="CHANNELS" ToRole="TAXES" />
         </EntityType>
-        <EntityType Name="DISCOUNT">
+        <EntityType Name="DISCOUNTS">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Double" Name="VALUE" Nullable="false" />
-          <NavigationProperty Name="TAX" Relationship="TaxModel.FK_TAX_DISCOUNT" FromRole="DISCOUNT" ToRole="TAX" />
+          <NavigationProperty Name="TAXES" Relationship="TaxModel.FK_TAX_DISCOUNT" FromRole="DISCOUNTS" ToRole="TAXES" />
         </EntityType>
         <EntityType Name="FORMULAS">
           <Key>
@@ -310,18 +340,20 @@
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="NAME" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="FORMULA" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TAX" Relationship="TaxModel.FK_TAX_FORMULAS" FromRole="FORMULAS" ToRole="TAX" />
-          <NavigationProperty Name="TAXCOND" Relationship="TaxModel.FK_TAXCOND_FORMULAS" FromRole="FORMULAS" ToRole="TAXCOND" />
+          <NavigationProperty Name="TAXES" Relationship="TaxModel.FK_TAX_FORMULAS" FromRole="FORMULAS" ToRole="TAXES" />
+          <NavigationProperty Name="TAXCONDS" Relationship="TaxModel.FK_TAXCOND_FORMULAS" FromRole="FORMULAS" ToRole="TAXCONDS" />
         </EntityType>
         <EntityType Name="OPERATORS">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="VALUETYPE_ID" Nullable="false" />
           <Property Type="String" Name="OPERATOR" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="VALUE" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="VALUETYPES" Relationship="TaxModel.FK_OPERATORS_VALUETYPES" FromRole="OPERATORS" ToRole="VALUETYPES" />
         </EntityType>
-        <EntityType Name="ORDERTYPE">
+        <EntityType Name="ORDERTYPES">
           <Key>
             <PropertyRef Name="ORDERTYPE_ID" />
           </Key>
@@ -337,10 +369,24 @@
           <Property Type="String" Name="ORDERTYPE_REDIRECT" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ORDERTYPE_ORDER_SCHEMA" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ORDERTYPE_ORDER_ROOTNAME" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TAX" Relationship="TaxModel.FK_TAX_ORDERTYPE" FromRole="ORDERTYPE" ToRole="TAX" />
-          <NavigationProperty Name="TAXEXCLUSIONS" Relationship="TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE" FromRole="ORDERTYPE" ToRole="TAXEXCLUSIONS" />
+          <NavigationProperty Name="TAXES" Relationship="TaxModel.FK_TAX_ORDERTYPE" FromRole="ORDERTYPES" ToRole="TAXES" />
+          <NavigationProperty Name="TAXEXCLUSIONS" Relationship="TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE" FromRole="ORDERTYPES" ToRole="TAXEXCLUSIONS" />
         </EntityType>
-        <EntityType Name="TAX">
+        <EntityType Name="TAXCONDS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="TAX_ID" Nullable="false" />
+          <Property Type="String" Name="FORM_ITEM_NAME" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FORM_ITEM_VALUE" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="FORMULA_ID" />
+          <Property Type="Boolean" Name="VALUE_IS_EQUAL" Nullable="false" />
+          <NavigationProperty Name="FORMULAS" Relationship="TaxModel.FK_TAXCOND_FORMULAS" FromRole="TAXCONDS" ToRole="FORMULAS" />
+          <NavigationProperty Name="TAXES" Relationship="TaxModel.FK_TAXCOND_TAX" FromRole="TAXCONDS" ToRole="TAXES" />
+          <NavigationProperty Name="TAXEXCLUSIONS" Relationship="TaxModel.FK_TAXEXCLUSIONS_TAXCOND" FromRole="TAXCONDS" ToRole="TAXEXCLUSIONS" />
+        </EntityType>
+        <EntityType Name="TAXES">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -354,25 +400,11 @@
           <Property Type="DateTime" Name="START_DATE" Nullable="false" />
           <Property Type="DateTime" Name="END_DATE" />
           <Property Type="Decimal" Name="VALUE" Precision="18" Scale="0" />
-          <NavigationProperty Name="CHANNEL" Relationship="TaxModel.FK_TAX_CHANNEL" FromRole="TAX" ToRole="CHANNEL" />
-          <NavigationProperty Name="DISCOUNT" Relationship="TaxModel.FK_TAX_DISCOUNT" FromRole="TAX" ToRole="DISCOUNT" />
-          <NavigationProperty Name="FORMULAS" Relationship="TaxModel.FK_TAX_FORMULAS" FromRole="TAX" ToRole="FORMULAS" />
-          <NavigationProperty Name="ORDERTYPE" Relationship="TaxModel.FK_TAX_ORDERTYPE" FromRole="TAX" ToRole="ORDERTYPE" />
-          <NavigationProperty Name="TAXCOND" Relationship="TaxModel.FK_TAXCOND_TAX" FromRole="TAX" ToRole="TAXCOND" />
-        </EntityType>
-        <EntityType Name="TAXCOND">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="TAX_ID" Nullable="false" />
-          <Property Type="String" Name="FORM_ITEM_NAME" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="FORM_ITEM_VALUE" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="FORMULA_ID" />
-          <NavigationProperty Name="FORMULAS" Relationship="TaxModel.FK_TAXCOND_FORMULAS" FromRole="TAXCOND" ToRole="FORMULAS" />
-          <NavigationProperty Name="TAX" Relationship="TaxModel.FK_TAXCOND_TAX" FromRole="TAXCOND" ToRole="TAX" />
-          <NavigationProperty Name="TAXEXCLUSIONS" Relationship="TaxModel.FK_TAXEXCLUSIONS_TAXCOND" FromRole="TAXCOND" ToRole="TAXEXCLUSIONS" />
-          <Property Type="Boolean" Name="VALUE_IS_EQUAL" Nullable="false" />
+          <NavigationProperty Name="CHANNELS" Relationship="TaxModel.FK_TAX_CHANNEL" FromRole="TAXES" ToRole="CHANNELS" />
+          <NavigationProperty Name="DISCOUNTS" Relationship="TaxModel.FK_TAX_DISCOUNT" FromRole="TAXES" ToRole="DISCOUNTS" />
+          <NavigationProperty Name="FORMULAS" Relationship="TaxModel.FK_TAX_FORMULAS" FromRole="TAXES" ToRole="FORMULAS" />
+          <NavigationProperty Name="ORDERTYPES" Relationship="TaxModel.FK_TAX_ORDERTYPE" FromRole="TAXES" ToRole="ORDERTYPES" />
+          <NavigationProperty Name="TAXCONDS" Relationship="TaxModel.FK_TAXCOND_TAX" FromRole="TAXES" ToRole="TAXCONDS" />
         </EntityType>
         <EntityType Name="TAXEXCLUSIONS">
           <Key>
@@ -382,8 +414,8 @@
           <Property Type="Int32" Name="ORDERTYPE_ID" Nullable="false" />
           <Property Type="Int32" Name="TAXCOND_ID" Nullable="false" />
           <Property Type="Boolean" Name="FOR_VIEW" Nullable="false" />
-          <NavigationProperty Name="ORDERTYPE" Relationship="TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE" FromRole="TAXEXCLUSIONS" ToRole="ORDERTYPE" />
-          <NavigationProperty Name="TAXCOND" Relationship="TaxModel.FK_TAXEXCLUSIONS_TAXCOND" FromRole="TAXEXCLUSIONS" ToRole="TAXCOND" />
+          <NavigationProperty Name="ORDERTYPES" Relationship="TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE" FromRole="TAXEXCLUSIONS" ToRole="ORDERTYPES" />
+          <NavigationProperty Name="TAXCONDS" Relationship="TaxModel.FK_TAXEXCLUSIONS_TAXCOND" FromRole="TAXEXCLUSIONS" ToRole="TAXCONDS" />
         </EntityType>
         <EntityType Name="UOPG">
           <Key>
@@ -395,71 +427,91 @@
           <Property Type="Double" Name="Industry" Nullable="false" />
           <Property Type="Double" Name="Tourism" Nullable="false" />
         </EntityType>
+        <EntityType Name="VALUETYPES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="VALUETYPE" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OPERATORS" Relationship="TaxModel.FK_OPERATORS_VALUETYPES" FromRole="VALUETYPES" ToRole="OPERATORS" />
+        </EntityType>
         <Association Name="FK_TAX_CHANNEL">
-          <End Type="TaxModel.CHANNEL" Role="CHANNEL" Multiplicity="1" />
-          <End Type="TaxModel.TAX" Role="TAX" Multiplicity="*" />
+          <End Type="TaxModel.CHANNELS" Role="CHANNELS" Multiplicity="1" />
+          <End Type="TaxModel.TAXES" Role="TAXES" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="CHANNEL">
+            <Principal Role="CHANNELS">
               <PropertyRef Name="CHANNEL_ID" />
             </Principal>
-            <Dependent Role="TAX">
+            <Dependent Role="TAXES">
               <PropertyRef Name="CHANNEL_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TAX_DISCOUNT">
-          <End Type="TaxModel.DISCOUNT" Role="DISCOUNT" Multiplicity="0..1" />
-          <End Type="TaxModel.TAX" Role="TAX" Multiplicity="*" />
+          <End Type="TaxModel.DISCOUNTS" Role="DISCOUNTS" Multiplicity="0..1" />
+          <End Type="TaxModel.TAXES" Role="TAXES" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="DISCOUNT">
+            <Principal Role="DISCOUNTS">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TAX">
+            <Dependent Role="TAXES">
               <PropertyRef Name="DISCOUNT_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TAX_FORMULAS">
           <End Type="TaxModel.FORMULAS" Role="FORMULAS" Multiplicity="0..1" />
-          <End Type="TaxModel.TAX" Role="TAX" Multiplicity="*" />
+          <End Type="TaxModel.TAXES" Role="TAXES" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FORMULAS">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TAX">
+            <Dependent Role="TAXES">
               <PropertyRef Name="FORMULA_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TAXCOND_FORMULAS">
           <End Type="TaxModel.FORMULAS" Role="FORMULAS" Multiplicity="0..1" />
-          <End Type="TaxModel.TAXCOND" Role="TAXCOND" Multiplicity="*" />
+          <End Type="TaxModel.TAXCONDS" Role="TAXCONDS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FORMULAS">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TAXCOND">
+            <Dependent Role="TAXCONDS">
               <PropertyRef Name="FORMULA_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TAX_ORDERTYPE">
-          <End Type="TaxModel.ORDERTYPE" Role="ORDERTYPE" Multiplicity="1" />
-          <End Type="TaxModel.TAX" Role="TAX" Multiplicity="*" />
+        <Association Name="FK_OPERATORS_VALUETYPES">
+          <End Type="TaxModel.VALUETYPES" Role="VALUETYPES" Multiplicity="1" />
+          <End Type="TaxModel.OPERATORS" Role="OPERATORS" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ORDERTYPE">
+            <Principal Role="VALUETYPES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OPERATORS">
+              <PropertyRef Name="VALUETYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TAX_ORDERTYPE">
+          <End Type="TaxModel.ORDERTYPES" Role="ORDERTYPES" Multiplicity="1" />
+          <End Type="TaxModel.TAXES" Role="TAXES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDERTYPES">
               <PropertyRef Name="ORDERTYPE_ID" />
             </Principal>
-            <Dependent Role="TAX">
+            <Dependent Role="TAXES">
               <PropertyRef Name="ORDERTYPE_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TAXEXCLUSIONS_ORDERTYPE">
-          <End Type="TaxModel.ORDERTYPE" Role="ORDERTYPE" Multiplicity="1" />
+          <End Type="TaxModel.ORDERTYPES" Role="ORDERTYPES" Multiplicity="1" />
           <End Type="TaxModel.TAXEXCLUSIONS" Role="TAXEXCLUSIONS" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ORDERTYPE">
+            <Principal Role="ORDERTYPES">
               <PropertyRef Name="ORDERTYPE_ID" />
             </Principal>
             <Dependent Role="TAXEXCLUSIONS">
@@ -468,22 +520,22 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TAXCOND_TAX">
-          <End Type="TaxModel.TAX" Role="TAX" Multiplicity="1" />
-          <End Type="TaxModel.TAXCOND" Role="TAXCOND" Multiplicity="*" />
+          <End Type="TaxModel.TAXES" Role="TAXES" Multiplicity="1" />
+          <End Type="TaxModel.TAXCONDS" Role="TAXCONDS" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TAX">
+            <Principal Role="TAXES">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TAXCOND">
+            <Dependent Role="TAXCONDS">
               <PropertyRef Name="TAX_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TAXEXCLUSIONS_TAXCOND">
-          <End Type="TaxModel.TAXCOND" Role="TAXCOND" Multiplicity="1" />
+          <End Type="TaxModel.TAXCONDS" Role="TAXCONDS" Multiplicity="1" />
           <End Type="TaxModel.TAXEXCLUSIONS" Role="TAXEXCLUSIONS" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TAXCOND">
+            <Principal Role="TAXCONDS">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="TAXEXCLUSIONS">
@@ -497,9 +549,9 @@
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="TaxModelStoreContainer" CdmEntityContainer="TaxModelContainer">
-          <EntitySetMapping Name="CHANNEL">
-            <EntityTypeMapping TypeName="TaxModel.CHANNEL">
-              <MappingFragment StoreEntitySet="CHANNEL">
+          <EntitySetMapping Name="CHANNELS">
+            <EntityTypeMapping TypeName="TaxModel.CHANNELS">
+              <MappingFragment StoreEntitySet="CHANNELS">
                 <ScalarProperty Name="CHANNEL_CODE" ColumnName="CHANNEL_CODE" />
                 <ScalarProperty Name="CHANNEL_CREATEDATE" ColumnName="CHANNEL_CREATEDATE" />
                 <ScalarProperty Name="CHANNEL_DESCRIPTION" ColumnName="CHANNEL_DESCRIPTION" />
@@ -507,9 +559,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DISCOUNT">
-            <EntityTypeMapping TypeName="TaxModel.DISCOUNT">
-              <MappingFragment StoreEntitySet="DISCOUNT">
+          <EntitySetMapping Name="DISCOUNTS">
+            <EntityTypeMapping TypeName="TaxModel.DISCOUNTS">
+              <MappingFragment StoreEntitySet="DISCOUNTS">
                 <ScalarProperty Name="VALUE" ColumnName="VALUE" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -529,13 +581,14 @@
               <MappingFragment StoreEntitySet="OPERATORS">
                 <ScalarProperty Name="VALUE" ColumnName="VALUE" />
                 <ScalarProperty Name="OPERATOR" ColumnName="OPERATOR" />
+                <ScalarProperty Name="VALUETYPE_ID" ColumnName="VALUETYPE_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ORDERTYPE">
-            <EntityTypeMapping TypeName="TaxModel.ORDERTYPE">
-              <MappingFragment StoreEntitySet="ORDERTYPE">
+          <EntitySetMapping Name="ORDERTYPES">
+            <EntityTypeMapping TypeName="TaxModel.ORDERTYPES">
+              <MappingFragment StoreEntitySet="ORDERTYPES">
                 <ScalarProperty Name="ORDERTYPE_ORDER_ROOTNAME" ColumnName="ORDERTYPE_ORDER_ROOTNAME" />
                 <ScalarProperty Name="ORDERTYPE_ORDER_SCHEMA" ColumnName="ORDERTYPE_ORDER_SCHEMA" />
                 <ScalarProperty Name="ORDERTYPE_REDIRECT" ColumnName="ORDERTYPE_REDIRECT" />
@@ -551,9 +604,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TAX">
-            <EntityTypeMapping TypeName="TaxModel.TAX">
-              <MappingFragment StoreEntitySet="TAX">
+          <EntitySetMapping Name="TAXCONDS">
+            <EntityTypeMapping TypeName="TaxModel.TAXCONDS">
+              <MappingFragment StoreEntitySet="TAXCONDS">
+                <ScalarProperty Name="VALUE_IS_EQUAL" ColumnName="VALUE_IS_EQUAL" />
+                <ScalarProperty Name="FORMULA_ID" ColumnName="FORMULA_ID" />
+                <ScalarProperty Name="FORM_ITEM_VALUE" ColumnName="FORM_ITEM_VALUE" />
+                <ScalarProperty Name="FORM_ITEM_NAME" ColumnName="FORM_ITEM_NAME" />
+                <ScalarProperty Name="TAX_ID" ColumnName="TAX_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TAXES">
+            <EntityTypeMapping TypeName="TaxModel.TAXES">
+              <MappingFragment StoreEntitySet="TAXES">
                 <ScalarProperty Name="VALUE" ColumnName="VALUE" />
                 <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />
                 <ScalarProperty Name="START_DATE" ColumnName="START_DATE" />
@@ -563,18 +628,6 @@
                 <ScalarProperty Name="CHANNEL_ID" ColumnName="CHANNEL_ID" />
                 <ScalarProperty Name="DISCOUNT_ID" ColumnName="DISCOUNT_ID" />
                 <ScalarProperty Name="ORDERTYPE_ID" ColumnName="ORDERTYPE_ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TAXCOND">
-            <EntityTypeMapping TypeName="TaxModel.TAXCOND">
-              <MappingFragment StoreEntitySet="TAXCOND">
-                <ScalarProperty Name="VALUE_IS_EQUAL" ColumnName="VALUE_IS_EQUAL" />
-                <ScalarProperty Name="FORMULA_ID" ColumnName="FORMULA_ID" />
-                <ScalarProperty Name="FORM_ITEM_VALUE" ColumnName="FORM_ITEM_VALUE" />
-                <ScalarProperty Name="FORM_ITEM_NAME" ColumnName="FORM_ITEM_NAME" />
-                <ScalarProperty Name="TAX_ID" ColumnName="TAX_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -600,6 +653,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="VALUETYPES">
+            <EntityTypeMapping TypeName="TaxModel.VALUETYPES">
+              <MappingFragment StoreEntitySet="VALUETYPES">
+                <ScalarProperty Name="VALUETYPE" ColumnName="VALUETYPE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -620,42 +681,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram Name="TaxModel" >
-        <AssociationConnector Association="TaxModel.FK_TAX_CHANNEL" >
-          <ConnectorPoint PointX="2.25" PointY="7.4730843098958335" />
-          <ConnectorPoint PointX="4.40625" PointY="7.4730843098958335" />
-          <ConnectorPoint PointX="4.40625" PointY="4.1340950520833326" />
-        </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_DISCOUNT_TAX" >
           <ConnectorPoint PointX="5.09375" PointY="5.625" />
           <ConnectorPoint PointX="5.09375" PointY="1.28125" />
           <ConnectorPoint PointX="4.5" PointY="1.28125" />
-        </AssociationConnector>
-        <AssociationConnector Association="TaxModel.FK_TAX_ORDERTYPE" >
-          <ConnectorPoint PointX="2.25" PointY="2.6295475260416663" />
-          <ConnectorPoint PointX="3" PointY="2.6295475260416663" />
-        </AssociationConnector>
-        <AssociationConnector Association="TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE" >
-          <ConnectorPoint PointX="2.25" PointY="4.3239957682291656" />
-          <ConnectorPoint PointX="3.5416666666666665" PointY="4.3239957682291648" />
-          <ConnectorPoint PointX="3.7083333333333335" PointY="4.3239957682291656" />
-          <ConnectorPoint PointX="4.322916666666667" PointY="4.3239957682291648" />
-          <ConnectorPoint PointX="4.489583333333333" PointY="4.3239957682291656" />
-          <ConnectorPoint PointX="5.010416666666667" PointY="4.3239957682291648" />
-          <ConnectorPoint PointX="5.177083333333333" PointY="4.3239957682291656" />
-          <ConnectorPoint PointX="6.572916666666667" PointY="4.3239957682291648" />
-          <ConnectorPoint PointX="6.739583333333333" PointY="4.3239957682291656" />
-          <ConnectorPoint PointX="8.25" PointY="4.3239957682291656" />
-          <ConnectorPoint PointX="8.25" PointY="3.7302864583333331" />
-        </AssociationConnector>
-        <AssociationConnector Association="TaxModel.FK_TAXCOND_TAX" >
-          <ConnectorPoint PointX="4.5" PointY="2.6151432291666667" />
-          <ConnectorPoint PointX="5.010416666666667" PointY="2.6151432291666663" />
-          <ConnectorPoint PointX="5.177083333333333" PointY="2.6151432291666667" />
-          <ConnectorPoint PointX="5.25" PointY="2.6151432291666667" />
-        </AssociationConnector>
-        <AssociationConnector Association="TaxModel.FK_TAXEXCLUSIONS_TAXCOND" >
-          <ConnectorPoint PointX="6.75" PointY="2.6776432291666667" />
-          <ConnectorPoint PointX="7.5" PointY="2.6776432291666667" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.TAXFORMULAS">
           <ConnectorPoint PointX="3.625" PointY="4.1340950520833326" />
@@ -710,53 +739,68 @@
           <ConnectorPoint PointX="6.75" PointY="2.6439925130208337" />
           <ConnectorPoint PointX="7.5" PointY="2.6439925130208337" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="TaxModel.CHANNEL" Width="1.5" PointX="7.25" PointY="5.75" Height="1.9802864583333317" />
-        <EntityTypeShape EntityType="TaxModel.DISCOUNT" Width="1.5" PointX="2.875" PointY="3.875" Height="1.5956835937500031" />
-        <EntityTypeShape EntityType="TaxModel.FORMULAS" Width="1.5" PointX="2.375" PointY="1.125" Height="1.9802864583333317" />
-        <EntityTypeShape EntityType="TaxModel.OPERATORS" Width="1.5" PointX="1.25" PointY="6.375" Height="1.5956835937500031" />
-        <EntityTypeShape EntityType="TaxModel.ORDERTYPE" Width="1.5" PointX="5.125" PointY="5" Height="3.7109993489583388" />
-        <EntityTypeShape EntityType="TaxModel.TAX" Width="1.5" PointX="7.25" PointY="1.125" Height="3.9033007812499956" />
-        <EntityTypeShape EntityType="TaxModel.TAXCOND" Width="1.5" PointX="0.5" PointY="1.125" Height="2.5571907552083388" />
-        <EntityTypeShape EntityType="TaxModel.TAXEXCLUSIONS" Width="1.5" PointX="0.5" PointY="4.125" Height="2.172587890624996" />
-        <EntityTypeShape EntityType="TaxModel.UOPG" Width="1.5" PointX="3.375" PointY="6.25" Height="1.9802864583333388" />
+        <EntityTypeShape EntityType="TaxModel.CHANNELS" Width="1.5" PointX="0.75" PointY="5.75" Height="1.9802864583333388" />
+        <EntityTypeShape EntityType="TaxModel.DISCOUNTS" Width="1.5" PointX="0.75" PointY="8.375" Height="1.595683593749996" />
+        <EntityTypeShape EntityType="TaxModel.FORMULAS" Width="1.5" PointX="0.75" PointY="2" Height="1.9802864583333388" />
+        <EntityTypeShape EntityType="TaxModel.OPERATORS" Width="1.5" PointX="5" PointY="5.875" Height="1.9802864583333246" />
+        <EntityTypeShape EntityType="TaxModel.ORDERTYPES" Width="1.5" PointX="0.75" PointY="10.75" Height="3.7109993489583388" />
+        <EntityTypeShape EntityType="TaxModel.TAXCONDS" Width="1.5" PointX="5.25" PointY="1.625" Height="2.7494921875000102" />
+        <EntityTypeShape EntityType="TaxModel.TAXES" Width="1.5" PointX="3" PointY="1" Height="3.9033007812500107" />
+        <EntityTypeShape EntityType="TaxModel.TAXEXCLUSIONS" Width="1.5" PointX="7.5" PointY="1.875" Height="2.1725878906250102" />
+        <EntityTypeShape EntityType="TaxModel.UOPG" Width="1.5" PointX="7.75" PointY="5.75" Height="1.9802864583333246" />
+        <EntityTypeShape EntityType="TaxModel.VALUETYPES" Width="1.5" PointX="2.75" PointY="6.125" Height="1.595683593749996" />
         <AssociationConnector Association="TaxModel.FK_TAX_CHANNEL" >
-          <ConnectorPoint PointX="8" PointY="5.75" />
-          <ConnectorPoint PointX="8" PointY="5.028300781249996" />
+          <ConnectorPoint PointX="2.25" PointY="5.90625" />
+          <ConnectorPoint PointX="4.40625" PointY="5.90625" />
+          <ConnectorPoint PointX="4.40625" PointY="4.90330078125001" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAX_DISCOUNT" >
-          <ConnectorPoint PointX="4.375" PointY="4.40625" />
-          <ConnectorPoint PointX="5.791666666666667" PointY="4.4062499999999991" />
-          <ConnectorPoint PointX="5.958333333333333" PointY="4.40625" />
-          <ConnectorPoint PointX="7.25" PointY="4.40625" />
+          <ConnectorPoint PointX="2.25" PointY="9.172841796874998" />
+          <ConnectorPoint PointX="4.3749975" PointY="9.172841796874998" />
+          <ConnectorPoint PointX="4.3749975" PointY="4.90330078125001" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAX_FORMULAS" >
-          <ConnectorPoint PointX="3.875" PointY="2.1151432291666659" />
-          <ConnectorPoint PointX="7.25" PointY="2.1151432291666659" />
+          <ConnectorPoint PointX="2.25" PointY="2.9901432291666694" />
+          <ConnectorPoint PointX="2.6666666666666665" PointY="2.990143229166669" />
+          <ConnectorPoint PointX="2.8333333333333335" PointY="2.9901432291666694" />
+          <ConnectorPoint PointX="3" PointY="2.9901432291666694" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAXCOND_FORMULAS" >
-          <ConnectorPoint PointX="2.375" PointY="2.1151432291666659" />
-          <ConnectorPoint PointX="2" PointY="2.1151432291666659" />
+          <ConnectorPoint PointX="2.25" PointY="2.4638196145833411" />
+          <ConnectorPoint PointX="2.75" PointY="2.4638196145833411" />
+          <ConnectorPoint PointX="2.75" PointY="5.15330078125001" />
+          <ConnectorPoint PointX="4.2916641666666671" PointY="5.1533007812500093" />
+          <ConnectorPoint PointX="4.5208358333333329" PointY="5.15330078125001" />
+          <ConnectorPoint PointX="6" PointY="5.15330078125001" />
+          <ConnectorPoint PointX="6" PointY="4.37449218750001" />
+        </AssociationConnector>
+        <AssociationConnector Association="TaxModel.FK_OPERATORS_VALUETYPES" >
+          <ConnectorPoint PointX="4.25" PointY="6.922841796874998" />
+          <ConnectorPoint PointX="4.2916641666666671" PointY="6.9228417968749971" />
+          <ConnectorPoint PointX="4.5208358333333329" PointY="6.922841796874998" />
+          <ConnectorPoint PointX="5" PointY="6.922841796874998" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAX_ORDERTYPE" >
-          <ConnectorPoint PointX="5.875" PointY="5" />
-          <ConnectorPoint PointX="5.875" PointY="2.6908040364583323" />
-          <ConnectorPoint PointX="7.25" PointY="2.6908040364583323" />
+          <ConnectorPoint PointX="2.25" PointY="12.605499674479169" />
+          <ConnectorPoint PointX="4.4375025" PointY="12.605499674479169" />
+          <ConnectorPoint PointX="4.4375025" PointY="4.90330078125001" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE" >
-          <ConnectorPoint PointX="5.125" PointY="5.8603417968750016" />
-          <ConnectorPoint PointX="2" PointY="5.8603417968750016" />
+          <ConnectorPoint PointX="2.25" PointY="11.646497337239591" />
+          <ConnectorPoint PointX="4.3541691666666669" PointY="11.646497337239591" />
+          <ConnectorPoint PointX="4.5208358333333329" PointY="11.646497337239591" />
+          <ConnectorPoint PointX="7.59375" PointY="11.646497337239591" />
+          <ConnectorPoint PointX="7.59375" PointY="4.04758789062501" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAXCOND_TAX" >
-          <ConnectorPoint PointX="7.25" PointY="3.5211393229166656" />
-          <ConnectorPoint PointX="5.958333333333333" PointY="3.5211393229166652" />
-          <ConnectorPoint PointX="5.791666666666667" PointY="3.5211393229166656" />
-          <ConnectorPoint PointX="2" PointY="3.5211393229166656" />
+          <ConnectorPoint PointX="4.5" PointY="2.9997460937500051" />
+          <ConnectorPoint PointX="5.25" PointY="2.9997460937500051" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAXEXCLUSIONS_TAXCOND" >
-          <ConnectorPoint PointX="1.25" PointY="3.8744921875" />
-          <ConnectorPoint PointX="1.25" PointY="4.125" />
+          <ConnectorPoint PointX="6.75" PointY="2.9612939453125051" />
+          <ConnectorPoint PointX="7.5" PointY="2.9612939453125051" />
         </AssociationConnector>
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

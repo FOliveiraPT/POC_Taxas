@@ -19,14 +19,15 @@ using System.Xml.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_CHANNEL", "CHANNEL", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.CHANNEL), "TAX", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAX), true)]
-[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_DISCOUNT", "DISCOUNT", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(POC.DataBase.DISCOUNT), "TAX", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAX), true)]
-[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_FORMULAS", "FORMULAS", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(POC.DataBase.FORMULAS), "TAX", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAX), true)]
-[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAXCOND_FORMULAS", "FORMULAS", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(POC.DataBase.FORMULAS), "TAXCOND", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXCOND), true)]
-[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_ORDERTYPE", "ORDERTYPE", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.ORDERTYPE), "TAX", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAX), true)]
-[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPE", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.ORDERTYPE), "TAXEXCLUSIONS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXEXCLUSIONS), true)]
-[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAXCOND_TAX", "TAX", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.TAX), "TAXCOND", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXCOND), true)]
-[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAXEXCLUSIONS_TAXCOND", "TAXCOND", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.TAXCOND), "TAXEXCLUSIONS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXEXCLUSIONS), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_CHANNEL", "CHANNELS", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.CHANNELS), "TAXES", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXES), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_DISCOUNT", "DISCOUNTS", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(POC.DataBase.DISCOUNTS), "TAXES", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXES), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_FORMULAS", "FORMULAS", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(POC.DataBase.FORMULAS), "TAXES", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXES), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAXCOND_FORMULAS", "FORMULAS", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(POC.DataBase.FORMULAS), "TAXCONDS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXCONDS), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_OPERATORS_VALUETYPES", "VALUETYPES", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.VALUETYPES), "OPERATORS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.OPERATORS), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_ORDERTYPE", "ORDERTYPES", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.ORDERTYPES), "TAXES", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXES), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPES", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.ORDERTYPES), "TAXEXCLUSIONS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXEXCLUSIONS), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAXCOND_TAX", "TAXES", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.TAXES), "TAXCONDS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXCONDS), true)]
+[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAXEXCLUSIONS_TAXCOND", "TAXCONDS", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.TAXCONDS), "TAXEXCLUSIONS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXEXCLUSIONS), true)]
 
 #endregion
 
@@ -81,34 +82,34 @@ namespace POC.DataBase
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<CHANNEL> CHANNEL
+        public ObjectSet<CHANNELS> CHANNELS
         {
             get
             {
-                if ((_CHANNEL == null))
+                if ((_CHANNELS == null))
                 {
-                    _CHANNEL = base.CreateObjectSet<CHANNEL>("CHANNEL");
+                    _CHANNELS = base.CreateObjectSet<CHANNELS>("CHANNELS");
                 }
-                return _CHANNEL;
+                return _CHANNELS;
             }
         }
-        private ObjectSet<CHANNEL> _CHANNEL;
+        private ObjectSet<CHANNELS> _CHANNELS;
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<DISCOUNT> DISCOUNT
+        public ObjectSet<DISCOUNTS> DISCOUNTS
         {
             get
             {
-                if ((_DISCOUNT == null))
+                if ((_DISCOUNTS == null))
                 {
-                    _DISCOUNT = base.CreateObjectSet<DISCOUNT>("DISCOUNT");
+                    _DISCOUNTS = base.CreateObjectSet<DISCOUNTS>("DISCOUNTS");
                 }
-                return _DISCOUNT;
+                return _DISCOUNTS;
             }
         }
-        private ObjectSet<DISCOUNT> _DISCOUNT;
+        private ObjectSet<DISCOUNTS> _DISCOUNTS;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -145,50 +146,50 @@ namespace POC.DataBase
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<ORDERTYPE> ORDERTYPE
+        public ObjectSet<ORDERTYPES> ORDERTYPES
         {
             get
             {
-                if ((_ORDERTYPE == null))
+                if ((_ORDERTYPES == null))
                 {
-                    _ORDERTYPE = base.CreateObjectSet<ORDERTYPE>("ORDERTYPE");
+                    _ORDERTYPES = base.CreateObjectSet<ORDERTYPES>("ORDERTYPES");
                 }
-                return _ORDERTYPE;
+                return _ORDERTYPES;
             }
         }
-        private ObjectSet<ORDERTYPE> _ORDERTYPE;
+        private ObjectSet<ORDERTYPES> _ORDERTYPES;
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<TAX> TAX
+        public ObjectSet<TAXCONDS> TAXCONDS
         {
             get
             {
-                if ((_TAX == null))
+                if ((_TAXCONDS == null))
                 {
-                    _TAX = base.CreateObjectSet<TAX>("TAX");
+                    _TAXCONDS = base.CreateObjectSet<TAXCONDS>("TAXCONDS");
                 }
-                return _TAX;
+                return _TAXCONDS;
             }
         }
-        private ObjectSet<TAX> _TAX;
+        private ObjectSet<TAXCONDS> _TAXCONDS;
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<TAXCOND> TAXCOND
+        public ObjectSet<TAXES> TAXES
         {
             get
             {
-                if ((_TAXCOND == null))
+                if ((_TAXES == null))
                 {
-                    _TAXCOND = base.CreateObjectSet<TAXCOND>("TAXCOND");
+                    _TAXES = base.CreateObjectSet<TAXES>("TAXES");
                 }
-                return _TAXCOND;
+                return _TAXES;
             }
         }
-        private ObjectSet<TAXCOND> _TAXCOND;
+        private ObjectSet<TAXES> _TAXES;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -221,25 +222,41 @@ namespace POC.DataBase
             }
         }
         private ObjectSet<UOPG> _UOPG;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<VALUETYPES> VALUETYPES
+        {
+            get
+            {
+                if ((_VALUETYPES == null))
+                {
+                    _VALUETYPES = base.CreateObjectSet<VALUETYPES>("VALUETYPES");
+                }
+                return _VALUETYPES;
+            }
+        }
+        private ObjectSet<VALUETYPES> _VALUETYPES;
 
         #endregion
 
         #region AddTo Methods
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the CHANNEL EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the CHANNELS EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToCHANNEL(CHANNEL cHANNEL)
+        public void AddToCHANNELS(CHANNELS cHANNELS)
         {
-            base.AddObject("CHANNEL", cHANNEL);
+            base.AddObject("CHANNELS", cHANNELS);
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the DISCOUNT EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the DISCOUNTS EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToDISCOUNT(DISCOUNT dISCOUNT)
+        public void AddToDISCOUNTS(DISCOUNTS dISCOUNTS)
         {
-            base.AddObject("DISCOUNT", dISCOUNT);
+            base.AddObject("DISCOUNTS", dISCOUNTS);
         }
     
         /// <summary>
@@ -259,27 +276,27 @@ namespace POC.DataBase
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the ORDERTYPE EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the ORDERTYPES EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToORDERTYPE(ORDERTYPE oRDERTYPE)
+        public void AddToORDERTYPES(ORDERTYPES oRDERTYPES)
         {
-            base.AddObject("ORDERTYPE", oRDERTYPE);
+            base.AddObject("ORDERTYPES", oRDERTYPES);
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the TAX EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the TAXCONDS EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToTAX(TAX tAX)
+        public void AddToTAXCONDS(TAXCONDS tAXCONDS)
         {
-            base.AddObject("TAX", tAX);
+            base.AddObject("TAXCONDS", tAXCONDS);
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the TAXCOND EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the TAXES EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToTAXCOND(TAXCOND tAXCOND)
+        public void AddToTAXES(TAXES tAXES)
         {
-            base.AddObject("TAXCOND", tAXCOND);
+            base.AddObject("TAXES", tAXES);
         }
     
         /// <summary>
@@ -297,6 +314,14 @@ namespace POC.DataBase
         {
             base.AddObject("UOPG", uOPG);
         }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the VALUETYPES EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToVALUETYPES(VALUETYPES vALUETYPES)
+        {
+            base.AddObject("VALUETYPES", vALUETYPES);
+        }
 
         #endregion
 
@@ -309,24 +334,24 @@ namespace POC.DataBase
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="CHANNEL")]
+    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="CHANNELS")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class CHANNEL : EntityObject
+    public partial class CHANNELS : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new CHANNEL object.
+        /// Create a new CHANNELS object.
         /// </summary>
         /// <param name="cHANNEL_ID">Initial value of the CHANNEL_ID property.</param>
         /// <param name="cHANNEL_CODE">Initial value of the CHANNEL_CODE property.</param>
-        public static CHANNEL CreateCHANNEL(global::System.Int32 cHANNEL_ID, global::System.String cHANNEL_CODE)
+        public static CHANNELS CreateCHANNELS(global::System.Int32 cHANNEL_ID, global::System.String cHANNEL_CODE)
         {
-            CHANNEL cHANNEL = new CHANNEL();
-            cHANNEL.CHANNEL_ID = cHANNEL_ID;
-            cHANNEL.CHANNEL_CODE = cHANNEL_CODE;
-            return cHANNEL;
+            CHANNELS cHANNELS = new CHANNELS();
+            cHANNELS.CHANNEL_ID = cHANNEL_ID;
+            cHANNELS.CHANNEL_CODE = cHANNEL_CODE;
+            return cHANNELS;
         }
 
         #endregion
@@ -443,18 +468,18 @@ namespace POC.DataBase
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_CHANNEL", "TAX")]
-        public EntityCollection<TAX> TAX
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_CHANNEL", "TAXES")]
+        public EntityCollection<TAXES> TAXES
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAX>("TaxModel.FK_TAX_CHANNEL", "TAX");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAXES>("TaxModel.FK_TAX_CHANNEL", "TAXES");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAX>("TaxModel.FK_TAX_CHANNEL", "TAX", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAXES>("TaxModel.FK_TAX_CHANNEL", "TAXES", value);
                 }
             }
         }
@@ -466,24 +491,24 @@ namespace POC.DataBase
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="DISCOUNT")]
+    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="DISCOUNTS")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class DISCOUNT : EntityObject
+    public partial class DISCOUNTS : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new DISCOUNT object.
+        /// Create a new DISCOUNTS object.
         /// </summary>
         /// <param name="id">Initial value of the ID property.</param>
         /// <param name="vALUE">Initial value of the VALUE property.</param>
-        public static DISCOUNT CreateDISCOUNT(global::System.Int32 id, global::System.Double vALUE)
+        public static DISCOUNTS CreateDISCOUNTS(global::System.Int32 id, global::System.Double vALUE)
         {
-            DISCOUNT dISCOUNT = new DISCOUNT();
-            dISCOUNT.ID = id;
-            dISCOUNT.VALUE = vALUE;
-            return dISCOUNT;
+            DISCOUNTS dISCOUNTS = new DISCOUNTS();
+            dISCOUNTS.ID = id;
+            dISCOUNTS.VALUE = vALUE;
+            return dISCOUNTS;
         }
 
         #endregion
@@ -552,18 +577,18 @@ namespace POC.DataBase
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_DISCOUNT", "TAX")]
-        public EntityCollection<TAX> TAX
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_DISCOUNT", "TAXES")]
+        public EntityCollection<TAXES> TAXES
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAX>("TaxModel.FK_TAX_DISCOUNT", "TAX");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAXES>("TaxModel.FK_TAX_DISCOUNT", "TAXES");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAX>("TaxModel.FK_TAX_DISCOUNT", "TAX", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAXES>("TaxModel.FK_TAX_DISCOUNT", "TAXES", value);
                 }
             }
         }
@@ -687,18 +712,18 @@ namespace POC.DataBase
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_FORMULAS", "TAX")]
-        public EntityCollection<TAX> TAX
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_FORMULAS", "TAXES")]
+        public EntityCollection<TAXES> TAXES
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAX>("TaxModel.FK_TAX_FORMULAS", "TAX");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAXES>("TaxModel.FK_TAX_FORMULAS", "TAXES");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAX>("TaxModel.FK_TAX_FORMULAS", "TAX", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAXES>("TaxModel.FK_TAX_FORMULAS", "TAXES", value);
                 }
             }
         }
@@ -709,18 +734,18 @@ namespace POC.DataBase
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXCOND_FORMULAS", "TAXCOND")]
-        public EntityCollection<TAXCOND> TAXCOND
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXCOND_FORMULAS", "TAXCONDS")]
+        public EntityCollection<TAXCONDS> TAXCONDS
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAXCOND>("TaxModel.FK_TAXCOND_FORMULAS", "TAXCOND");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAXCONDS>("TaxModel.FK_TAXCOND_FORMULAS", "TAXCONDS");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAXCOND>("TaxModel.FK_TAXCOND_FORMULAS", "TAXCOND", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAXCONDS>("TaxModel.FK_TAXCOND_FORMULAS", "TAXCONDS", value);
                 }
             }
         }
@@ -743,12 +768,14 @@ namespace POC.DataBase
         /// Create a new OPERATORS object.
         /// </summary>
         /// <param name="id">Initial value of the ID property.</param>
+        /// <param name="vALUETYPE_ID">Initial value of the VALUETYPE_ID property.</param>
         /// <param name="oPERATOR">Initial value of the OPERATOR property.</param>
         /// <param name="vALUE">Initial value of the VALUE property.</param>
-        public static OPERATORS CreateOPERATORS(global::System.Int32 id, global::System.String oPERATOR, global::System.String vALUE)
+        public static OPERATORS CreateOPERATORS(global::System.Int32 id, global::System.Int32 vALUETYPE_ID, global::System.String oPERATOR, global::System.String vALUE)
         {
             OPERATORS oPERATORS = new OPERATORS();
             oPERATORS.ID = id;
+            oPERATORS.VALUETYPE_ID = vALUETYPE_ID;
             oPERATORS.OPERATOR = oPERATOR;
             oPERATORS.VALUE = vALUE;
             return oPERATORS;
@@ -784,6 +811,30 @@ namespace POC.DataBase
         private global::System.Int32 _ID;
         partial void OnIDChanging(global::System.Int32 value);
         partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 VALUETYPE_ID
+        {
+            get
+            {
+                return _VALUETYPE_ID;
+            }
+            set
+            {
+                OnVALUETYPE_IDChanging(value);
+                ReportPropertyChanging("VALUETYPE_ID");
+                _VALUETYPE_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("VALUETYPE_ID");
+                OnVALUETYPE_IDChanged();
+            }
+        }
+        private global::System.Int32 _VALUETYPE_ID;
+        partial void OnVALUETYPE_IDChanging(global::System.Int32 value);
+        partial void OnVALUETYPE_IDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -836,29 +887,71 @@ namespace POC.DataBase
         #endregion
 
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_OPERATORS_VALUETYPES", "VALUETYPES")]
+        public VALUETYPES VALUETYPES
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<VALUETYPES>("TaxModel.FK_OPERATORS_VALUETYPES", "VALUETYPES").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<VALUETYPES>("TaxModel.FK_OPERATORS_VALUETYPES", "VALUETYPES").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<VALUETYPES> VALUETYPESReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<VALUETYPES>("TaxModel.FK_OPERATORS_VALUETYPES", "VALUETYPES");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<VALUETYPES>("TaxModel.FK_OPERATORS_VALUETYPES", "VALUETYPES", value);
+                }
+            }
+        }
+
+        #endregion
+
     }
     
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="ORDERTYPE")]
+    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="ORDERTYPES")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class ORDERTYPE : EntityObject
+    public partial class ORDERTYPES : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new ORDERTYPE object.
+        /// Create a new ORDERTYPES object.
         /// </summary>
         /// <param name="oRDERTYPE_ID">Initial value of the ORDERTYPE_ID property.</param>
         /// <param name="oRDERTYPE_BUSINESSUNITKEY">Initial value of the ORDERTYPE_BUSINESSUNITKEY property.</param>
-        public static ORDERTYPE CreateORDERTYPE(global::System.Int32 oRDERTYPE_ID, global::System.String oRDERTYPE_BUSINESSUNITKEY)
+        public static ORDERTYPES CreateORDERTYPES(global::System.Int32 oRDERTYPE_ID, global::System.String oRDERTYPE_BUSINESSUNITKEY)
         {
-            ORDERTYPE oRDERTYPE = new ORDERTYPE();
-            oRDERTYPE.ORDERTYPE_ID = oRDERTYPE_ID;
-            oRDERTYPE.ORDERTYPE_BUSINESSUNITKEY = oRDERTYPE_BUSINESSUNITKEY;
-            return oRDERTYPE;
+            ORDERTYPES oRDERTYPES = new ORDERTYPES();
+            oRDERTYPES.ORDERTYPE_ID = oRDERTYPE_ID;
+            oRDERTYPES.ORDERTYPE_BUSINESSUNITKEY = oRDERTYPE_BUSINESSUNITKEY;
+            return oRDERTYPES;
         }
 
         #endregion
@@ -1167,18 +1260,18 @@ namespace POC.DataBase
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_ORDERTYPE", "TAX")]
-        public EntityCollection<TAX> TAX
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_ORDERTYPE", "TAXES")]
+        public EntityCollection<TAXES> TAXES
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAX>("TaxModel.FK_TAX_ORDERTYPE", "TAX");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAXES>("TaxModel.FK_TAX_ORDERTYPE", "TAXES");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAX>("TaxModel.FK_TAX_ORDERTYPE", "TAX", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAXES>("TaxModel.FK_TAX_ORDERTYPE", "TAXES", value);
                 }
             }
         }
@@ -1212,15 +1305,302 @@ namespace POC.DataBase
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="TAX")]
+    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="TAXCONDS")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class TAX : EntityObject
+    public partial class TAXCONDS : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new TAX object.
+        /// Create a new TAXCONDS object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        /// <param name="tAX_ID">Initial value of the TAX_ID property.</param>
+        /// <param name="fORM_ITEM_NAME">Initial value of the FORM_ITEM_NAME property.</param>
+        /// <param name="fORM_ITEM_VALUE">Initial value of the FORM_ITEM_VALUE property.</param>
+        /// <param name="vALUE_IS_EQUAL">Initial value of the VALUE_IS_EQUAL property.</param>
+        public static TAXCONDS CreateTAXCONDS(global::System.Int32 id, global::System.Int32 tAX_ID, global::System.String fORM_ITEM_NAME, global::System.String fORM_ITEM_VALUE, global::System.Boolean vALUE_IS_EQUAL)
+        {
+            TAXCONDS tAXCONDS = new TAXCONDS();
+            tAXCONDS.ID = id;
+            tAXCONDS.TAX_ID = tAX_ID;
+            tAXCONDS.FORM_ITEM_NAME = fORM_ITEM_NAME;
+            tAXCONDS.FORM_ITEM_VALUE = fORM_ITEM_VALUE;
+            tAXCONDS.VALUE_IS_EQUAL = vALUE_IS_EQUAL;
+            return tAXCONDS;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ID;
+        partial void OnIDChanging(global::System.Int32 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 TAX_ID
+        {
+            get
+            {
+                return _TAX_ID;
+            }
+            set
+            {
+                OnTAX_IDChanging(value);
+                ReportPropertyChanging("TAX_ID");
+                _TAX_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TAX_ID");
+                OnTAX_IDChanged();
+            }
+        }
+        private global::System.Int32 _TAX_ID;
+        partial void OnTAX_IDChanging(global::System.Int32 value);
+        partial void OnTAX_IDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String FORM_ITEM_NAME
+        {
+            get
+            {
+                return _FORM_ITEM_NAME;
+            }
+            set
+            {
+                OnFORM_ITEM_NAMEChanging(value);
+                ReportPropertyChanging("FORM_ITEM_NAME");
+                _FORM_ITEM_NAME = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("FORM_ITEM_NAME");
+                OnFORM_ITEM_NAMEChanged();
+            }
+        }
+        private global::System.String _FORM_ITEM_NAME;
+        partial void OnFORM_ITEM_NAMEChanging(global::System.String value);
+        partial void OnFORM_ITEM_NAMEChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String FORM_ITEM_VALUE
+        {
+            get
+            {
+                return _FORM_ITEM_VALUE;
+            }
+            set
+            {
+                OnFORM_ITEM_VALUEChanging(value);
+                ReportPropertyChanging("FORM_ITEM_VALUE");
+                _FORM_ITEM_VALUE = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("FORM_ITEM_VALUE");
+                OnFORM_ITEM_VALUEChanged();
+            }
+        }
+        private global::System.String _FORM_ITEM_VALUE;
+        partial void OnFORM_ITEM_VALUEChanging(global::System.String value);
+        partial void OnFORM_ITEM_VALUEChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> FORMULA_ID
+        {
+            get
+            {
+                return _FORMULA_ID;
+            }
+            set
+            {
+                OnFORMULA_IDChanging(value);
+                ReportPropertyChanging("FORMULA_ID");
+                _FORMULA_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("FORMULA_ID");
+                OnFORMULA_IDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _FORMULA_ID;
+        partial void OnFORMULA_IDChanging(Nullable<global::System.Int32> value);
+        partial void OnFORMULA_IDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean VALUE_IS_EQUAL
+        {
+            get
+            {
+                return _VALUE_IS_EQUAL;
+            }
+            set
+            {
+                OnVALUE_IS_EQUALChanging(value);
+                ReportPropertyChanging("VALUE_IS_EQUAL");
+                _VALUE_IS_EQUAL = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("VALUE_IS_EQUAL");
+                OnVALUE_IS_EQUALChanged();
+            }
+        }
+        private global::System.Boolean _VALUE_IS_EQUAL;
+        partial void OnVALUE_IS_EQUALChanging(global::System.Boolean value);
+        partial void OnVALUE_IS_EQUALChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXCOND_FORMULAS", "FORMULAS")]
+        public FORMULAS FORMULAS
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FORMULAS>("TaxModel.FK_TAXCOND_FORMULAS", "FORMULAS").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FORMULAS>("TaxModel.FK_TAXCOND_FORMULAS", "FORMULAS").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<FORMULAS> FORMULASReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FORMULAS>("TaxModel.FK_TAXCOND_FORMULAS", "FORMULAS");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<FORMULAS>("TaxModel.FK_TAXCOND_FORMULAS", "FORMULAS", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXCOND_TAX", "TAXES")]
+        public TAXES TAXES
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAXES>("TaxModel.FK_TAXCOND_TAX", "TAXES").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAXES>("TaxModel.FK_TAXCOND_TAX", "TAXES").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<TAXES> TAXESReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAXES>("TaxModel.FK_TAXCOND_TAX", "TAXES");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TAXES>("TaxModel.FK_TAXCOND_TAX", "TAXES", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXEXCLUSIONS_TAXCOND", "TAXEXCLUSIONS")]
+        public EntityCollection<TAXEXCLUSIONS> TAXEXCLUSIONS
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAXEXCLUSIONS>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXEXCLUSIONS");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAXEXCLUSIONS>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXEXCLUSIONS", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="TAXES")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class TAXES : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new TAXES object.
         /// </summary>
         /// <param name="id">Initial value of the ID property.</param>
         /// <param name="oRDERTYPE_ID">Initial value of the ORDERTYPE_ID property.</param>
@@ -1228,16 +1608,16 @@ namespace POC.DataBase
         /// <param name="nAME">Initial value of the NAME property.</param>
         /// <param name="dESCRIPTION">Initial value of the DESCRIPTION property.</param>
         /// <param name="sTART_DATE">Initial value of the START_DATE property.</param>
-        public static TAX CreateTAX(global::System.Int32 id, global::System.Int32 oRDERTYPE_ID, global::System.Int32 cHANNEL_ID, global::System.String nAME, global::System.String dESCRIPTION, global::System.DateTime sTART_DATE)
+        public static TAXES CreateTAXES(global::System.Int32 id, global::System.Int32 oRDERTYPE_ID, global::System.Int32 cHANNEL_ID, global::System.String nAME, global::System.String dESCRIPTION, global::System.DateTime sTART_DATE)
         {
-            TAX tAX = new TAX();
-            tAX.ID = id;
-            tAX.ORDERTYPE_ID = oRDERTYPE_ID;
-            tAX.CHANNEL_ID = cHANNEL_ID;
-            tAX.NAME = nAME;
-            tAX.DESCRIPTION = dESCRIPTION;
-            tAX.START_DATE = sTART_DATE;
-            return tAX;
+            TAXES tAXES = new TAXES();
+            tAXES.ID = id;
+            tAXES.ORDERTYPE_ID = oRDERTYPE_ID;
+            tAXES.CHANNEL_ID = cHANNEL_ID;
+            tAXES.NAME = nAME;
+            tAXES.DESCRIPTION = dESCRIPTION;
+            tAXES.START_DATE = sTART_DATE;
+            return tAXES;
         }
 
         #endregion
@@ -1498,16 +1878,16 @@ namespace POC.DataBase
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_CHANNEL", "CHANNEL")]
-        public CHANNEL CHANNEL
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_CHANNEL", "CHANNELS")]
+        public CHANNELS CHANNELS
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CHANNEL>("TaxModel.FK_TAX_CHANNEL", "CHANNEL").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CHANNELS>("TaxModel.FK_TAX_CHANNEL", "CHANNELS").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CHANNEL>("TaxModel.FK_TAX_CHANNEL", "CHANNEL").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CHANNELS>("TaxModel.FK_TAX_CHANNEL", "CHANNELS").Value = value;
             }
         }
         /// <summary>
@@ -1515,17 +1895,17 @@ namespace POC.DataBase
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<CHANNEL> CHANNELReference
+        public EntityReference<CHANNELS> CHANNELSReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CHANNEL>("TaxModel.FK_TAX_CHANNEL", "CHANNEL");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CHANNELS>("TaxModel.FK_TAX_CHANNEL", "CHANNELS");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<CHANNEL>("TaxModel.FK_TAX_CHANNEL", "CHANNEL", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<CHANNELS>("TaxModel.FK_TAX_CHANNEL", "CHANNELS", value);
                 }
             }
         }
@@ -1536,16 +1916,16 @@ namespace POC.DataBase
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_DISCOUNT", "DISCOUNT")]
-        public DISCOUNT DISCOUNT
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_DISCOUNT", "DISCOUNTS")]
+        public DISCOUNTS DISCOUNTS
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<DISCOUNT>("TaxModel.FK_TAX_DISCOUNT", "DISCOUNT").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<DISCOUNTS>("TaxModel.FK_TAX_DISCOUNT", "DISCOUNTS").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<DISCOUNT>("TaxModel.FK_TAX_DISCOUNT", "DISCOUNT").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<DISCOUNTS>("TaxModel.FK_TAX_DISCOUNT", "DISCOUNTS").Value = value;
             }
         }
         /// <summary>
@@ -1553,17 +1933,17 @@ namespace POC.DataBase
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<DISCOUNT> DISCOUNTReference
+        public EntityReference<DISCOUNTS> DISCOUNTSReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<DISCOUNT>("TaxModel.FK_TAX_DISCOUNT", "DISCOUNT");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<DISCOUNTS>("TaxModel.FK_TAX_DISCOUNT", "DISCOUNTS");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<DISCOUNT>("TaxModel.FK_TAX_DISCOUNT", "DISCOUNT", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<DISCOUNTS>("TaxModel.FK_TAX_DISCOUNT", "DISCOUNTS", value);
                 }
             }
         }
@@ -1612,16 +1992,16 @@ namespace POC.DataBase
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_ORDERTYPE", "ORDERTYPE")]
-        public ORDERTYPE ORDERTYPE
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAX_ORDERTYPE", "ORDERTYPES")]
+        public ORDERTYPES ORDERTYPES
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPE>("TaxModel.FK_TAX_ORDERTYPE", "ORDERTYPE").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPES>("TaxModel.FK_TAX_ORDERTYPE", "ORDERTYPES").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPE>("TaxModel.FK_TAX_ORDERTYPE", "ORDERTYPE").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPES>("TaxModel.FK_TAX_ORDERTYPE", "ORDERTYPES").Value = value;
             }
         }
         /// <summary>
@@ -1629,17 +2009,17 @@ namespace POC.DataBase
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<ORDERTYPE> ORDERTYPEReference
+        public EntityReference<ORDERTYPES> ORDERTYPESReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPE>("TaxModel.FK_TAX_ORDERTYPE", "ORDERTYPE");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPES>("TaxModel.FK_TAX_ORDERTYPE", "ORDERTYPES");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ORDERTYPE>("TaxModel.FK_TAX_ORDERTYPE", "ORDERTYPE", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ORDERTYPES>("TaxModel.FK_TAX_ORDERTYPE", "ORDERTYPES", value);
                 }
             }
         }
@@ -1650,305 +2030,18 @@ namespace POC.DataBase
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXCOND_TAX", "TAXCOND")]
-        public EntityCollection<TAXCOND> TAXCOND
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXCOND_TAX", "TAXCONDS")]
+        public EntityCollection<TAXCONDS> TAXCONDS
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAXCOND>("TaxModel.FK_TAXCOND_TAX", "TAXCOND");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAXCONDS>("TaxModel.FK_TAXCOND_TAX", "TAXCONDS");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAXCOND>("TaxModel.FK_TAXCOND_TAX", "TAXCOND", value);
-                }
-            }
-        }
-
-        #endregion
-
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="TAXCOND")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class TAXCOND : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new TAXCOND object.
-        /// </summary>
-        /// <param name="id">Initial value of the ID property.</param>
-        /// <param name="tAX_ID">Initial value of the TAX_ID property.</param>
-        /// <param name="fORM_ITEM_NAME">Initial value of the FORM_ITEM_NAME property.</param>
-        /// <param name="fORM_ITEM_VALUE">Initial value of the FORM_ITEM_VALUE property.</param>
-        /// <param name="vALUE_IS_EQUAL">Initial value of the VALUE_IS_EQUAL property.</param>
-        public static TAXCOND CreateTAXCOND(global::System.Int32 id, global::System.Int32 tAX_ID, global::System.String fORM_ITEM_NAME, global::System.String fORM_ITEM_VALUE, global::System.Boolean vALUE_IS_EQUAL)
-        {
-            TAXCOND tAXCOND = new TAXCOND();
-            tAXCOND.ID = id;
-            tAXCOND.TAX_ID = tAX_ID;
-            tAXCOND.FORM_ITEM_NAME = fORM_ITEM_NAME;
-            tAXCOND.FORM_ITEM_VALUE = fORM_ITEM_VALUE;
-            tAXCOND.VALUE_IS_EQUAL = vALUE_IS_EQUAL;
-            return tAXCOND;
-        }
-
-        #endregion
-
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 ID
-        {
-            get
-            {
-                return _ID;
-            }
-            set
-            {
-                if (_ID != value)
-                {
-                    OnIDChanging(value);
-                    ReportPropertyChanging("ID");
-                    _ID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("ID");
-                    OnIDChanged();
-                }
-            }
-        }
-        private global::System.Int32 _ID;
-        partial void OnIDChanging(global::System.Int32 value);
-        partial void OnIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 TAX_ID
-        {
-            get
-            {
-                return _TAX_ID;
-            }
-            set
-            {
-                OnTAX_IDChanging(value);
-                ReportPropertyChanging("TAX_ID");
-                _TAX_ID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("TAX_ID");
-                OnTAX_IDChanged();
-            }
-        }
-        private global::System.Int32 _TAX_ID;
-        partial void OnTAX_IDChanging(global::System.Int32 value);
-        partial void OnTAX_IDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String FORM_ITEM_NAME
-        {
-            get
-            {
-                return _FORM_ITEM_NAME;
-            }
-            set
-            {
-                OnFORM_ITEM_NAMEChanging(value);
-                ReportPropertyChanging("FORM_ITEM_NAME");
-                _FORM_ITEM_NAME = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("FORM_ITEM_NAME");
-                OnFORM_ITEM_NAMEChanged();
-            }
-        }
-        private global::System.String _FORM_ITEM_NAME;
-        partial void OnFORM_ITEM_NAMEChanging(global::System.String value);
-        partial void OnFORM_ITEM_NAMEChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String FORM_ITEM_VALUE
-        {
-            get
-            {
-                return _FORM_ITEM_VALUE;
-            }
-            set
-            {
-                OnFORM_ITEM_VALUEChanging(value);
-                ReportPropertyChanging("FORM_ITEM_VALUE");
-                _FORM_ITEM_VALUE = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("FORM_ITEM_VALUE");
-                OnFORM_ITEM_VALUEChanged();
-            }
-        }
-        private global::System.String _FORM_ITEM_VALUE;
-        partial void OnFORM_ITEM_VALUEChanging(global::System.String value);
-        partial void OnFORM_ITEM_VALUEChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> FORMULA_ID
-        {
-            get
-            {
-                return _FORMULA_ID;
-            }
-            set
-            {
-                OnFORMULA_IDChanging(value);
-                ReportPropertyChanging("FORMULA_ID");
-                _FORMULA_ID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("FORMULA_ID");
-                OnFORMULA_IDChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _FORMULA_ID;
-        partial void OnFORMULA_IDChanging(Nullable<global::System.Int32> value);
-        partial void OnFORMULA_IDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Boolean VALUE_IS_EQUAL
-        {
-            get
-            {
-                return _VALUE_IS_EQUAL;
-            }
-            set
-            {
-                OnVALUE_IS_EQUALChanging(value);
-                ReportPropertyChanging("VALUE_IS_EQUAL");
-                _VALUE_IS_EQUAL = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("VALUE_IS_EQUAL");
-                OnVALUE_IS_EQUALChanged();
-            }
-        }
-        private global::System.Boolean _VALUE_IS_EQUAL;
-        partial void OnVALUE_IS_EQUALChanging(global::System.Boolean value);
-        partial void OnVALUE_IS_EQUALChanged();
-
-        #endregion
-
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXCOND_FORMULAS", "FORMULAS")]
-        public FORMULAS FORMULAS
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FORMULAS>("TaxModel.FK_TAXCOND_FORMULAS", "FORMULAS").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FORMULAS>("TaxModel.FK_TAXCOND_FORMULAS", "FORMULAS").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<FORMULAS> FORMULASReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FORMULAS>("TaxModel.FK_TAXCOND_FORMULAS", "FORMULAS");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<FORMULAS>("TaxModel.FK_TAXCOND_FORMULAS", "FORMULAS", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXCOND_TAX", "TAX")]
-        public TAX TAX
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAX>("TaxModel.FK_TAXCOND_TAX", "TAX").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAX>("TaxModel.FK_TAXCOND_TAX", "TAX").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<TAX> TAXReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAX>("TaxModel.FK_TAXCOND_TAX", "TAX");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TAX>("TaxModel.FK_TAXCOND_TAX", "TAX", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXEXCLUSIONS_TAXCOND", "TAXEXCLUSIONS")]
-        public EntityCollection<TAXEXCLUSIONS> TAXEXCLUSIONS
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAXEXCLUSIONS>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXEXCLUSIONS");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAXEXCLUSIONS>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXEXCLUSIONS", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAXCONDS>("TaxModel.FK_TAXCOND_TAX", "TAXCONDS", value);
                 }
             }
         }
@@ -2098,16 +2191,16 @@ namespace POC.DataBase
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPE")]
-        public ORDERTYPE ORDERTYPE
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPES")]
+        public ORDERTYPES ORDERTYPES
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPE>("TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPE").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPES>("TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPES").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPE>("TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPE").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPES>("TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPES").Value = value;
             }
         }
         /// <summary>
@@ -2115,17 +2208,17 @@ namespace POC.DataBase
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<ORDERTYPE> ORDERTYPEReference
+        public EntityReference<ORDERTYPES> ORDERTYPESReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPE>("TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPE");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ORDERTYPES>("TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPES");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ORDERTYPE>("TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPE", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ORDERTYPES>("TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPES", value);
                 }
             }
         }
@@ -2136,16 +2229,16 @@ namespace POC.DataBase
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXEXCLUSIONS_TAXCOND", "TAXCOND")]
-        public TAXCOND TAXCOND
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXEXCLUSIONS_TAXCOND", "TAXCONDS")]
+        public TAXCONDS TAXCONDS
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAXCOND>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXCOND").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAXCONDS>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXCONDS").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAXCOND>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXCOND").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAXCONDS>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXCONDS").Value = value;
             }
         }
         /// <summary>
@@ -2153,17 +2246,17 @@ namespace POC.DataBase
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<TAXCOND> TAXCONDReference
+        public EntityReference<TAXCONDS> TAXCONDSReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAXCOND>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXCOND");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TAXCONDS>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXCONDS");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TAXCOND>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXCOND", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TAXCONDS>("TaxModel.FK_TAXEXCLUSIONS_TAXCOND", "TAXCONDS", value);
                 }
             }
         }
@@ -2331,6 +2424,115 @@ namespace POC.DataBase
         #endregion
 
     
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="TaxModel", Name="VALUETYPES")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class VALUETYPES : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new VALUETYPES object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        /// <param name="vALUETYPE">Initial value of the VALUETYPE property.</param>
+        public static VALUETYPES CreateVALUETYPES(global::System.Int32 id, global::System.String vALUETYPE)
+        {
+            VALUETYPES vALUETYPES = new VALUETYPES();
+            vALUETYPES.ID = id;
+            vALUETYPES.VALUETYPE = vALUETYPE;
+            return vALUETYPES;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ID;
+        partial void OnIDChanging(global::System.Int32 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String VALUETYPE
+        {
+            get
+            {
+                return _VALUETYPE;
+            }
+            set
+            {
+                OnVALUETYPEChanging(value);
+                ReportPropertyChanging("VALUETYPE");
+                _VALUETYPE = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("VALUETYPE");
+                OnVALUETYPEChanged();
+            }
+        }
+        private global::System.String _VALUETYPE;
+        partial void OnVALUETYPEChanging(global::System.String value);
+        partial void OnVALUETYPEChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_OPERATORS_VALUETYPES", "OPERATORS")]
+        public EntityCollection<OPERATORS> OPERATORS
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<OPERATORS>("TaxModel.FK_OPERATORS_VALUETYPES", "OPERATORS");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<OPERATORS>("TaxModel.FK_OPERATORS_VALUETYPES", "OPERATORS", value);
+                }
+            }
+        }
+
+        #endregion
+
     }
 
     #endregion

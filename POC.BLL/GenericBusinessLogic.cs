@@ -8,6 +8,10 @@ using POC.DAL;
 using POC.BLL.DataModel;
 using POC.BLL.DataModel.Enums;
 using System.Xml.Linq;
+using System.Reflection;
+using Microsoft.CSharp;
+using System.CodeDom.Compiler;
+using System.IO;
 
 namespace POC.BLL
 {
@@ -75,10 +79,8 @@ namespace POC.BLL
                                 }
                                 else
                                 {
-                                    /*
-                                    EnumTax.ElegibleItemType.Formula:
-                                        taxValue = CalculateFormula();*/
-                                    break;
+                                    //Calcular Formula
+                                    taxValue = (RetrieveFormulaResult(ParseFormula(GetFormula(item.FormulaId.Value), orderList)));
                                 }
                             }
                         }
@@ -101,7 +103,7 @@ namespace POC.BLL
 
         private bool HasTax(int orderTypeId)
         {
-            using (var locator = new GenericRepository<TAX>())
+            using (var locator = new GenericRepository<TAXES>())
             {
                 return locator.Find(
                     c => c.ORDERTYPE_ID == orderTypeId
@@ -110,9 +112,9 @@ namespace POC.BLL
             }
         }
 
-        private IEnumerable<TAX> GetTaxes(int orderTypeId)
+        private IEnumerable<TAXES> GetTaxes(int orderTypeId)
         {
-            using (var locator = new GenericRepository<TAX>())
+            using (var locator = new GenericRepository<TAXES>())
             {
                 return locator.Find(c => c.ORDERTYPE_ID == orderTypeId);
             }
@@ -121,7 +123,7 @@ namespace POC.BLL
 
         private int GetTaxId(int orderTypeId)
         {
-            using (var locator = new GenericRepository<TAX>())
+            using (var locator = new GenericRepository<TAXES>())
             {
                 return locator.Single(
                     c => c.ORDERTYPE_ID == orderTypeId
@@ -136,7 +138,7 @@ namespace POC.BLL
             var elegibleItems = new List<ElegibleItem>();
             passedOnAllConditions = true;
 
-            using (var locator = new GenericRepository<TAXCOND>())
+            using (var locator = new GenericRepository<TAXCONDS>())
             {
                 // Verificar se tem TaxCond 
                 var taxCondList = locator.Find(c => c.TAX_ID == taxId);
@@ -241,10 +243,26 @@ namespace POC.BLL
             }
         }
 
+        private OPERATORS GetOperator(string operatorName)
+        {
+            using (var locator = new GenericRepository<OPERATORS>())
+            {
+                return locator.Single(c => c.OPERATOR.Equals(operatorName));
+            }
+        }
+
+        private FORMULAS GetFormula(int idFormula)
+        {
+            using (var locator = new GenericRepository<FORMULAS>())
+            {
+                return locator.Single(c => c.ID == idFormula);
+            }
+        }
+
         private List<FORMULAS> GetFormulas(int taxcondId)
         {
             var listFormulas = new List<FORMULAS>();
-            using (var locatorTaxCond = new GenericRepository<TAXCOND>())
+            using (var locatorTaxCond = new GenericRepository<TAXCONDS>())
             {
                 var formulaId = locatorTaxCond.Single(c => c.ID == taxcondId).FORMULA_ID;
 
@@ -263,11 +281,11 @@ namespace POC.BLL
         private double? GetDiscount(int taxId)
         {
             double? discount = null;
-            using (var locator = new GenericRepository<TAX>())
+            using (var locator = new GenericRepository<TAXES>())
             {
                 var tax = locator.Single(c => c.ID == taxId);
 
-                using (var loc = new GenericRepository<DISCOUNT>())
+                using (var loc = new GenericRepository<DISCOUNTS>())
                 {
                     discount = loc.Single(c => c.ID == tax.DISCOUNT_ID).VALUE;
                 }
@@ -281,10 +299,144 @@ namespace POC.BLL
             return taxValue - (taxValue * Convert.ToDecimal(discount));
         }
 
-        private decimal CalculateFormula()
+        private IEnumerable<Object> ParseFormula(FORMULAS formula, string xml)
         {
+            XDocument xDoc = XDocument.Parse(xml);
+            //var operatorArray = new char[] { '+', '*', '/', '-' };
+            //foreach (var op in operatorArray)
+            //{
+            //    //Devolve um objecto que terá uma coleção dos valores e operadores para o cálculo
+            //    formula.FORMULA.Split(op);
+            //}
 
+            if (!CheckMathOperatorExistance(formula.FORMULA))
+            {
+                var oper = GetOperator(formula.FORMULA);
+                var functionCode = new StringBuilder();
+
+                switch (oper.VALUETYPE_ID)
+                {
+                    case (int)EnumTax.OperatorValueTypes.Date:
+                        //ALTERAR PARA XPATH
+                        var tempElement = xDoc.Descendants("Field").Elements("Name").SingleOrDefault(x => x.Value == "De").NextNode;
+                        var elementInitialDate = (string)((XElement)tempElement);
+                        tempElement = xDoc.Descendants("Field").Elements("Name").SingleOrDefault(x => x.Value == "até").NextNode;
+                        var elementFinalDate = (string)((XElement)tempElement);
+
+                        functionCode.Append(@"using System;
+                                        namespace ConsoleApplication{
+                                        public class DateFunctionValidation
+                                        {
+                                            public static int Function()
+                                            {
+	                                            var numberOfDays = 0;
+	
+	                                            if(");
+                        functionCode.Append(String.Format(StringEnum.GetStringValue(
+                                                        (EnumTax.Formula)Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA)),
+                                                        elementFinalDate,
+                                                        elementInitialDate,
+                                                        (int)((EnumTax.Formula)Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA))));
+                        functionCode.Append("){");
+                        functionCode.Append(String.Format("numberOfDays = ((Convert.ToDateTime(\"{0}\")) - (Convert.ToDateTime(\"{1}\"))).Days;", elementFinalDate, elementInitialDate));
+                        functionCode.Append("}");
+                        functionCode.Append("return numberOfDays;");
+                        functionCode.Append("}");
+                        functionCode.Append("}");
+                        functionCode.Append("}");
+
+                        var delegatedFunction = (Func<int>)Delegate.CreateDelegate(typeof(Func<int>), CreateFunction(functionCode.ToString()));
+                        delegatedFunction();
+
+
+                        //Já se vê o que fazer com os dias.
+                        break;
+                    case (int)EnumTax.OperatorValueTypes.Monetary:
+//                        functionCode = @"using System;
+//                                public class DateFunctionValidation
+//                                {
+//                                    public static bool Function()
+//                                    {
+//                                        return {0};
+//                                    }
+//                                }";
+                        break;
+                    case (int)EnumTax.OperatorValueTypes.Numeric:
+//                        functionCode = @"using System;
+//                                public class DateFunctionValidation
+//                                {
+//                                    public static bool Function()
+//                                    {
+//                                        return {0};
+//                                    }
+//                                }";
+                        break;
+                }
+
+
+            }
+
+            return null;
+        }
+
+        private bool CheckMathOperatorExistance(string formula)
+        {
+            bool exist = false;
+            var operatorArray = new char[] { '+', '*', '/', '-' };
+
+            foreach (var item in operatorArray)
+            {
+                if (formula.Contains(item))
+                {
+                    exist = true;
+                    break;
+                }
+            }
+
+            return exist;
+        }
+
+        private decimal RetrieveFormulaResult(Object o)//IEnumerable<OPERATORS> operators)
+        {
             return 0;
         }
+
+        #region Compile - Código visto por fontes externas
+        MethodInfo CreateFunction(string script)
+        {
+            Assembly t = Compile(script);
+
+            CSharpCodeProvider provider = new CSharpCodeProvider();
+            CompilerResults results = provider.CompileAssemblyFromSource(new CompilerParameters(), script);
+
+            Type binaryFunction = results.CompiledAssembly.GetType("ConsoleApplication.DateFunctionValidation");
+            return binaryFunction.GetMethod("Function");
+        }
+
+        Assembly Compile(string script)
+        {
+            CompilerParameters options = new CompilerParameters();
+            options.GenerateExecutable = false;
+            options.GenerateInMemory = true;
+            options.ReferencedAssemblies.Add("System.dll");
+
+            Microsoft.CSharp.CSharpCodeProvider provider = new Microsoft.CSharp.CSharpCodeProvider();
+            CompilerResults result = provider.CompileAssemblyFromSource(options, script);
+
+            // Check the compiler results for errors
+            StringWriter sw = new StringWriter();
+            foreach (CompilerError ce in result.Errors)
+            {
+                if (ce.IsWarning) continue;
+                sw.WriteLine("{0}({1},{2}: error {3}: {4}", ce.FileName, ce.Line, ce.Column, ce.ErrorNumber, ce.ErrorText);
+            }
+            // If there were errors, raise an exception...
+            string errorText = sw.ToString();
+            if (errorText.Length > 0)
+                throw new ApplicationException(errorText);
+
+            return result.CompiledAssembly;
+        }
+        #endregion
     }
 }

@@ -64,12 +64,28 @@ namespace POC.BLL.DataModel.Enums
             [StringValue("Tipo de produtos de venda: ")]
             ProductsTypeForSale = 19,
             [StringValue("Tipo de requisição:")]
-            RequisitionType = 20
+            RequisitionType = 20,
+            [StringValue("Na seguinte data")]
+            InFollowingDate = 21
         }
-        /*
-        public enum XMLFieldValues
+
+        public enum OperatorValueTypes
         {
-            TESTE
-        }*/
+            Numeric = 1,
+            Monetary = 2,
+            Date = 3
+        }
+
+        public enum Formula
+        {
+            [StringValue("(Convert.ToDateTime(\"{0}\") - Convert.ToDateTime(\"{1}\")).Days <= {2}")]
+            Q15 = 15,
+            [StringValue("(Convert.ToDateTime(\"{0}\") - Convert.ToDateTime({1})).Days <= {2}")]
+            Q30 = 30,
+            [StringValue("(Convert.ToDateTime({0}) - Convert.ToDateTime({1})).Days <= {2}")]
+            Q45 = 45,
+            [StringValue("(Convert.ToDateTime({0}) - Convert.ToDateTime({1})).Days > {2}")]
+            Q46 = 46
+        }
     }
 }
