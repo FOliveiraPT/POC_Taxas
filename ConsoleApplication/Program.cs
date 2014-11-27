@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.CodeDom.Compiler;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
-using POC.BLL;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using POC.Common;
-using POC.BLL.DataModel.Enums;
 using Microsoft.CSharp;
-using System.CodeDom.Compiler;
-using System.Reflection;
-using System.IO;
+using POC.BLL.DataModel.Enums;
+using POC.Common;
 
 namespace ConsoleApplication
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             XDocument xDoc = XDocument.Load("Teste.xml");
             var t = xDoc.XPathSelectElements("/forms/process/Object/Field[Name = 'Tipo de Processo']").Descendants("Value").SingleOrDefault().Value;
@@ -26,7 +24,7 @@ namespace ConsoleApplication
             //var t = TesteDinamico();
         }
 
-        static int TesteDinamico()
+        private static int TesteDinamico()
         {
             var formula = "Q15";
             XDocument xDoc = XDocument.Load("Teste.xml");
@@ -45,7 +43,7 @@ namespace ConsoleApplication
                                             public static int Function()
                                             {
 	                                            var numberOfDays = 0;
-	
+
 	                                            if(");
             functionCode.Append(String.Format(StringEnum.GetStringValue(
                                             (EnumTax.Formula)Enum.Parse(typeof(EnumTax.Formula), formula)),
@@ -64,7 +62,7 @@ namespace ConsoleApplication
             return delegatedFunction();
         }
 
-        static MethodInfo CreateFunction(string script)
+        private static MethodInfo CreateFunction(string script)
         {
             Assembly t = Compile(script);
 
@@ -76,7 +74,8 @@ namespace ConsoleApplication
         }
 
         #region Compile - Código visto por fontes externas
-        static Assembly Compile(string script)
+
+        private static Assembly Compile(string script)
         {
             CompilerParameters options = new CompilerParameters();
             options.GenerateExecutable = false;
@@ -100,6 +99,7 @@ namespace ConsoleApplication
 
             return result.CompiledAssembly;
         }
-        #endregion
+
+        #endregion Compile - Código visto por fontes externas
     }
 }

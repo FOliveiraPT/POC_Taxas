@@ -2,11 +2,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text;
 using System.Threading;
 
 namespace POC.Common
@@ -144,8 +144,8 @@ namespace POC.Common
 
     public class DynamicProperty
     {
-        string name;
-        Type type;
+        private string name;
+        private Type type;
 
         public DynamicProperty(string name, Type type)
         {
@@ -248,12 +248,14 @@ namespace POC.Common
     {
         public static readonly ClassFactory Instance = new ClassFactory();
 
-        static ClassFactory() { }  // Trigger lazy initialization of static fields
+        static ClassFactory()
+        {
+        }  // Trigger lazy initialization of static fields
 
-        ModuleBuilder module;
-        Dictionary<Signature, Type> classes;
-        int classCount;
-        ReaderWriterLock rwLock;
+        private ModuleBuilder module;
+        private Dictionary<Signature, Type> classes;
+        private int classCount;
+        private ReaderWriterLock rwLock;
 
         private ClassFactory()
         {
@@ -296,7 +298,7 @@ namespace POC.Common
             }
         }
 
-        Type CreateDynamicClass(DynamicProperty[] properties)
+        private Type CreateDynamicClass(DynamicProperty[] properties)
         {
             LockCookie cookie = rwLock.UpgradeToWriterLock(Timeout.Infinite);
             try
@@ -329,7 +331,7 @@ namespace POC.Common
             }
         }
 
-        FieldInfo[] GenerateProperties(TypeBuilder tb, DynamicProperty[] properties)
+        private FieldInfo[] GenerateProperties(TypeBuilder tb, DynamicProperty[] properties)
         {
             FieldInfo[] fields = new FieldBuilder[properties.Length];
             for (int i = 0; i < properties.Length; i++)
@@ -359,7 +361,7 @@ namespace POC.Common
             return fields;
         }
 
-        void GenerateEquals(TypeBuilder tb, FieldInfo[] fields)
+        private void GenerateEquals(TypeBuilder tb, FieldInfo[] fields)
         {
             MethodBuilder mb = tb.DefineMethod("Equals",
                 MethodAttributes.Public | MethodAttributes.ReuseSlot |
@@ -396,7 +398,7 @@ namespace POC.Common
             gen.Emit(OpCodes.Ret);
         }
 
-        void GenerateGetHashCode(TypeBuilder tb, FieldInfo[] fields)
+        private void GenerateGetHashCode(TypeBuilder tb, FieldInfo[] fields)
         {
             MethodBuilder mb = tb.DefineMethod("GetHashCode",
                 MethodAttributes.Public | MethodAttributes.ReuseSlot |
@@ -420,7 +422,7 @@ namespace POC.Common
 
     public sealed class ParseException : Exception
     {
-        int position;
+        private int position;
 
         public ParseException(string message, int position)
             : base(message)
@@ -441,14 +443,14 @@ namespace POC.Common
 
     internal class ExpressionParser
     {
-        struct Token
+        private struct Token
         {
             public TokenId id;
             public string text;
             public int pos;
         }
 
-        enum TokenId
+        private enum TokenId
         {
             Unknown,
             End,
@@ -484,114 +486,176 @@ namespace POC.Common
             DoubleBar
         }
 
-        interface ILogicalSignatures
+        private interface ILogicalSignatures
         {
             void F(bool x, bool y);
+
             void F(bool? x, bool? y);
         }
 
-        interface IArithmeticSignatures
+        private interface IArithmeticSignatures
         {
             void F(int x, int y);
+
             void F(uint x, uint y);
+
             void F(long x, long y);
+
             void F(ulong x, ulong y);
+
             void F(float x, float y);
+
             void F(double x, double y);
+
             void F(decimal x, decimal y);
+
             void F(int? x, int? y);
+
             void F(uint? x, uint? y);
+
             void F(long? x, long? y);
+
             void F(ulong? x, ulong? y);
+
             void F(float? x, float? y);
+
             void F(double? x, double? y);
+
             void F(decimal? x, decimal? y);
         }
 
-        interface IRelationalSignatures : IArithmeticSignatures
+        private interface IRelationalSignatures : IArithmeticSignatures
         {
             void F(string x, string y);
+
             void F(char x, char y);
+
             void F(DateTime x, DateTime y);
+
             void F(TimeSpan x, TimeSpan y);
+
             void F(char? x, char? y);
+
             void F(DateTime? x, DateTime? y);
+
             void F(TimeSpan? x, TimeSpan? y);
         }
 
-        interface IEqualitySignatures : IRelationalSignatures
+        private interface IEqualitySignatures : IRelationalSignatures
         {
             void F(bool x, bool y);
+
             void F(bool? x, bool? y);
         }
 
-        interface IAddSignatures : IArithmeticSignatures
+        private interface IAddSignatures : IArithmeticSignatures
         {
             void F(DateTime x, TimeSpan y);
+
             void F(TimeSpan x, TimeSpan y);
+
             void F(DateTime? x, TimeSpan? y);
+
             void F(TimeSpan? x, TimeSpan? y);
         }
 
-        interface ISubtractSignatures : IAddSignatures
+        private interface ISubtractSignatures : IAddSignatures
         {
             void F(DateTime x, DateTime y);
+
             void F(DateTime? x, DateTime? y);
         }
 
-        interface INegationSignatures
+        private interface INegationSignatures
         {
             void F(int x);
+
             void F(long x);
+
             void F(float x);
+
             void F(double x);
+
             void F(decimal x);
+
             void F(int? x);
+
             void F(long? x);
+
             void F(float? x);
+
             void F(double? x);
+
             void F(decimal? x);
         }
 
-        interface INotSignatures
+        private interface INotSignatures
         {
             void F(bool x);
+
             void F(bool? x);
         }
 
-        interface IEnumerableSignatures
+        private interface IEnumerableSignatures
         {
             void Where(bool predicate);
+
             void Any();
+
             void Any(bool predicate);
+
             void All(bool predicate);
+
             void Count();
+
             void Count(bool predicate);
+
             void Min(object selector);
+
             void Max(object selector);
+
             void Sum(int selector);
+
             void Sum(int? selector);
+
             void Sum(long selector);
+
             void Sum(long? selector);
+
             void Sum(float selector);
+
             void Sum(float? selector);
+
             void Sum(double selector);
+
             void Sum(double? selector);
+
             void Sum(decimal selector);
+
             void Sum(decimal? selector);
+
             void Average(int selector);
+
             void Average(int? selector);
+
             void Average(long selector);
+
             void Average(long? selector);
+
             void Average(float selector);
+
             void Average(float? selector);
+
             void Average(double selector);
+
             void Average(double? selector);
+
             void Average(decimal selector);
+
             void Average(decimal? selector);
         }
 
-        static readonly Type[] predefinedTypes = {
+        private static readonly Type[] predefinedTypes = {
             typeof(Object),
             typeof(Boolean),
             typeof(Char),
@@ -614,25 +678,25 @@ namespace POC.Common
             typeof(Convert)
         };
 
-        static readonly Expression trueLiteral = Expression.Constant(true);
-        static readonly Expression falseLiteral = Expression.Constant(false);
-        static readonly Expression nullLiteral = Expression.Constant(null);
+        private static readonly Expression trueLiteral = Expression.Constant(true);
+        private static readonly Expression falseLiteral = Expression.Constant(false);
+        private static readonly Expression nullLiteral = Expression.Constant(null);
 
-        static readonly string keywordIt = "it";
-        static readonly string keywordIif = "iif";
-        static readonly string keywordNew = "new";
+        private static readonly string keywordIt = "it";
+        private static readonly string keywordIif = "iif";
+        private static readonly string keywordNew = "new";
 
-        static Dictionary<string, object> keywords;
+        private static Dictionary<string, object> keywords;
 
-        Dictionary<string, object> symbols;
-        IDictionary<string, object> externals;
-        Dictionary<Expression, string> literals;
-        ParameterExpression it;
-        string text;
-        int textPos;
-        int textLen;
-        char ch;
-        Token token;
+        private Dictionary<string, object> symbols;
+        private IDictionary<string, object> externals;
+        private Dictionary<Expression, string> literals;
+        private ParameterExpression it;
+        private string text;
+        private int textPos;
+        private int textLen;
+        private char ch;
+        private Token token;
 
         public ExpressionParser(ParameterExpression[] parameters, string expression, object[] values)
         {
@@ -648,7 +712,7 @@ namespace POC.Common
             NextToken();
         }
 
-        void ProcessParameters(ParameterExpression[] parameters)
+        private void ProcessParameters(ParameterExpression[] parameters)
         {
             foreach (ParameterExpression pe in parameters)
                 if (!String.IsNullOrEmpty(pe.Name))
@@ -657,7 +721,7 @@ namespace POC.Common
                 it = parameters[0];
         }
 
-        void ProcessValues(object[] values)
+        private void ProcessValues(object[] values)
         {
             for (int i = 0; i < values.Length; i++)
             {
@@ -673,7 +737,7 @@ namespace POC.Common
             }
         }
 
-        void AddSymbol(string name, object value)
+        private void AddSymbol(string name, object value)
         {
             if (symbols.ContainsKey(name))
                 throw ParseError(Res.DuplicateIdentifier, name);
@@ -692,6 +756,7 @@ namespace POC.Common
         }
 
 #pragma warning disable 0219
+
         public IEnumerable<DynamicOrdering> ParseOrdering()
         {
             List<DynamicOrdering> orderings = new List<DynamicOrdering>();
@@ -715,10 +780,11 @@ namespace POC.Common
             ValidateToken(TokenId.End, Res.SyntaxError);
             return orderings;
         }
+
 #pragma warning restore 0219
 
         // ?: operator
-        Expression ParseExpression()
+        private Expression ParseExpression()
         {
             int errorPos = token.pos;
             Expression expr = ParseLogicalOr();
@@ -735,7 +801,7 @@ namespace POC.Common
         }
 
         // ||, or operator
-        Expression ParseLogicalOr()
+        private Expression ParseLogicalOr()
         {
             Expression left = ParseLogicalAnd();
             while (token.id == TokenId.DoubleBar || TokenIdentifierIs("or"))
@@ -750,7 +816,7 @@ namespace POC.Common
         }
 
         // &&, and operator
-        Expression ParseLogicalAnd()
+        private Expression ParseLogicalAnd()
         {
             Expression left = ParseComparison();
             while (token.id == TokenId.DoubleAmphersand || TokenIdentifierIs("and"))
@@ -765,7 +831,7 @@ namespace POC.Common
         }
 
         // =, ==, !=, <>, >, >=, <, <= operators
-        Expression ParseComparison()
+        private Expression ParseComparison()
         {
             Expression left = ParseAdditive();
             while (token.id == TokenId.Equal || token.id == TokenId.DoubleEqual ||
@@ -826,19 +892,24 @@ namespace POC.Common
                     case TokenId.DoubleEqual:
                         left = GenerateEqual(left, right);
                         break;
+
                     case TokenId.ExclamationEqual:
                     case TokenId.LessGreater:
                         left = GenerateNotEqual(left, right);
                         break;
+
                     case TokenId.GreaterThan:
                         left = GenerateGreaterThan(left, right);
                         break;
+
                     case TokenId.GreaterThanEqual:
                         left = GenerateGreaterThanEqual(left, right);
                         break;
+
                     case TokenId.LessThan:
                         left = GenerateLessThan(left, right);
                         break;
+
                     case TokenId.LessThanEqual:
                         left = GenerateLessThanEqual(left, right);
                         break;
@@ -848,7 +919,7 @@ namespace POC.Common
         }
 
         // +, -, & operators
-        Expression ParseAdditive()
+        private Expression ParseAdditive()
         {
             Expression left = ParseMultiplicative();
             while (token.id == TokenId.Plus || token.id == TokenId.Minus ||
@@ -865,10 +936,12 @@ namespace POC.Common
                         CheckAndPromoteOperands(typeof(IAddSignatures), op.text, ref left, ref right, op.pos);
                         left = GenerateAdd(left, right);
                         break;
+
                     case TokenId.Minus:
                         CheckAndPromoteOperands(typeof(ISubtractSignatures), op.text, ref left, ref right, op.pos);
                         left = GenerateSubtract(left, right);
                         break;
+
                     case TokenId.Amphersand:
                         left = GenerateStringConcat(left, right);
                         break;
@@ -878,7 +951,7 @@ namespace POC.Common
         }
 
         // *, /, %, mod operators
-        Expression ParseMultiplicative()
+        private Expression ParseMultiplicative()
         {
             Expression left = ParseUnary();
             while (token.id == TokenId.Asterisk || token.id == TokenId.Slash ||
@@ -893,9 +966,11 @@ namespace POC.Common
                     case TokenId.Asterisk:
                         left = Expression.Multiply(left, right);
                         break;
+
                     case TokenId.Slash:
                         left = Expression.Divide(left, right);
                         break;
+
                     case TokenId.Percent:
                     case TokenId.Identifier:
                         left = Expression.Modulo(left, right);
@@ -906,7 +981,7 @@ namespace POC.Common
         }
 
         // -, !, not unary operators
-        Expression ParseUnary()
+        private Expression ParseUnary()
         {
             if (token.id == TokenId.Minus || token.id == TokenId.Exclamation ||
                 TokenIdentifierIs("not"))
@@ -936,7 +1011,7 @@ namespace POC.Common
             return ParsePrimary();
         }
 
-        Expression ParsePrimary()
+        private Expression ParsePrimary()
         {
             Expression expr = ParsePrimaryStart();
             while (true)
@@ -958,7 +1033,7 @@ namespace POC.Common
             return expr;
         }
 
-        Expression ParsePrimaryStart()
+        private Expression ParsePrimaryStart()
         {
             switch (token.id)
             {
@@ -977,7 +1052,7 @@ namespace POC.Common
             }
         }
 
-        Expression ParseStringLiteral()
+        private Expression ParseStringLiteral()
         {
             ValidateToken(TokenId.StringLiteral);
             char quote = token.text[0];
@@ -1001,7 +1076,7 @@ namespace POC.Common
             return CreateLiteral(s, s);
         }
 
-        Expression ParseIntegerLiteral()
+        private Expression ParseIntegerLiteral()
         {
             ValidateToken(TokenId.IntegerLiteral);
             string text = token.text;
@@ -1028,7 +1103,7 @@ namespace POC.Common
             }
         }
 
-        Expression ParseRealLiteral()
+        private Expression ParseRealLiteral()
         {
             ValidateToken(TokenId.RealLiteral);
             string text = token.text;
@@ -1049,14 +1124,14 @@ namespace POC.Common
             return CreateLiteral(value, text);
         }
 
-        Expression CreateLiteral(object value, string text)
+        private Expression CreateLiteral(object value, string text)
         {
             ConstantExpression expr = Expression.Constant(value);
             literals.Add(expr, text);
             return expr;
         }
 
-        Expression ParseParenExpression()
+        private Expression ParseParenExpression()
         {
             ValidateToken(TokenId.OpenParen, Res.OpenParenExpected);
             NextToken();
@@ -1066,7 +1141,7 @@ namespace POC.Common
             return e;
         }
 
-        Expression ParseIdentifier()
+        private Expression ParseIdentifier()
         {
             ValidateToken(TokenId.Identifier);
             object value;
@@ -1099,7 +1174,7 @@ namespace POC.Common
             throw ParseError(Res.UnknownIdentifier, token.text);
         }
 
-        Expression ParseIt()
+        private Expression ParseIt()
         {
             if (it == null)
                 throw ParseError(Res.NoItInScope);
@@ -1107,7 +1182,7 @@ namespace POC.Common
             return it;
         }
 
-        Expression ParseIif()
+        private Expression ParseIif()
         {
             int errorPos = token.pos;
             NextToken();
@@ -1117,7 +1192,7 @@ namespace POC.Common
             return GenerateConditional(args[0], args[1], args[2], errorPos);
         }
 
-        Expression GenerateConditional(Expression test, Expression expr1, Expression expr2, int errorPos)
+        private Expression GenerateConditional(Expression test, Expression expr1, Expression expr2, int errorPos)
         {
             if (test.Type != typeof(bool))
                 throw ParseError(errorPos, Res.FirstExprMustBeBool);
@@ -1145,7 +1220,7 @@ namespace POC.Common
             return Expression.Condition(test, expr1, expr2);
         }
 
-        Expression ParseNew()
+        private Expression ParseNew()
         {
             NextToken();
             ValidateToken(TokenId.OpenParen, Res.OpenParenExpected);
@@ -1183,7 +1258,7 @@ namespace POC.Common
             return Expression.MemberInit(Expression.New(type), bindings);
         }
 
-        Expression ParseLambdaInvocation(LambdaExpression lambda)
+        private Expression ParseLambdaInvocation(LambdaExpression lambda)
         {
             int errorPos = token.pos;
             NextToken();
@@ -1194,7 +1269,7 @@ namespace POC.Common
             return Expression.Invoke(lambda, args);
         }
 
-        Expression ParseTypeAccess(Type type)
+        private Expression ParseTypeAccess(Type type)
         {
             int errorPos = token.pos;
             NextToken();
@@ -1226,7 +1301,7 @@ namespace POC.Common
             return ParseMemberAccess(type, null);
         }
 
-        Expression GenerateConversion(Expression expr, Type type, int errorPos)
+        private Expression GenerateConversion(Expression expr, Type type, int errorPos)
         {
             Type exprType = expr.Type;
             if (exprType == type) return expr;
@@ -1246,7 +1321,7 @@ namespace POC.Common
                 GetTypeName(exprType), GetTypeName(type));
         }
 
-        Expression ParseMemberAccess(Type type, Expression instance)
+        private Expression ParseMemberAccess(Type type, Expression instance)
         {
             if (instance != null) type = instance.Type;
             int errorPos = token.pos;
@@ -1295,7 +1370,7 @@ namespace POC.Common
             }
         }
 
-        static Type FindGenericType(Type generic, Type type)
+        private static Type FindGenericType(Type generic, Type type)
         {
             while (type != null && type != typeof(object))
             {
@@ -1313,7 +1388,7 @@ namespace POC.Common
             return null;
         }
 
-        Expression ParseAggregate(Expression instance, Type elementType, string methodName, int errorPos)
+        private Expression ParseAggregate(Expression instance, Type elementType, string methodName, int errorPos)
         {
             ParameterExpression outerIt = it;
             ParameterExpression innerIt = Expression.Parameter(elementType, "");
@@ -1343,7 +1418,7 @@ namespace POC.Common
             return Expression.Call(typeof(Enumerable), signature.Name, typeArgs, args);
         }
 
-        Expression[] ParseArgumentList()
+        private Expression[] ParseArgumentList()
         {
             ValidateToken(TokenId.OpenParen, Res.OpenParenExpected);
             NextToken();
@@ -1353,7 +1428,7 @@ namespace POC.Common
             return args;
         }
 
-        Expression[] ParseArguments()
+        private Expression[] ParseArguments()
         {
             List<Expression> argList = new List<Expression>();
             while (true)
@@ -1365,7 +1440,7 @@ namespace POC.Common
             return argList.ToArray();
         }
 
-        Expression ParseElementAccess(Expression expr)
+        private Expression ParseElementAccess(Expression expr)
         {
             int errorPos = token.pos;
             ValidateToken(TokenId.OpenBracket, Res.OpenParenExpected);
@@ -1399,23 +1474,23 @@ namespace POC.Common
             }
         }
 
-        static bool IsPredefinedType(Type type)
+        private static bool IsPredefinedType(Type type)
         {
             foreach (Type t in predefinedTypes) if (t == type) return true;
             return false;
         }
 
-        static bool IsNullableType(Type type)
+        private static bool IsNullableType(Type type)
         {
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
 
-        static Type GetNonNullableType(Type type)
+        private static Type GetNonNullableType(Type type)
         {
             return IsNullableType(type) ? type.GetGenericArguments()[0] : type;
         }
 
-        static string GetTypeName(Type type)
+        private static string GetTypeName(Type type)
         {
             Type baseType = GetNonNullableType(type);
             string s = baseType.Name;
@@ -1423,22 +1498,22 @@ namespace POC.Common
             return s;
         }
 
-        static bool IsNumericType(Type type)
+        private static bool IsNumericType(Type type)
         {
             return GetNumericTypeKind(type) != 0;
         }
 
-        static bool IsSignedIntegralType(Type type)
+        private static bool IsSignedIntegralType(Type type)
         {
             return GetNumericTypeKind(type) == 2;
         }
 
-        static bool IsUnsignedIntegralType(Type type)
+        private static bool IsUnsignedIntegralType(Type type)
         {
             return GetNumericTypeKind(type) == 3;
         }
 
-        static int GetNumericTypeKind(Type type)
+        private static int GetNumericTypeKind(Type type)
         {
             type = GetNonNullableType(type);
             if (type.IsEnum) return 0;
@@ -1464,12 +1539,12 @@ namespace POC.Common
             }
         }
 
-        static bool IsEnumType(Type type)
+        private static bool IsEnumType(Type type)
         {
             return GetNonNullableType(type).IsEnum;
         }
 
-        void CheckAndPromoteOperand(Type signatures, string opName, ref Expression expr, int errorPos)
+        private void CheckAndPromoteOperand(Type signatures, string opName, ref Expression expr, int errorPos)
         {
             Expression[] args = new Expression[] { expr };
             MethodBase method;
@@ -1479,7 +1554,7 @@ namespace POC.Common
             expr = args[0];
         }
 
-        void CheckAndPromoteOperands(Type signatures, string opName, ref Expression left, ref Expression right, int errorPos)
+        private void CheckAndPromoteOperands(Type signatures, string opName, ref Expression left, ref Expression right, int errorPos)
         {
             Expression[] args = new Expression[] { left, right };
             MethodBase method;
@@ -1489,13 +1564,13 @@ namespace POC.Common
             right = args[1];
         }
 
-        Exception IncompatibleOperandsError(string opName, Expression left, Expression right, int pos)
+        private Exception IncompatibleOperandsError(string opName, Expression left, Expression right, int pos)
         {
             return ParseError(pos, Res.IncompatibleOperands,
                 opName, GetTypeName(left.Type), GetTypeName(right.Type));
         }
 
-        MemberInfo FindPropertyOrField(Type type, string memberName, bool staticAccess)
+        private MemberInfo FindPropertyOrField(Type type, string memberName, bool staticAccess)
         {
             BindingFlags flags = BindingFlags.Public | BindingFlags.DeclaredOnly |
                 (staticAccess ? BindingFlags.Static : BindingFlags.Instance);
@@ -1508,7 +1583,7 @@ namespace POC.Common
             return null;
         }
 
-        int FindMethod(Type type, string methodName, bool staticAccess, Expression[] args, out MethodBase method)
+        private int FindMethod(Type type, string methodName, bool staticAccess, Expression[] args, out MethodBase method)
         {
             BindingFlags flags = BindingFlags.Public | BindingFlags.DeclaredOnly |
                 (staticAccess ? BindingFlags.Static : BindingFlags.Instance);
@@ -1523,7 +1598,7 @@ namespace POC.Common
             return 0;
         }
 
-        int FindIndexer(Type type, Expression[] args, out MethodBase method)
+        private int FindIndexer(Type type, Expression[] args, out MethodBase method)
         {
             foreach (Type t in SelfAndBaseTypes(type))
             {
@@ -1542,7 +1617,7 @@ namespace POC.Common
             return 0;
         }
 
-        static IEnumerable<Type> SelfAndBaseTypes(Type type)
+        private static IEnumerable<Type> SelfAndBaseTypes(Type type)
         {
             if (type.IsInterface)
             {
@@ -1553,7 +1628,7 @@ namespace POC.Common
             return SelfAndBaseClasses(type);
         }
 
-        static IEnumerable<Type> SelfAndBaseClasses(Type type)
+        private static IEnumerable<Type> SelfAndBaseClasses(Type type)
         {
             while (type != null)
             {
@@ -1562,7 +1637,7 @@ namespace POC.Common
             }
         }
 
-        static void AddInterface(List<Type> types, Type type)
+        private static void AddInterface(List<Type> types, Type type)
         {
             if (!types.Contains(type))
             {
@@ -1571,14 +1646,14 @@ namespace POC.Common
             }
         }
 
-        class MethodData
+        private class MethodData
         {
             public MethodBase MethodBase;
             public ParameterInfo[] Parameters;
             public Expression[] Args;
         }
 
-        int FindBestMethod(IEnumerable<MethodBase> methods, Expression[] args, out MethodBase method)
+        private int FindBestMethod(IEnumerable<MethodBase> methods, Expression[] args, out MethodBase method)
         {
             MethodData[] applicable = methods.
                 Select(m => new MethodData { MethodBase = m, Parameters = m.GetParameters() }).
@@ -1603,7 +1678,7 @@ namespace POC.Common
             return applicable.Length;
         }
 
-        bool IsApplicable(MethodData method, Expression[] args)
+        private bool IsApplicable(MethodData method, Expression[] args)
         {
             if (method.Parameters.Length != args.Length) return false;
             Expression[] promotedArgs = new Expression[args.Length];
@@ -1619,7 +1694,7 @@ namespace POC.Common
             return true;
         }
 
-        Expression PromoteExpression(Expression expr, Type type, bool exact)
+        private Expression PromoteExpression(Expression expr, Type type, bool exact)
         {
             if (expr.Type == type) return expr;
             if (expr is ConstantExpression)
@@ -1645,9 +1720,11 @@ namespace POC.Common
                             case TypeCode.UInt64:
                                 value = ParseNumber(text, target);
                                 break;
+
                             case TypeCode.Double:
                                 if (target == typeof(decimal)) value = ParseNumber(text, target);
                                 break;
+
                             case TypeCode.String:
                                 value = ParseEnum(text, target);
                                 break;
@@ -1665,7 +1742,7 @@ namespace POC.Common
             return null;
         }
 
-        static object ParseNumber(string text, Type type)
+        private static object ParseNumber(string text, Type type)
         {
             switch (Type.GetTypeCode(GetNonNullableType(type)))
             {
@@ -1673,42 +1750,52 @@ namespace POC.Common
                     sbyte sb;
                     if (sbyte.TryParse(text, out sb)) return sb;
                     break;
+
                 case TypeCode.Byte:
                     byte b;
                     if (byte.TryParse(text, out b)) return b;
                     break;
+
                 case TypeCode.Int16:
                     short s;
                     if (short.TryParse(text, out s)) return s;
                     break;
+
                 case TypeCode.UInt16:
                     ushort us;
                     if (ushort.TryParse(text, out us)) return us;
                     break;
+
                 case TypeCode.Int32:
                     int i;
                     if (int.TryParse(text, out i)) return i;
                     break;
+
                 case TypeCode.UInt32:
                     uint ui;
                     if (uint.TryParse(text, out ui)) return ui;
                     break;
+
                 case TypeCode.Int64:
                     long l;
                     if (long.TryParse(text, out l)) return l;
                     break;
+
                 case TypeCode.UInt64:
                     ulong ul;
                     if (ulong.TryParse(text, out ul)) return ul;
                     break;
+
                 case TypeCode.Single:
                     float f;
                     if (float.TryParse(text, out f)) return f;
                     break;
+
                 case TypeCode.Double:
                     double d;
                     if (double.TryParse(text, out d)) return d;
                     break;
+
                 case TypeCode.Decimal:
                     decimal e;
                     if (decimal.TryParse(text, out e)) return e;
@@ -1717,7 +1804,7 @@ namespace POC.Common
             return null;
         }
 
-        static object ParseEnum(string name, Type type)
+        private static object ParseEnum(string name, Type type)
         {
             if (type.IsEnum)
             {
@@ -1729,7 +1816,7 @@ namespace POC.Common
             return null;
         }
 
-        static bool IsCompatibleWith(Type source, Type target)
+        private static bool IsCompatibleWith(Type source, Type target)
         {
             if (source == target) return true;
             if (!target.IsValueType) return target.IsAssignableFrom(source);
@@ -1753,6 +1840,7 @@ namespace POC.Common
                             return true;
                     }
                     break;
+
                 case TypeCode.Byte:
                     switch (tc)
                     {
@@ -1769,6 +1857,7 @@ namespace POC.Common
                             return true;
                     }
                     break;
+
                 case TypeCode.Int16:
                     switch (tc)
                     {
@@ -1781,6 +1870,7 @@ namespace POC.Common
                             return true;
                     }
                     break;
+
                 case TypeCode.UInt16:
                     switch (tc)
                     {
@@ -1795,6 +1885,7 @@ namespace POC.Common
                             return true;
                     }
                     break;
+
                 case TypeCode.Int32:
                     switch (tc)
                     {
@@ -1806,6 +1897,7 @@ namespace POC.Common
                             return true;
                     }
                     break;
+
                 case TypeCode.UInt32:
                     switch (tc)
                     {
@@ -1818,6 +1910,7 @@ namespace POC.Common
                             return true;
                     }
                     break;
+
                 case TypeCode.Int64:
                     switch (tc)
                     {
@@ -1828,6 +1921,7 @@ namespace POC.Common
                             return true;
                     }
                     break;
+
                 case TypeCode.UInt64:
                     switch (tc)
                     {
@@ -1838,6 +1932,7 @@ namespace POC.Common
                             return true;
                     }
                     break;
+
                 case TypeCode.Single:
                     switch (tc)
                     {
@@ -1846,6 +1941,7 @@ namespace POC.Common
                             return true;
                     }
                     break;
+
                 default:
                     if (st == tt) return true;
                     break;
@@ -1853,7 +1949,7 @@ namespace POC.Common
             return false;
         }
 
-        static bool IsBetterThan(Expression[] args, MethodData m1, MethodData m2)
+        private static bool IsBetterThan(Expression[] args, MethodData m1, MethodData m2)
         {
             bool better = false;
             for (int i = 0; i < args.Length; i++)
@@ -1870,7 +1966,7 @@ namespace POC.Common
         // Return 1 if s -> t1 is a better conversion than s -> t2
         // Return -1 if s -> t2 is a better conversion than s -> t1
         // Return 0 if neither conversion is better
-        static int CompareConversions(Type s, Type t1, Type t2)
+        private static int CompareConversions(Type s, Type t1, Type t2)
         {
             if (t1 == t2) return 0;
             if (s == t1) return 1;
@@ -1884,17 +1980,17 @@ namespace POC.Common
             return 0;
         }
 
-        Expression GenerateEqual(Expression left, Expression right)
+        private Expression GenerateEqual(Expression left, Expression right)
         {
             return Expression.Equal(left, right);
         }
 
-        Expression GenerateNotEqual(Expression left, Expression right)
+        private Expression GenerateNotEqual(Expression left, Expression right)
         {
             return Expression.NotEqual(left, right);
         }
 
-        Expression GenerateGreaterThan(Expression left, Expression right)
+        private Expression GenerateGreaterThan(Expression left, Expression right)
         {
             if (left.Type == typeof(string))
             {
@@ -1906,7 +2002,7 @@ namespace POC.Common
             return Expression.GreaterThan(left, right);
         }
 
-        Expression GenerateGreaterThanEqual(Expression left, Expression right)
+        private Expression GenerateGreaterThanEqual(Expression left, Expression right)
         {
             if (left.Type == typeof(string))
             {
@@ -1918,7 +2014,7 @@ namespace POC.Common
             return Expression.GreaterThanOrEqual(left, right);
         }
 
-        Expression GenerateLessThan(Expression left, Expression right)
+        private Expression GenerateLessThan(Expression left, Expression right)
         {
             if (left.Type == typeof(string))
             {
@@ -1930,7 +2026,7 @@ namespace POC.Common
             return Expression.LessThan(left, right);
         }
 
-        Expression GenerateLessThanEqual(Expression left, Expression right)
+        private Expression GenerateLessThanEqual(Expression left, Expression right)
         {
             if (left.Type == typeof(string))
             {
@@ -1942,7 +2038,7 @@ namespace POC.Common
             return Expression.LessThanOrEqual(left, right);
         }
 
-        Expression GenerateAdd(Expression left, Expression right)
+        private Expression GenerateAdd(Expression left, Expression right)
         {
             if (left.Type == typeof(string) && right.Type == typeof(string))
             {
@@ -1951,12 +2047,12 @@ namespace POC.Common
             return Expression.Add(left, right);
         }
 
-        Expression GenerateSubtract(Expression left, Expression right)
+        private Expression GenerateSubtract(Expression left, Expression right)
         {
             return Expression.Subtract(left, right);
         }
 
-        Expression GenerateStringConcat(Expression left, Expression right)
+        private Expression GenerateStringConcat(Expression left, Expression right)
         {
             return Expression.Call(
                 null,
@@ -1964,29 +2060,29 @@ namespace POC.Common
                 new[] { left, right });
         }
 
-        MethodInfo GetStaticMethod(string methodName, Expression left, Expression right)
+        private MethodInfo GetStaticMethod(string methodName, Expression left, Expression right)
         {
             return left.Type.GetMethod(methodName, new[] { left.Type, right.Type });
         }
 
-        Expression GenerateStaticMethodCall(string methodName, Expression left, Expression right)
+        private Expression GenerateStaticMethodCall(string methodName, Expression left, Expression right)
         {
             return Expression.Call(null, GetStaticMethod(methodName, left, right), new[] { left, right });
         }
 
-        void SetTextPos(int pos)
+        private void SetTextPos(int pos)
         {
             textPos = pos;
             ch = textPos < textLen ? text[textPos] : '\0';
         }
 
-        void NextChar()
+        private void NextChar()
         {
             if (textPos < textLen) textPos++;
             ch = textPos < textLen ? text[textPos] : '\0';
         }
 
-        void NextToken()
+        private void NextToken()
         {
             while (Char.IsWhiteSpace(ch)) NextChar();
             TokenId t;
@@ -2005,10 +2101,12 @@ namespace POC.Common
                         t = TokenId.Exclamation;
                     }
                     break;
+
                 case '%':
                     NextChar();
                     t = TokenId.Percent;
                     break;
+
                 case '&':
                     NextChar();
                     if (ch == '&')
@@ -2021,42 +2119,52 @@ namespace POC.Common
                         t = TokenId.Amphersand;
                     }
                     break;
+
                 case '(':
                     NextChar();
                     t = TokenId.OpenParen;
                     break;
+
                 case ')':
                     NextChar();
                     t = TokenId.CloseParen;
                     break;
+
                 case '*':
                     NextChar();
                     t = TokenId.Asterisk;
                     break;
+
                 case '+':
                     NextChar();
                     t = TokenId.Plus;
                     break;
+
                 case ',':
                     NextChar();
                     t = TokenId.Comma;
                     break;
+
                 case '-':
                     NextChar();
                     t = TokenId.Minus;
                     break;
+
                 case '.':
                     NextChar();
                     t = TokenId.Dot;
                     break;
+
                 case '/':
                     NextChar();
                     t = TokenId.Slash;
                     break;
+
                 case ':':
                     NextChar();
                     t = TokenId.Colon;
                     break;
+
                 case '<':
                     NextChar();
                     if (ch == '=')
@@ -2074,6 +2182,7 @@ namespace POC.Common
                         t = TokenId.LessThan;
                     }
                     break;
+
                 case '=':
                     NextChar();
                     if (ch == '=')
@@ -2086,6 +2195,7 @@ namespace POC.Common
                         t = TokenId.Equal;
                     }
                     break;
+
                 case '>':
                     NextChar();
                     if (ch == '=')
@@ -2098,18 +2208,22 @@ namespace POC.Common
                         t = TokenId.GreaterThan;
                     }
                     break;
+
                 case '?':
                     NextChar();
                     t = TokenId.Question;
                     break;
+
                 case '[':
                     NextChar();
                     t = TokenId.OpenBracket;
                     break;
+
                 case ']':
                     NextChar();
                     t = TokenId.CloseBracket;
                     break;
+
                 case '|':
                     NextChar();
                     if (ch == '|')
@@ -2122,6 +2236,7 @@ namespace POC.Common
                         t = TokenId.Bar;
                     }
                     break;
+
                 case '"':
                 case '\'':
                     char quote = ch;
@@ -2135,6 +2250,7 @@ namespace POC.Common
                     } while (ch == quote);
                     t = TokenId.StringLiteral;
                     break;
+
                 default:
                     if (Char.IsLetter(ch) || ch == '@' || ch == '_')
                     {
@@ -2188,12 +2304,12 @@ namespace POC.Common
             token.pos = tokenPos;
         }
 
-        bool TokenIdentifierIs(string id)
+        private bool TokenIdentifierIs(string id)
         {
             return token.id == TokenId.Identifier && String.Equals(id, token.text, StringComparison.OrdinalIgnoreCase);
         }
 
-        string GetIdentifier()
+        private string GetIdentifier()
         {
             ValidateToken(TokenId.Identifier, Res.IdentifierExpected);
             string id = token.text;
@@ -2201,32 +2317,32 @@ namespace POC.Common
             return id;
         }
 
-        void ValidateDigit()
+        private void ValidateDigit()
         {
             if (!Char.IsDigit(ch)) throw ParseError(textPos, Res.DigitExpected);
         }
 
-        void ValidateToken(TokenId t, string errorMessage)
+        private void ValidateToken(TokenId t, string errorMessage)
         {
             if (token.id != t) throw ParseError(errorMessage);
         }
 
-        void ValidateToken(TokenId t)
+        private void ValidateToken(TokenId t)
         {
             if (token.id != t) throw ParseError(Res.SyntaxError);
         }
 
-        Exception ParseError(string format, params object[] args)
+        private Exception ParseError(string format, params object[] args)
         {
             return ParseError(token.pos, format, args);
         }
 
-        Exception ParseError(int pos, string format, params object[] args)
+        private Exception ParseError(int pos, string format, params object[] args)
         {
             return new ParseException(string.Format(System.Globalization.CultureInfo.CurrentCulture, format, args), pos);
         }
 
-        static Dictionary<string, object> CreateKeywords()
+        private static Dictionary<string, object> CreateKeywords()
         {
             Dictionary<string, object> d = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
             d.Add("true", trueLiteral);
@@ -2240,7 +2356,7 @@ namespace POC.Common
         }
     }
 
-    static class Res
+    internal static class Res
     {
         public const string DuplicateIdentifier = "The identifier '{0}' was defined more than once";
         public const string ExpressionTypeMismatch = "Expression of type '{0}' expected";

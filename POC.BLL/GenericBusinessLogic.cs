@@ -1,18 +1,18 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
-using POC.DataBase;
-using POC.Common;
-using POC.DAL;
-using POC.BLL.DataModel;
-using POC.BLL.DataModel.Enums;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using System.Reflection;
 using Microsoft.CSharp;
-using System.CodeDom.Compiler;
-using System.IO;
+using POC.BLL.DataModel;
+using POC.BLL.DataModel.Enums;
+using POC.Common;
+using POC.DAL;
+using POC.DataBase;
 
 namespace POC.BLL
 {
@@ -72,7 +72,6 @@ namespace POC.BLL
                                 //        taxResult.Unidades = Convert.ToInt32(item.FormItemValue);
                                 //        taxResult.Valor_Unitário = Convert.ToDouble(tax.VALUE.Value);
 
-
                                 //    }
                                 //}
                             }
@@ -90,7 +89,6 @@ namespace POC.BLL
                         taxResult.TOTAL = Convert.ToDouble(taxValue);
                         results.taxResults.Add(taxResult);
                         /*
-
 
                         //Caso seja uma taxa de valor fixo
                         if (elegibleItems.Count == 0)
@@ -163,6 +161,7 @@ namespace POC.BLL
             passedOnAllConditions = true;
 
             #region First Step
+
             //First we need to check if there are exclusions, and if they are caught!
             using (var locator = new GenericRepository<TAXEXCLUSIONS>())
             {
@@ -180,9 +179,11 @@ namespace POC.BLL
                     }
                 }
             }
-            #endregion
+
+            #endregion First Step
 
             #region Second Step
+
             //Now will validate if the tax cond are present, if it isn't, no result will be returned!
             //We will iterate the taxCondList to test the conditions, if one condition is not matched,
             //then we will break the cycle and send passedAllConditions to false
@@ -220,7 +221,8 @@ namespace POC.BLL
                          );
                 }
             }
-            #endregion
+
+            #endregion Second Step
 
             return elegibleItems;
         }
@@ -248,7 +250,7 @@ namespace POC.BLL
                                             public static int Function()
                                             {
 	                                            var numberOfDays = 0;
-	
+
 	                                            if(");
                     functionCode.Append(String.Format(StringEnum.GetStringValue(
                                                     (EnumTax.Formula)Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA)),
@@ -267,6 +269,7 @@ namespace POC.BLL
                     var delegatedFunction = (Func<int>)Delegate.CreateDelegate(typeof(Func<int>), CreateFunction(functionCode.ToString()));
                     returnedValue = delegatedFunction();
                     break;
+
                 case (int)EnumTax.OperatorValueTypes.Monetary:
                     //                        functionCode = @"using System;
                     //                                public class DateFunctionValidation
@@ -277,6 +280,7 @@ namespace POC.BLL
                     //                                    }
                     //                                }";
                     break;
+
                 case (int)EnumTax.OperatorValueTypes.Numeric:
                     //                        functionCode = @"using System;
                     //                                public class DateFunctionValidation
@@ -304,6 +308,7 @@ namespace POC.BLL
                         )
                         .Descendants("Value").SingleOrDefault();
                     break;
+
                 case EnumTax.XPathOptions.XmlFormField:
                     xElement = xDoc.XPathSelectElements(String.Format("//Object/Field[Name = '{0}']", fieldName))
                         .Descendants("Value").SingleOrDefault();
@@ -317,6 +322,7 @@ namespace POC.BLL
         }
 
         #region Math Operations
+
         private decimal CalculateValue(decimal originalTaxValue, double? discount)
         {
             return discount.HasValue ? CalculateDiscount(originalTaxValue, discount.Value) : originalTaxValue;
@@ -342,9 +348,11 @@ namespace POC.BLL
         {
             return taxValue - (taxValue * Convert.ToDecimal(discount));
         }
-        #endregion
+
+        #endregion Math Operations
 
         #region DAL Access
+
         private IEnumerable<TAXCONDS> GetTaxCondsByTaxId(int taxId)
         {
             using (var locator = new GenericRepository<TAXCONDS>())
@@ -434,10 +442,12 @@ namespace POC.BLL
                     ).Count() > 0;
             }
         }
-        #endregion
+
+        #endregion DAL Access
 
         #region Compilation at runtime
-        MethodInfo CreateFunction(string script)
+
+        private MethodInfo CreateFunction(string script)
         {
             Assembly t = Compile(script);
 
@@ -448,7 +458,7 @@ namespace POC.BLL
             return binaryFunction.GetMethod("Function");
         }
 
-        Assembly Compile(string script)
+        private Assembly Compile(string script)
         {
             CompilerParameters options = new CompilerParameters();
             options.GenerateExecutable = false;
@@ -472,6 +482,7 @@ namespace POC.BLL
 
             return result.CompiledAssembly;
         }
-        #endregion
+
+        #endregion Compilation at runtime
     }
 }

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using POC.DataBase;
 using System.Data.Objects;
+using System.Linq;
 using POC.Common;
+using POC.DataBase;
 
 namespace POC.DAL
 {
