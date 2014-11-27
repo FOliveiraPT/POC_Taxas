@@ -8,9 +8,6 @@ namespace POC.BLL.DataModel
 {
     public class ElegibleItem
     {
-        public POC.BLL.DataModel.Enums.EnumTax.ElegibleItemType ItemType { get; set; }
-        public POC.BLL.DataModel.Enums.EnumTax.XMLFieldNames? XmlFieldName { get; set; }
-        public POC.BLL.DataModel.Enums.EnumTax.OperatorValueTypes? OperatorValueType { get; set; }
         public string FormItemName { get; set; }
         public string FormItemValue { get; set; }
         public int? FormulaId { get; set; }

@@ -66,7 +66,7 @@ namespace POC.BLL.DataModel.Enums
             [StringValue("Tipo de requisição:")]
             RequisitionType = 20,
             [StringValue("Na seguinte data")]
-            InFollowingDate = 21
+            InFollowingDate = 21,
         }
 
         public enum OperatorValueTypes
@@ -74,6 +74,18 @@ namespace POC.BLL.DataModel.Enums
             Numeric = 1,
             Monetary = 2,
             Date = 3
+        }
+
+        public enum TaxExclusions
+        {
+            [StringValue("/forms/process/Object/Field[Name = 'Tipo de Processo']")]
+            ProcessType = 1
+        }
+
+        public enum XPathOptions
+        {
+            XmlFormField,
+            TaxExclusionField
         }
 
         public enum Formula

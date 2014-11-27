@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using POC.BLL;
 using System.Xml.Linq;
+using System.Xml.XPath;
 using POC.Common;
 using POC.BLL.DataModel.Enums;
 using Microsoft.CSharp;
@@ -17,7 +18,12 @@ namespace ConsoleApplication
     {
         static void Main(string[] args)
         {
-            var t = TesteDinamico();
+            XDocument xDoc = XDocument.Load("Teste.xml");
+            var t = xDoc.XPathSelectElements("/forms/process/Object/Field[Name = 'Tipo de Processo']").Descendants("Value").SingleOrDefault().Value;
+
+            ///Field/Name/Value|
+
+            //var t = TesteDinamico();
         }
 
         static int TesteDinamico()

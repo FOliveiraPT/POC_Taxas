@@ -8,6 +8,7 @@ using POC.DAL;
 using POC.BLL.DataModel;
 using POC.BLL.DataModel.Enums;
 using System.Xml.Linq;
+using System.Xml.XPath;
 using System.Reflection;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
@@ -23,18 +24,73 @@ namespace POC.BLL
             {
                 ServiceTaxResults results = new ServiceTaxResults();
 
-                // Verificar se tem Tax associado
+                // Check if has tax associated
                 if (HasTax(orderTypeId))
                 {
-                    foreach (var tax in GetTaxes(orderTypeId))
+                    foreach (var tax in GetTaxes(orderTypeId, channelId))
                     {
+                        var taxResult = new GetTax_Result();
                         var discount = GetDiscount(tax.ID);
                         decimal taxValue = 0;
-                        bool passedOnAllConditions = true;
-                        var elegibleItems = GetElegibleItems(tax.ID, orderTypeId, orderList, forView, out passedOnAllConditions);
 
-                        if (!passedOnAllConditions)
-                            break;
+                        if (tax.FORMULA_ID.HasValue)
+                        {
+                            var formulaResult = ParseFormula(GetFormula(tax.FORMULA_ID.Value), orderList);
+
+                            if (formulaResult.GetType().Equals(typeof(Int32)))
+                            {
+                                taxResult.Unidades = Convert.ToInt32(formulaResult);
+                                taxResult.Valor_Unitário = Convert.ToDouble(tax.VALUE.Value);
+                            }
+
+                            taxValue = CalculateValue(taxResult, tax.VALUE.Value, discount);
+                        }
+                        else
+                        {
+                            //Check if it has TaxConds
+                            var taxConds = GetTaxCondsByTaxId(tax.ID);
+
+                            //If has TaxConds then will check for exclusions and calculate the Tax
+                            if (taxConds.Count() > 0)
+                            {
+                                bool passedOnAllConditions = true;
+                                var elegibleItems = GetElegibleItems(orderList, taxConds, out passedOnAllConditions);
+
+                                //If doesn't pass on all conditions due to restrictions or not found elements,
+                                //no tax value will be defined
+                                if (!passedOnAllConditions)
+                                    break;
+
+                                //foreach (var item in elegibleItems)
+                                //{
+                                //    if (item.FormulaId.HasValue)
+                                //    {
+                                //        break;
+                                //    }
+                                //    else
+                                //    {
+                                //        taxResult.Unidades = Convert.ToInt32(item.FormItemValue);
+                                //        taxResult.Valor_Unitário = Convert.ToDouble(tax.VALUE.Value);
+
+
+                                //    }
+                                //}
+                            }
+                            else
+                            {
+                                //If it doesn't have conditions, make the operations to get the final value
+                                taxValue = CalculateValue(tax.VALUE.Value, discount);
+                                taxResult.Unidades = 1; //Default value
+                                taxResult.Valor_Unitário = Convert.ToDouble(tax.VALUE.Value); //Default value
+                            }
+                        }
+
+                        taxResult.Taxa = tax.NAME;
+                        taxResult.TAX_DISCOUNT = discount;
+                        taxResult.TOTAL = Convert.ToDouble(taxValue);
+                        results.taxResults.Add(taxResult);
+                        /*
+
 
                         //Caso seja uma taxa de valor fixo
                         if (elegibleItems.Count == 0)
@@ -83,7 +139,7 @@ namespace POC.BLL
                                     taxValue = (RetrieveFormulaResult(ParseFormula(GetFormula(item.FormulaId.Value), orderList)));
                                 }
                             }
-                        }
+                        }*/
                     }
                 }
                 return results;
@@ -100,146 +156,200 @@ namespace POC.BLL
             }
         }
 
-
-        private bool HasTax(int orderTypeId)
-        {
-            using (var locator = new GenericRepository<TAXES>())
-            {
-                return locator.Find(
-                    c => c.ORDERTYPE_ID == orderTypeId
-                    && !c.END_DATE.HasValue
-                    ).Count() > 0;
-            }
-        }
-
-        private IEnumerable<TAXES> GetTaxes(int orderTypeId)
-        {
-            using (var locator = new GenericRepository<TAXES>())
-            {
-                return locator.Find(c => c.ORDERTYPE_ID == orderTypeId);
-            }
-        }
-
-
-        private int GetTaxId(int orderTypeId)
-        {
-            using (var locator = new GenericRepository<TAXES>())
-            {
-                return locator.Single(
-                    c => c.ORDERTYPE_ID == orderTypeId
-                    && !c.END_DATE.HasValue
-                    ).ID;
-            }
-        }
-
-        private List<ElegibleItem> GetElegibleItems(int taxId, int orderTypeId, string orderList, bool forView, out bool passedOnAllConditions)
+        private List<ElegibleItem> GetElegibleItems(string orderList, IEnumerable<TAXCONDS> taxCondList, out bool passedOnAllConditions)
         {
             XDocument xDoc = XDocument.Parse(orderList);
             var elegibleItems = new List<ElegibleItem>();
             passedOnAllConditions = true;
 
-            using (var locator = new GenericRepository<TAXCONDS>())
+            #region First Step
+            //First we need to check if there are exclusions, and if they are caught!
+            using (var locator = new GenericRepository<TAXEXCLUSIONS>())
             {
-                // Verificar se tem TaxCond 
-                var taxCondList = locator.Find(c => c.TAX_ID == taxId);
-
                 foreach (var item in taxCondList)
                 {
-                    //      Se sim:
-                    //          Verificar se tem TaxExclusions
-                    if (!GetExclusionsByTaxCondID(item.ID, forView))
-                        continue;
-
-                    if (!item.FORMULA_ID.HasValue &&
-                            (
-                                !string.IsNullOrEmpty(item.FORM_ITEM_NAME) ||
-                                !string.IsNullOrWhiteSpace(item.FORM_ITEM_NAME)
-                            )
-                        )
+                    var taxExclusion = locator.Single(c => c.TAXCOND_ID == item.ID);
+                    if (taxExclusion != null)
                     {
-                        var elements = xDoc.Descendants(item.FORM_ITEM_NAME);
-
-                        if (!string.IsNullOrEmpty(item.FORM_ITEM_VALUE) ||
-                                !string.IsNullOrWhiteSpace(item.FORM_ITEM_VALUE))
+                        var resultXPath = XPathString(EnumTax.XPathOptions.TaxExclusionField, xDoc, null, taxExclusion.ID);
+                        if (!String.IsNullOrEmpty(resultXPath) || !String.IsNullOrWhiteSpace(resultXPath))
                         {
-                            if (item.VALUE_IS_EQUAL)
-                                elements = elements.Where(c => c.Value.Equals(item.FORM_ITEM_VALUE));
-                            else
-                                elements = elements.Where(c => !(c.Value.Equals(item.FORM_ITEM_VALUE)));
-
-                            //Neste caso temos uma condição que não passou nas validações, logo não é calculada a taxa
-                            if (elements.Count() == 0)
-                            {
-                                passedOnAllConditions = false;
-                                break;
-                            }
-
-                            elegibleItems.Add(new ElegibleItem()
-                                    {
-                                        ItemType = EnumTax.ElegibleItemType.Field,
-                                        FormItemValue = elements.SingleOrDefault().Value
-                                    }
-                                );
-                        }
-                        else
-                        {
-                            ElegibleItem elegibleItem = null;
-                            var enumerator = Enum.GetValues(typeof(EnumTax.XMLFieldNames)).GetEnumerator();
-                            while (enumerator.MoveNext())
-                            {
-                                if (StringEnum.GetStringValue((EnumTax.XMLFieldNames)enumerator.Current) == item.FORM_ITEM_NAME)
-                                {
-                                    elegibleItem = new ElegibleItem()
-                                        {
-                                            ItemType = EnumTax.ElegibleItemType.CalculatedField,
-                                            XmlFieldName = (EnumTax.XMLFieldNames)enumerator.Current,
-                                            FormItemValue = elements.SingleOrDefault().Value
-                                        };
-                                    break;
-                                }
-                            }
-
-                            if (elegibleItem == null)
-                                passedOnAllConditions = false;
-
-                            elegibleItems.Add(elegibleItem);
+                            passedOnAllConditions = false;
+                            break;
                         }
                     }
-                    else if (item.FORMULA_ID.HasValue)
+                }
+            }
+            #endregion
+
+            #region Second Step
+            //Now will validate if the tax cond are present, if it isn't, no result will be returned!
+            //We will iterate the taxCondList to test the conditions, if one condition is not matched,
+            //then we will break the cycle and send passedAllConditions to false
+            foreach (var item in taxCondList)
+            {
+                var resultXPath = XPathString(EnumTax.XPathOptions.XmlFormField, xDoc, item.FORM_ITEM_NAME);
+
+                //Test if the form_item_value is equal in file and database
+                if (!String.IsNullOrEmpty(item.FORM_ITEM_VALUE) || !String.IsNullOrWhiteSpace(item.FORM_ITEM_VALUE))
+                {
+                    if (!(item.VALUE_IS_EQUAL == resultXPath.Equals(item.FORM_ITEM_VALUE)))
                     {
-                        elegibleItems.Add(
-                            new ElegibleItem()
+                        passedOnAllConditions = false;
+                        break;
+                    }
+
+                    if (item.FORMULA_ID.HasValue)
+                    {
+                        elegibleItems.Add(new ElegibleItem()
                             {
-                                ItemType = EnumTax.ElegibleItemType.Formula,
-                                FormulaId = item.FORMULA_ID,
+                                FormItemName = item.FORM_ITEM_NAME,
+                                FormItemValue = item.FORM_ITEM_VALUE,
+                                FormulaId = item.FORMULA_ID.Value
                             }
                         );
                     }
                 }
+                else
+                {
+                    elegibleItems.Add(new ElegibleItem()
+                            {
+                                FormItemName = item.FORM_ITEM_NAME,
+                                FormItemValue = resultXPath
+                            }
+                         );
+                }
             }
-
+            #endregion
 
             return elegibleItems;
         }
 
-        private bool GetExclusionsByTaxCondID(int taxCondId, bool forView)
+        private Object ParseFormula(FORMULAS formula, string xml)
         {
-            using (var locator = new GenericRepository<TAXEXCLUSIONS>())
+            Object returnedValue = null;
+
+            XDocument xDoc = XDocument.Parse(xml);
+            var oper = GetOperator(formula.FORMULA);
+            var functionCode = new StringBuilder();
+            switch (oper.VALUETYPE_ID)
             {
-                var collection = locator.Find(c => c.TAXCOND_ID == taxCondId);
+                case (int)EnumTax.OperatorValueTypes.Date:
+                    //ALTERAR PARA XPATH
+                    var tempElement = xDoc.Descendants("Field").Elements("Name").SingleOrDefault(x => x.Value == "De").NextNode;
+                    var elementInitialDate = (string)((XElement)tempElement);
+                    tempElement = xDoc.Descendants("Field").Elements("Name").SingleOrDefault(x => x.Value == "até").NextNode;
+                    var elementFinalDate = (string)((XElement)tempElement);
 
-                if (forView == true)
-                    collection = collection.Where(c => c.FOR_VIEW == true);
+                    functionCode.Append(@"using System;
+                                        namespace ConsoleApplication{
+                                        public class DateFunctionValidation
+                                        {
+                                            public static int Function()
+                                            {
+	                                            var numberOfDays = 0;
+	
+	                                            if(");
+                    functionCode.Append(String.Format(StringEnum.GetStringValue(
+                                                    (EnumTax.Formula)Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA)),
+                                                    elementFinalDate,
+                                                    elementInitialDate,
+                                                    (int)((EnumTax.Formula)Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA))));
+                    functionCode.Append("){");
+                    functionCode.Append(String.Format("numberOfDays = ((Convert.ToDateTime(\"{0}\")) - (Convert.ToDateTime(\"{1}\"))).Days;", elementFinalDate, elementInitialDate));
+                    functionCode.Append("}");
+                    functionCode.Append(String.Format("else { numberOfDays = Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA) == EnumTax.Formula.Q46 ? ((Convert.ToDateTime(\"{0}\")) - (Convert.ToDateTime(\"{1}\"))).Days - {0} : {0};}", (int)((EnumTax.Formula)Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA))));
+                    functionCode.Append("return numberOfDays;");
+                    functionCode.Append("}");
+                    functionCode.Append("}");
+                    functionCode.Append("}");
 
-                return collection.Count() > 0;
+                    var delegatedFunction = (Func<int>)Delegate.CreateDelegate(typeof(Func<int>), CreateFunction(functionCode.ToString()));
+                    returnedValue = delegatedFunction();
+                    break;
+                case (int)EnumTax.OperatorValueTypes.Monetary:
+                    //                        functionCode = @"using System;
+                    //                                public class DateFunctionValidation
+                    //                                {
+                    //                                    public static bool Function()
+                    //                                    {
+                    //                                        return {0};
+                    //                                    }
+                    //                                }";
+                    break;
+                case (int)EnumTax.OperatorValueTypes.Numeric:
+                    //                        functionCode = @"using System;
+                    //                                public class DateFunctionValidation
+                    //                                {
+                    //                                    public static bool Function()
+                    //                                    {
+                    //                                        return {0};
+                    //                                    }
+                    //                                }";
+                    break;
             }
+
+            return returnedValue;
         }
 
-        private bool HasTaxExclusion(int ordertypeId, bool forView)
+        private string XPathString(POC.BLL.DataModel.Enums.EnumTax.XPathOptions option, XDocument xDoc, string fieldName, int id = 0)
         {
-            using (var locator = new GenericRepository<TAXEXCLUSIONS>())
+            XElement xElement = null;
+
+            switch (option)
             {
-                return locator.Find(c => c.ORDERTYPE_ID == ordertypeId && c.FOR_VIEW == forView).Count() > 0;
+                case EnumTax.XPathOptions.TaxExclusionField:
+                    xElement = xDoc.XPathSelectElements(
+                            StringEnum.GetStringValue((EnumTax.TaxExclusions)Enum.Parse(typeof(EnumTax.TaxExclusions), id.ToString()))
+                        )
+                        .Descendants("Value").SingleOrDefault();
+                    break;
+                case EnumTax.XPathOptions.XmlFormField:
+                    xElement = xDoc.XPathSelectElements(String.Format("//Object/Field[Name = '{0}']", fieldName))
+                        .Descendants("Value").SingleOrDefault();
+                    break;
+            }
+
+            if (xElement != null)
+                return xElement.Value;
+
+            return string.Empty;
+        }
+
+        #region Math Operations
+        private decimal CalculateValue(decimal originalTaxValue, double? discount)
+        {
+            return discount.HasValue ? CalculateDiscount(originalTaxValue, discount.Value) : originalTaxValue;
+        }
+
+        private decimal CalculateValue(object formulaResult, decimal originalTaxValue, double? discount)
+        {
+            decimal taxResultValue, taxValue = 0;
+            if (formulaResult.GetType().Equals(typeof(Int32)))
+            {
+                taxResultValue = Convert.ToDecimal(formulaResult) * originalTaxValue;
+                taxValue = discount.HasValue ? CalculateDiscount(taxResultValue, discount.Value) : taxResultValue;
+            }
+            else if (formulaResult.GetType().Equals(typeof(Decimal)))
+            {
+                taxValue = discount.HasValue ? CalculateDiscount(Convert.ToDecimal(formulaResult), discount.Value) : Convert.ToDecimal(formulaResult);
+            }
+
+            return taxValue;
+        }
+
+        private decimal CalculateDiscount(decimal taxValue, double discount)
+        {
+            return taxValue - (taxValue * Convert.ToDecimal(discount));
+        }
+        #endregion
+
+        #region DAL Access
+        private IEnumerable<TAXCONDS> GetTaxCondsByTaxId(int taxId)
+        {
+            using (var locator = new GenericRepository<TAXCONDS>())
+            {
+                return locator.Find(c => c.TAX_ID == taxId);
             }
         }
 
@@ -278,6 +388,26 @@ namespace POC.BLL
             return listFormulas;
         }
 
+        private IEnumerable<TAXES> GetTaxes(int orderTypeId, int channelId)
+        {
+            using (var locator = new GenericRepository<TAXES>())
+            {
+                return locator.Find(c => c.ORDERTYPE_ID == orderTypeId
+                    && c.CHANNEL_ID == channelId);
+            }
+        }
+
+        private int GetTaxId(int orderTypeId)
+        {
+            using (var locator = new GenericRepository<TAXES>())
+            {
+                return locator.Single(
+                    c => c.ORDERTYPE_ID == orderTypeId
+                    && !c.END_DATE.HasValue
+                    ).ID;
+            }
+        }
+
         private double? GetDiscount(int taxId)
         {
             double? discount = null;
@@ -294,114 +424,19 @@ namespace POC.BLL
             return discount;
         }
 
-        private decimal CalculateDiscount(decimal taxValue, double discount)
+        private bool HasTax(int orderTypeId)
         {
-            return taxValue - (taxValue * Convert.ToDecimal(discount));
-        }
-
-        private IEnumerable<Object> ParseFormula(FORMULAS formula, string xml)
-        {
-            XDocument xDoc = XDocument.Parse(xml);
-            //var operatorArray = new char[] { '+', '*', '/', '-' };
-            //foreach (var op in operatorArray)
-            //{
-            //    //Devolve um objecto que terá uma coleção dos valores e operadores para o cálculo
-            //    formula.FORMULA.Split(op);
-            //}
-
-            if (!CheckMathOperatorExistance(formula.FORMULA))
+            using (var locator = new GenericRepository<TAXES>())
             {
-                var oper = GetOperator(formula.FORMULA);
-                var functionCode = new StringBuilder();
-
-                switch (oper.VALUETYPE_ID)
-                {
-                    case (int)EnumTax.OperatorValueTypes.Date:
-                        //ALTERAR PARA XPATH
-                        var tempElement = xDoc.Descendants("Field").Elements("Name").SingleOrDefault(x => x.Value == "De").NextNode;
-                        var elementInitialDate = (string)((XElement)tempElement);
-                        tempElement = xDoc.Descendants("Field").Elements("Name").SingleOrDefault(x => x.Value == "até").NextNode;
-                        var elementFinalDate = (string)((XElement)tempElement);
-
-                        functionCode.Append(@"using System;
-                                        namespace ConsoleApplication{
-                                        public class DateFunctionValidation
-                                        {
-                                            public static int Function()
-                                            {
-	                                            var numberOfDays = 0;
-	
-	                                            if(");
-                        functionCode.Append(String.Format(StringEnum.GetStringValue(
-                                                        (EnumTax.Formula)Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA)),
-                                                        elementFinalDate,
-                                                        elementInitialDate,
-                                                        (int)((EnumTax.Formula)Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA))));
-                        functionCode.Append("){");
-                        functionCode.Append(String.Format("numberOfDays = ((Convert.ToDateTime(\"{0}\")) - (Convert.ToDateTime(\"{1}\"))).Days;", elementFinalDate, elementInitialDate));
-                        functionCode.Append("}");
-                        functionCode.Append(String.Format("else { numberOfDays = Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA) == EnumTax.Formula.Q46 ? ((Convert.ToDateTime(\"{0}\")) - (Convert.ToDateTime(\"{1}\"))).Days - {0} : {0};}", (int)((EnumTax.Formula)Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA))));
-                        functionCode.Append("return numberOfDays;");
-                        functionCode.Append("}");
-                        functionCode.Append("}");
-                        functionCode.Append("}");
-
-                        var delegatedFunction = (Func<int>)Delegate.CreateDelegate(typeof(Func<int>), CreateFunction(functionCode.ToString()));
-                        delegatedFunction();
-
-                        //Já se vê o que fazer com os dias.
-                        break;
-                    case (int)EnumTax.OperatorValueTypes.Monetary:
-//                        functionCode = @"using System;
-//                                public class DateFunctionValidation
-//                                {
-//                                    public static bool Function()
-//                                    {
-//                                        return {0};
-//                                    }
-//                                }";
-                        break;
-                    case (int)EnumTax.OperatorValueTypes.Numeric:
-//                        functionCode = @"using System;
-//                                public class DateFunctionValidation
-//                                {
-//                                    public static bool Function()
-//                                    {
-//                                        return {0};
-//                                    }
-//                                }";
-                        break;
-                }
-
-
+                return locator.Find(
+                    c => c.ORDERTYPE_ID == orderTypeId
+                    && !c.END_DATE.HasValue
+                    ).Count() > 0;
             }
-
-            return null;
         }
+        #endregion
 
-        private bool CheckMathOperatorExistance(string formula)
-        {
-            bool exist = false;
-            var operatorArray = new char[] { '+', '*', '/', '-' };
-
-            foreach (var item in operatorArray)
-            {
-                if (formula.Contains(item))
-                {
-                    exist = true;
-                    break;
-                }
-            }
-
-            return exist;
-        }
-
-        private decimal RetrieveFormulaResult(Object o)//IEnumerable<OPERATORS> operators)
-        {
-            return 0;
-        }
-
-        #region Compile - Código visto por fontes externas
+        #region Compilation at runtime
         MethodInfo CreateFunction(string script)
         {
             Assembly t = Compile(script);
