@@ -36,10 +36,6 @@
             <End Role="ORDERTYPES" EntitySet="ORDERTYPES" />
             <End Role="TAXES" EntitySet="TAXES" />
           </AssociationSet>
-          <AssociationSet Name="FK_TAXCOND_FORMULAS" Association="TaxModel.Store.FK_TAXCOND_FORMULAS">
-            <End Role="FORMULAS" EntitySet="FORMULAS" />
-            <End Role="TAXCONDS" EntitySet="TAXCONDS" />
-          </AssociationSet>
           <AssociationSet Name="FK_TAXCOND_TAX" Association="TaxModel.Store.FK_TAXCOND_TAX">
             <End Role="TAXES" EntitySet="TAXES" />
             <End Role="TAXCONDS" EntitySet="TAXCONDS" />
@@ -111,7 +107,6 @@
           <Property Name="TAX_ID" Type="int" Nullable="false" />
           <Property Name="FORM_ITEM_NAME" Type="nvarchar(max)" Nullable="false" />
           <Property Name="FORM_ITEM_VALUE" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="FORMULA_ID" Type="int" />
           <Property Name="VALUE_IS_EQUAL" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="TAXES">
@@ -215,18 +210,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TAXCOND_FORMULAS">
-          <End Role="FORMULAS" Type="TaxModel.Store.FORMULAS" Multiplicity="0..1" />
-          <End Role="TAXCONDS" Type="TaxModel.Store.TAXCONDS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FORMULAS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TAXCONDS">
-              <PropertyRef Name="FORMULA_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TAXCOND_TAX">
           <End Role="TAXES" Type="TaxModel.Store.TAXES" Multiplicity="1" />
           <End Role="TAXCONDS" Type="TaxModel.Store.TAXCONDS" Multiplicity="*" />
@@ -290,10 +273,6 @@
             <End Role="FORMULAS" EntitySet="FORMULAS" />
             <End Role="TAXES" EntitySet="TAXES" />
           </AssociationSet>
-          <AssociationSet Name="FK_TAXCOND_FORMULAS" Association="TaxModel.FK_TAXCOND_FORMULAS">
-            <End Role="FORMULAS" EntitySet="FORMULAS" />
-            <End Role="TAXCONDS" EntitySet="TAXCONDS" />
-          </AssociationSet>
           <AssociationSet Name="FK_OPERATORS_VALUETYPES" Association="TaxModel.FK_OPERATORS_VALUETYPES">
             <End Role="VALUETYPES" EntitySet="VALUETYPES" />
             <End Role="OPERATORS" EntitySet="OPERATORS" />
@@ -341,7 +320,6 @@
           <Property Type="String" Name="NAME" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="FORMULA" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TAXES" Relationship="TaxModel.FK_TAX_FORMULAS" FromRole="FORMULAS" ToRole="TAXES" />
-          <NavigationProperty Name="TAXCONDS" Relationship="TaxModel.FK_TAXCOND_FORMULAS" FromRole="FORMULAS" ToRole="TAXCONDS" />
         </EntityType>
         <EntityType Name="OPERATORS">
           <Key>
@@ -380,9 +358,7 @@
           <Property Type="Int32" Name="TAX_ID" Nullable="false" />
           <Property Type="String" Name="FORM_ITEM_NAME" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="FORM_ITEM_VALUE" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="FORMULA_ID" />
           <Property Type="Boolean" Name="VALUE_IS_EQUAL" Nullable="false" />
-          <NavigationProperty Name="FORMULAS" Relationship="TaxModel.FK_TAXCOND_FORMULAS" FromRole="TAXCONDS" ToRole="FORMULAS" />
           <NavigationProperty Name="TAXES" Relationship="TaxModel.FK_TAXCOND_TAX" FromRole="TAXCONDS" ToRole="TAXES" />
           <NavigationProperty Name="TAXEXCLUSIONS" Relationship="TaxModel.FK_TAXEXCLUSIONS_TAXCOND" FromRole="TAXCONDS" ToRole="TAXEXCLUSIONS" />
         </EntityType>
@@ -467,18 +443,6 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="TAXES">
-              <PropertyRef Name="FORMULA_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TAXCOND_FORMULAS">
-          <End Type="TaxModel.FORMULAS" Role="FORMULAS" Multiplicity="0..1" />
-          <End Type="TaxModel.TAXCONDS" Role="TAXCONDS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FORMULAS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TAXCONDS">
               <PropertyRef Name="FORMULA_ID" />
             </Dependent>
           </ReferentialConstraint>
@@ -608,7 +572,6 @@
             <EntityTypeMapping TypeName="TaxModel.TAXCONDS">
               <MappingFragment StoreEntitySet="TAXCONDS">
                 <ScalarProperty Name="VALUE_IS_EQUAL" ColumnName="VALUE_IS_EQUAL" />
-                <ScalarProperty Name="FORMULA_ID" ColumnName="FORMULA_ID" />
                 <ScalarProperty Name="FORM_ITEM_VALUE" ColumnName="FORM_ITEM_VALUE" />
                 <ScalarProperty Name="FORM_ITEM_NAME" ColumnName="FORM_ITEM_NAME" />
                 <ScalarProperty Name="TAX_ID" ColumnName="TAX_ID" />
@@ -739,66 +702,57 @@
           <ConnectorPoint PointX="6.75" PointY="2.6439925130208337" />
           <ConnectorPoint PointX="7.5" PointY="2.6439925130208337" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="TaxModel.CHANNELS" Width="1.5" PointX="0.75" PointY="5.75" Height="1.9802864583333388" />
-        <EntityTypeShape EntityType="TaxModel.DISCOUNTS" Width="1.5" PointX="0.75" PointY="8.375" Height="1.595683593749996" />
-        <EntityTypeShape EntityType="TaxModel.FORMULAS" Width="1.5" PointX="0.75" PointY="2" Height="1.9802864583333388" />
-        <EntityTypeShape EntityType="TaxModel.OPERATORS" Width="1.5" PointX="5" PointY="5.875" Height="1.9802864583333246" />
-        <EntityTypeShape EntityType="TaxModel.ORDERTYPES" Width="1.5" PointX="0.75" PointY="10.75" Height="3.7109993489583388" />
-        <EntityTypeShape EntityType="TaxModel.TAXCONDS" Width="1.5" PointX="5.25" PointY="1.625" Height="2.7494921875000102" />
-        <EntityTypeShape EntityType="TaxModel.TAXES" Width="1.5" PointX="3" PointY="1" Height="3.9033007812500107" />
-        <EntityTypeShape EntityType="TaxModel.TAXEXCLUSIONS" Width="1.5" PointX="7.5" PointY="1.875" Height="2.1725878906250102" />
-        <EntityTypeShape EntityType="TaxModel.UOPG" Width="1.5" PointX="7.75" PointY="5.75" Height="1.9802864583333246" />
-        <EntityTypeShape EntityType="TaxModel.VALUETYPES" Width="1.5" PointX="2.75" PointY="6.125" Height="1.595683593749996" />
+        <EntityTypeShape EntityType="TaxModel.CHANNELS" Width="1.5" PointX="0.75" PointY="5.75" Height="1.9802864583333353" />
+        <EntityTypeShape EntityType="TaxModel.DISCOUNTS" Width="1.5" PointX="0.75" PointY="8.375" Height="1.5956835937500031" />
+        <EntityTypeShape EntityType="TaxModel.FORMULAS" Width="1.5" PointX="0.75" PointY="10.75" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="TaxModel.OPERATORS" Width="1.5" PointX="5" PointY="5.875" Height="1.9802864583333388" />
+        <EntityTypeShape EntityType="TaxModel.ORDERTYPES" Width="1.5" PointX="0.75" PointY="1.125" Height="3.7109993489583384" />
+        <EntityTypeShape EntityType="TaxModel.TAXCONDS" Width="1.5" PointX="5.25" PointY="1.75" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="TaxModel.TAXES" Width="1.5" PointX="3" PointY="1" Height="3.903300781249996" />
+        <EntityTypeShape EntityType="TaxModel.TAXEXCLUSIONS" Width="1.5" PointX="7.5" PointY="1.875" Height="2.172587890624996" />
+        <EntityTypeShape EntityType="TaxModel.UOPG" Width="1.5" PointX="7.75" PointY="5.75" Height="1.9802864583333388" />
+        <EntityTypeShape EntityType="TaxModel.VALUETYPES" Width="1.5" PointX="2.75" PointY="6.125" Height="1.5956835937500031" />
         <AssociationConnector Association="TaxModel.FK_TAX_CHANNEL" >
           <ConnectorPoint PointX="2.25" PointY="5.90625" />
           <ConnectorPoint PointX="4.40625" PointY="5.90625" />
-          <ConnectorPoint PointX="4.40625" PointY="4.90330078125001" />
+          <ConnectorPoint PointX="4.40625" PointY="4.903300781249996" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAX_DISCOUNT" >
-          <ConnectorPoint PointX="2.25" PointY="9.172841796874998" />
-          <ConnectorPoint PointX="4.3749975" PointY="9.172841796874998" />
-          <ConnectorPoint PointX="4.3749975" PointY="4.90330078125001" />
+          <ConnectorPoint PointX="2.25" PointY="9.1728417968750016" />
+          <ConnectorPoint PointX="4.3749975" PointY="9.1728417968750016" />
+          <ConnectorPoint PointX="4.3749975" PointY="4.903300781249996" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAX_FORMULAS" >
-          <ConnectorPoint PointX="2.25" PointY="2.9901432291666694" />
-          <ConnectorPoint PointX="2.6666666666666665" PointY="2.990143229166669" />
-          <ConnectorPoint PointX="2.8333333333333335" PointY="2.9901432291666694" />
-          <ConnectorPoint PointX="3" PointY="2.9901432291666694" />
-        </AssociationConnector>
-        <AssociationConnector Association="TaxModel.FK_TAXCOND_FORMULAS" >
-          <ConnectorPoint PointX="2.25" PointY="2.4638196145833411" />
-          <ConnectorPoint PointX="2.75" PointY="2.4638196145833411" />
-          <ConnectorPoint PointX="2.75" PointY="5.15330078125001" />
-          <ConnectorPoint PointX="4.2916641666666671" PointY="5.1533007812500093" />
-          <ConnectorPoint PointX="4.5208358333333329" PointY="5.15330078125001" />
-          <ConnectorPoint PointX="6" PointY="5.15330078125001" />
-          <ConnectorPoint PointX="6" PointY="4.37449218750001" />
+          <ConnectorPoint PointX="2.25" PointY="11.643992513020834" />
+          <ConnectorPoint PointX="4.4375025" PointY="11.643992513020834" />
+          <ConnectorPoint PointX="4.4375025" PointY="4.903300781249996" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_OPERATORS_VALUETYPES" >
-          <ConnectorPoint PointX="4.25" PointY="6.922841796874998" />
-          <ConnectorPoint PointX="4.2916641666666671" PointY="6.9228417968749971" />
-          <ConnectorPoint PointX="4.5208358333333329" PointY="6.922841796874998" />
-          <ConnectorPoint PointX="5" PointY="6.922841796874998" />
+          <ConnectorPoint PointX="4.25" PointY="6.9228417968750016" />
+          <ConnectorPoint PointX="4.2916641666666671" PointY="6.9228417968750007" />
+          <ConnectorPoint PointX="4.5208358333333329" PointY="6.9228417968750016" />
+          <ConnectorPoint PointX="5" PointY="6.9228417968750016" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAX_ORDERTYPE" >
-          <ConnectorPoint PointX="2.25" PointY="12.605499674479169" />
-          <ConnectorPoint PointX="4.4375025" PointY="12.605499674479169" />
-          <ConnectorPoint PointX="4.4375025" PointY="4.90330078125001" />
+          <ConnectorPoint PointX="2.25" PointY="2.9804996744791694" />
+          <ConnectorPoint PointX="3" PointY="2.9804996744791694" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAXEXCLUSIONS_ORDERTYPE" >
-          <ConnectorPoint PointX="2.25" PointY="11.646497337239591" />
-          <ConnectorPoint PointX="4.3541691666666669" PointY="11.646497337239591" />
-          <ConnectorPoint PointX="4.5208358333333329" PointY="11.646497337239591" />
-          <ConnectorPoint PointX="7.59375" PointY="11.646497337239591" />
-          <ConnectorPoint PointX="7.59375" PointY="4.04758789062501" />
+          <ConnectorPoint PointX="1.5" PointY="4.8359993489583388" />
+          <ConnectorPoint PointX="1.5" PointY="5.153300781249996" />
+          <ConnectorPoint PointX="4.2916641666666671" PointY="5.1533007812499951" />
+          <ConnectorPoint PointX="4.5208358333333329" PointY="5.153300781249996" />
+          <ConnectorPoint PointX="7.125" PointY="5.153300781249996" />
+          <ConnectorPoint PointX="7.125" PointY="2.961293945312498" />
+          <ConnectorPoint PointX="7.5" PointY="2.961293945312498" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAXCOND_TAX" >
-          <ConnectorPoint PointX="4.5" PointY="2.9997460937500051" />
-          <ConnectorPoint PointX="5.25" PointY="2.9997460937500051" />
+          <ConnectorPoint PointX="4.5" PointY="2.9324446614583337" />
+          <ConnectorPoint PointX="5.25" PointY="2.9324446614583337" />
         </AssociationConnector>
         <AssociationConnector Association="TaxModel.FK_TAXEXCLUSIONS_TAXCOND" >
-          <ConnectorPoint PointX="6.75" PointY="2.9612939453125051" />
-          <ConnectorPoint PointX="7.5" PointY="2.9612939453125051" />
+          <ConnectorPoint PointX="6.75" PointY="2.355646972656249" />
+          <ConnectorPoint PointX="7.5" PointY="2.355646972656249" />
         </AssociationConnector>
         </Diagram>
     </edmx:Diagrams>

@@ -22,7 +22,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_CHANNEL", "CHANNELS", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.CHANNELS), "TAXES", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXES), true)]
 [assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_DISCOUNT", "DISCOUNTS", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(POC.DataBase.DISCOUNTS), "TAXES", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXES), true)]
 [assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_FORMULAS", "FORMULAS", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(POC.DataBase.FORMULAS), "TAXES", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXES), true)]
-[assembly: EdmRelationshipAttribute("TaxModel", "FK_TAXCOND_FORMULAS", "FORMULAS", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(POC.DataBase.FORMULAS), "TAXCONDS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXCONDS), true)]
 [assembly: EdmRelationshipAttribute("TaxModel", "FK_OPERATORS_VALUETYPES", "VALUETYPES", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.VALUETYPES), "OPERATORS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.OPERATORS), true)]
 [assembly: EdmRelationshipAttribute("TaxModel", "FK_TAX_ORDERTYPE", "ORDERTYPES", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.ORDERTYPES), "TAXES", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXES), true)]
 [assembly: EdmRelationshipAttribute("TaxModel", "FK_TAXEXCLUSIONS_ORDERTYPE", "ORDERTYPES", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(POC.DataBase.ORDERTYPES), "TAXEXCLUSIONS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(POC.DataBase.TAXEXCLUSIONS), true)]
@@ -727,28 +726,6 @@ namespace POC.DataBase
                 }
             }
         }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXCOND_FORMULAS", "TAXCONDS")]
-        public EntityCollection<TAXCONDS> TAXCONDS
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TAXCONDS>("TaxModel.FK_TAXCOND_FORMULAS", "TAXCONDS");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TAXCONDS>("TaxModel.FK_TAXCOND_FORMULAS", "TAXCONDS", value);
-                }
-            }
-        }
 
         #endregion
 
@@ -1437,30 +1414,6 @@ namespace POC.DataBase
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> FORMULA_ID
-        {
-            get
-            {
-                return _FORMULA_ID;
-            }
-            set
-            {
-                OnFORMULA_IDChanging(value);
-                ReportPropertyChanging("FORMULA_ID");
-                _FORMULA_ID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("FORMULA_ID");
-                OnFORMULA_IDChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _FORMULA_ID;
-        partial void OnFORMULA_IDChanging(Nullable<global::System.Int32> value);
-        partial void OnFORMULA_IDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Boolean VALUE_IS_EQUAL
@@ -1486,44 +1439,6 @@ namespace POC.DataBase
 
     
         #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("TaxModel", "FK_TAXCOND_FORMULAS", "FORMULAS")]
-        public FORMULAS FORMULAS
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FORMULAS>("TaxModel.FK_TAXCOND_FORMULAS", "FORMULAS").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FORMULAS>("TaxModel.FK_TAXCOND_FORMULAS", "FORMULAS").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<FORMULAS> FORMULASReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FORMULAS>("TaxModel.FK_TAXCOND_FORMULAS", "FORMULAS");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<FORMULAS>("TaxModel.FK_TAXCOND_FORMULAS", "FORMULAS", value);
-                }
-            }
-        }
     
         /// <summary>
         /// No Metadata Documentation available.
