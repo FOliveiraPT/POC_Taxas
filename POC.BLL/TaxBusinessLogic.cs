@@ -16,9 +16,17 @@ using POC.DataBase;
 
 namespace POC.BLL
 {
-    public class GenericBusinessLogic
+    public class TaxBusinessLogic
     {
-        public ServiceTaxResults GetTax(int orderTypeId, int channelId, string orderDate, string orderList, bool forView = false)
+        /// <summary>
+        /// Method that will return via webservice call, the DataModel representating a Tax.
+        /// </summary>
+        /// <param name="orderTypeId">The orderTypeId to wich the order refers too.</param>
+        /// <param name="channelId">The identification of the channel that is calling the function.</param>
+        /// <param name="orderList">The xml representation of the order.</param>
+        /// <param name="forView">A flag validation to validate the calculation or not of a formula.</param>
+        /// <returns>A ServiceTaxResults object.</returns>
+        public ServiceTaxResults GetTax(int orderTypeId, int channelId, string orderList, bool forView = false)
         {
             try
             {
@@ -61,19 +69,33 @@ namespace POC.BLL
                                 if (!passedOnAllConditions)
                                     break;
 
-                                //foreach (var item in elegibleItems)
-                                //{
-                                //    if (item.FormulaId.HasValue)
-                                //    {
-                                //        break;
-                                //    }
-                                //    else
-                                //    {
-                                //        taxResult.Unidades = Convert.ToInt32(item.FormItemValue);
-                                //        taxResult.Valor_Unitário = Convert.ToDouble(tax.VALUE.Value);
+                                foreach (var item in elegibleItems)
+                                {
+                                    taxResult.Unidades = 1;
+                                    if (item.FormulaId.HasValue)
+                                    {
+                                        var formulaResult = ParseFormula(GetFormula(item.FormulaId.Value), orderList);
 
-                                //    }
-                                //}
+                                        if (formulaResult.GetType().Equals(typeof(Int32)))
+                                        {
+                                            taxResult.Unidades = Convert.ToInt32(formulaResult);
+                                            taxResult.Valor_Unitário = Convert.ToDouble(tax.VALUE.Value);
+                                            taxValue = CalculateValue(Convert.ToDecimal(taxResult.Unidades) * tax.VALUE.Value, discount);
+                                        }
+                                        else if (formulaResult.GetType().Equals(typeof(Decimal)))
+                                        {
+                                            taxResult.Valor_Unitário = Convert.ToDouble(formulaResult);
+                                            taxValue = CalculateValue(formulaResult, 0, discount);
+                                        }
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        taxResult.Unidades = ConvertToInt(item.FormItemValue);
+                                        taxResult.Valor_Unitário = Convert.ToDouble(tax.VALUE.Value);
+                                        taxValue = CalculateValue(Convert.ToDecimal(taxResult.Unidades) * tax.VALUE.Value, discount);
+                                    }
+                                }
                             }
                             else
                             {
@@ -88,56 +110,6 @@ namespace POC.BLL
                         taxResult.TAX_DISCOUNT = discount;
                         taxResult.TOTAL = Convert.ToDouble(taxValue);
                         results.taxResults.Add(taxResult);
-                        /*
-
-                        //Caso seja uma taxa de valor fixo
-                        if (elegibleItems.Count == 0)
-                        {
-                            taxValue = discount.HasValue ? CalculateDiscount(tax.VALUE.Value, discount.Value) : tax.VALUE.Value;
-                            results.taxResults.Add(new GetTax_Result()
-                            {
-                                Taxa = tax.NAME,
-                                TAX_DISCOUNT = discount,
-                                TOTAL = Convert.ToDouble(taxValue)
-                            });
-                        }
-                        else
-                        {
-                            foreach (var item in elegibleItems)
-                            {
-                                //Neste caso o valor da taxa é "fixo", devido a ter passado em todas as comparações
-                                //na relação campo/valor.
-                                if (item.ItemType.CompareTo(EnumTax.ElegibleItemType.Field) == 0)
-                                {
-                                    taxValue = discount.HasValue ? CalculateDiscount(tax.VALUE.Value, discount.Value) : tax.VALUE.Value;
-                                    results.taxResults.Add(new GetTax_Result()
-                                    {
-                                        Taxa = tax.NAME,
-                                        TAX_DISCOUNT = discount,
-                                        TOTAL = Convert.ToDouble(taxValue)
-                                    });
-                                    break;
-                                }
-                                else if (item.ItemType.CompareTo(EnumTax.ElegibleItemType.CalculatedField) == 0)
-                                {
-                                    taxValue = tax.VALUE.Value * Decimal.Parse(item.FormItemValue);
-                                    taxValue = discount.HasValue ? CalculateDiscount(tax.VALUE.Value, discount.Value) : tax.VALUE.Value;
-                                    results.taxResults.Add(new GetTax_Result()
-                                    {
-                                        Taxa = tax.NAME,
-                                        TAX_DISCOUNT = discount,
-                                        TOTAL = Convert.ToDouble(taxValue),
-                                        Unidades = Double.Parse(item.FormItemValue),
-                                        Valor_Unitário = Convert.ToDouble(tax.VALUE.Value)
-                                    });
-                                }
-                                else
-                                {
-                                    //Calcular Formula
-                                    taxValue = (RetrieveFormulaResult(ParseFormula(GetFormula(item.FormulaId.Value), orderList)));
-                                }
-                            }
-                        }*/
                     }
                 }
                 return results;
@@ -154,6 +126,13 @@ namespace POC.BLL
             }
         }
 
+        /// <summary>
+        /// Method that will get the elements that can be used on the calculation of the tax.
+        /// </summary>
+        /// <param name="orderList">string representation of the XML.</param>
+        /// <param name="taxCondList">the collection of the tax conditions, including the restrictions.</param>
+        /// <param name="passedOnAllConditions">flag that will be returned, indicating that this tax can be calculated.</param>
+        /// <returns>A collection of ElegibleItems.</returns>
         private List<ElegibleItem> GetElegibleItems(string orderList, IEnumerable<TAXCONDS> taxCondList, out bool passedOnAllConditions)
         {
             XDocument xDoc = XDocument.Parse(orderList);
@@ -227,6 +206,13 @@ namespace POC.BLL
             return elegibleItems;
         }
 
+        /// <summary>
+        /// Method that parses the string representation of a formula, to a C# code
+        /// that will allow the execution of that same formula.
+        /// </summary>
+        /// <param name="formula">Formula object that will be considered.</param>
+        /// <param name="xml">A string that contains the xml representation.</param>
+        /// <returns>The result value of the formula parsing.</returns>
         private Object ParseFormula(FORMULAS formula, string xml)
         {
             Object returnedValue = null;
@@ -237,11 +223,10 @@ namespace POC.BLL
             switch (oper.VALUETYPE_ID)
             {
                 case (int)EnumTax.OperatorValueTypes.Date:
-                    //ALTERAR PARA XPATH
-                    var tempElement = xDoc.Descendants("Field").Elements("Name").SingleOrDefault(x => x.Value == "De").NextNode;
-                    var elementInitialDate = (string)((XElement)tempElement);
-                    tempElement = xDoc.Descendants("Field").Elements("Name").SingleOrDefault(x => x.Value == "até").NextNode;
-                    var elementFinalDate = (string)((XElement)tempElement);
+                    var xElementFirst = xDoc.XPathSelectElements(String.Format("//Object/Field[Name = '{0}']", StringEnum.GetStringValue(EnumTax.XMLFieldNames.FromDate)))
+                        .Descendants("Value").SingleOrDefault();
+                    var xElementSecond = xDoc.XPathSelectElements(String.Format("//Object/Field[Name = '{0}']", StringEnum.GetStringValue(EnumTax.XMLFieldNames.ToDate)))
+                        .Descendants("Value").SingleOrDefault();
 
                     functionCode.Append(@"using System;
                                         namespace ConsoleApplication{
@@ -254,11 +239,11 @@ namespace POC.BLL
 	                                            if(");
                     functionCode.Append(String.Format(StringEnum.GetStringValue(
                                                     (EnumTax.Formula)Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA)),
-                                                    elementFinalDate,
-                                                    elementInitialDate,
+                                                    xElementFirst,
+                                                    xElementSecond,
                                                     (int)((EnumTax.Formula)Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA))));
                     functionCode.Append("){");
-                    functionCode.Append(String.Format("numberOfDays = ((Convert.ToDateTime(\"{0}\")) - (Convert.ToDateTime(\"{1}\"))).Days;", elementFinalDate, elementInitialDate));
+                    functionCode.Append(String.Format("numberOfDays = ((Convert.ToDateTime(\"{0}\")) - (Convert.ToDateTime(\"{1}\"))).Days;", xElementFirst, xElementSecond));
                     functionCode.Append("}");
                     functionCode.Append(String.Format("else { numberOfDays = Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA) == EnumTax.Formula.Q46 ? ((Convert.ToDateTime(\"{0}\")) - (Convert.ToDateTime(\"{1}\"))).Days - {0} : {0};}", (int)((EnumTax.Formula)Enum.Parse(typeof(EnumTax.Formula), formula.FORMULA))));
                     functionCode.Append("return numberOfDays;");
@@ -271,31 +256,25 @@ namespace POC.BLL
                     break;
 
                 case (int)EnumTax.OperatorValueTypes.Monetary:
-                    //                        functionCode = @"using System;
-                    //                                public class DateFunctionValidation
-                    //                                {
-                    //                                    public static bool Function()
-                    //                                    {
-                    //                                        return {0};
-                    //                                    }
-                    //                                }";
+                    //TODO
                     break;
 
                 case (int)EnumTax.OperatorValueTypes.Numeric:
-                    //                        functionCode = @"using System;
-                    //                                public class DateFunctionValidation
-                    //                                {
-                    //                                    public static bool Function()
-                    //                                    {
-                    //                                        return {0};
-                    //                                    }
-                    //                                }";
+                    //TODO
                     break;
             }
 
             return returnedValue;
         }
 
+        /// <summary>
+        /// Method that finds an element on a xml file, according to the parameters defined.
+        /// </summary>
+        /// <param name="option">Type of enum to be used to get the field of the xml file.</param>
+        /// <param name="xDoc">XML file.</param>
+        /// <param name="fieldName">The name of the element.</param>
+        /// <param name="id">The id that matches the numeric value on the enum selection.</param>
+        /// <returns>The value of the element.</returns>
         private string XPathString(POC.BLL.DataModel.Enums.EnumTax.XPathOptions option, XDocument xDoc, string fieldName, int id = 0)
         {
             XElement xElement = null;
@@ -323,11 +302,24 @@ namespace POC.BLL
 
         #region Math Operations
 
+        /// <summary>
+        /// Method that makes an arithmetic operation.
+        /// </summary>
+        /// <param name="originalTaxValue">Value of the tax.</param>
+        /// <param name="discount">Discount to apply.</param>
+        /// <returns>Value of tax after discount.</returns>
         private decimal CalculateValue(decimal originalTaxValue, double? discount)
         {
             return discount.HasValue ? CalculateDiscount(originalTaxValue, discount.Value) : originalTaxValue;
         }
 
+        /// <summary>
+        /// Method that makes an arithmetic operation.
+        /// </summary>
+        /// <param name="formulaResult">According to the formulaResult type, the calculation will be different.</param>
+        /// <param name="originalTaxValue">Value of the tax.</param>
+        /// <param name="discount">Discount to apply.</param>
+        /// <returns>Value of tax after discount.</returns>
         private decimal CalculateValue(object formulaResult, decimal originalTaxValue, double? discount)
         {
             decimal taxResultValue, taxValue = 0;
@@ -344,6 +336,12 @@ namespace POC.BLL
             return taxValue;
         }
 
+        /// <summary>
+        /// Method that makes an arithmetic operation.
+        /// </summary>
+        /// <param name="taxValue">Value of the tax.</param>
+        /// <param name="discount">Discount to apply.</param>
+        /// <returns>Value of discount to be applied.</returns>
         private decimal CalculateDiscount(decimal taxValue, double discount)
         {
             return taxValue - (taxValue * Convert.ToDecimal(discount));
@@ -353,6 +351,11 @@ namespace POC.BLL
 
         #region DAL Access
 
+        /// <summary>
+        /// Method that returns a collection of TaxCond objects
+        /// </summary>
+        /// <param name="taxId">Value to be used as a filter on the ID field.</param>
+        /// <returns>A collection of TAXCONDS</returns>
         private IEnumerable<TAXCONDS> GetTaxCondsByTaxId(int taxId)
         {
             using (var locator = new GenericRepository<TAXCONDS>())
@@ -361,6 +364,11 @@ namespace POC.BLL
             }
         }
 
+        /// <summary>
+        /// Method that returns a operator object.
+        /// </summary>
+        /// <param name="operatorName">The name of the operator.</param>
+        /// <returns>The operator that matches the condition.</returns>
         private OPERATORS GetOperator(string operatorName)
         {
             using (var locator = new GenericRepository<OPERATORS>())
@@ -369,6 +377,11 @@ namespace POC.BLL
             }
         }
 
+        /// <summary>
+        /// Method that returns a formula object.
+        /// </summary>
+        /// <param name="idFormula">Value to be used as a filter on the ID field.</param>
+        /// <returns>The formula that matches the condition.</returns>
         private FORMULAS GetFormula(int idFormula)
         {
             using (var locator = new GenericRepository<FORMULAS>())
@@ -377,25 +390,12 @@ namespace POC.BLL
             }
         }
 
-        private List<FORMULAS> GetFormulas(int taxcondId)
-        {
-            var listFormulas = new List<FORMULAS>();
-            using (var locatorTaxCond = new GenericRepository<TAXCONDS>())
-            {
-                var formulaId = locatorTaxCond.Single(c => c.ID == taxcondId).FORMULA_ID;
-
-                if (formulaId.HasValue)
-                {
-                    using (var locatorFormula = new GenericRepository<FORMULAS>())
-                    {
-                        listFormulas.AddRange(locatorFormula.Find(c => c.ID == formulaId.Value));
-                    }
-                }
-            }
-
-            return listFormulas;
-        }
-
+        /// <summary>
+        /// Method that returns a tax collection.
+        /// </summary>
+        /// <param name="orderTypeId">OrderTypeId to be used as a filter.</param>
+        /// <param name="channelId">Identification of the channel that is calling the method.</param>
+        /// <returns>A collection of TAXES/returns>
         private IEnumerable<TAXES> GetTaxes(int orderTypeId, int channelId)
         {
             using (var locator = new GenericRepository<TAXES>())
@@ -405,17 +405,11 @@ namespace POC.BLL
             }
         }
 
-        private int GetTaxId(int orderTypeId)
-        {
-            using (var locator = new GenericRepository<TAXES>())
-            {
-                return locator.Single(
-                    c => c.ORDERTYPE_ID == orderTypeId
-                    && !c.END_DATE.HasValue
-                    ).ID;
-            }
-        }
-
+        /// <summary>
+        /// Method that returns a value refering to the discount to be made.
+        /// </summary>
+        /// <param name="taxId">Identification of the Tax.</param>
+        /// <returns>The value of the discount to be applied.</returns>
         private double? GetDiscount(int taxId)
         {
             double? discount = null;
@@ -432,6 +426,11 @@ namespace POC.BLL
             return discount;
         }
 
+        /// <summary>
+        /// Method that returns the existance of a Tax.
+        /// </summary>
+        /// <param name="orderTypeId">OrderTypeId to be used as a filter.</param>
+        /// <returns>Flag that returns a bool result</returns>
         private bool HasTax(int orderTypeId)
         {
             using (var locator = new GenericRepository<TAXES>())
@@ -446,7 +445,12 @@ namespace POC.BLL
         #endregion DAL Access
 
         #region Compilation at runtime
-
+        /// <summary>
+        /// Method that allows the creation of a method at runtime, 
+        /// that can be called from other members of the class, exclusively.
+        /// </summary>
+        /// <param name="script">C# code</param>
+        /// <returns>MethodInfo that will be called from the other members.</returns>
         private MethodInfo CreateFunction(string script)
         {
             Assembly t = Compile(script);
@@ -458,6 +462,11 @@ namespace POC.BLL
             return binaryFunction.GetMethod("Function");
         }
 
+        /// <summary>
+        /// Compiles at runtime a given C# script code.
+        /// </summary>
+        /// <param name="script">C# code</param>
+        /// <returns>An assembly to be used</returns>
         private Assembly Compile(string script)
         {
             CompilerParameters options = new CompilerParameters();
@@ -468,21 +477,36 @@ namespace POC.BLL
             Microsoft.CSharp.CSharpCodeProvider provider = new Microsoft.CSharp.CSharpCodeProvider();
             CompilerResults result = provider.CompileAssemblyFromSource(options, script);
 
-            // Check the compiler results for errors
-            StringWriter sw = new StringWriter();
-            foreach (CompilerError ce in result.Errors)
+            using (StringWriter sw = new StringWriter())
             {
-                if (ce.IsWarning) continue;
-                sw.WriteLine("{0}({1},{2}: error {3}: {4}", ce.FileName, ce.Line, ce.Column, ce.ErrorNumber, ce.ErrorText);
+                // Check the compiler results for errors
+                foreach (CompilerError ce in result.Errors)
+                {
+                    if (ce.IsWarning) continue;
+                    sw.WriteLine("{0}({1},{2}: error {3}: {4}", ce.FileName, ce.Line, ce.Column, ce.ErrorNumber, ce.ErrorText);
+                }
+                // If there were errors, raise an exception...
+                string errorText = sw.ToString();
+                if (errorText.Length > 0)
+                    throw new ApplicationException(errorText);
             }
-            // If there were errors, raise an exception...
-            string errorText = sw.ToString();
-            if (errorText.Length > 0)
-                throw new ApplicationException(errorText);
-
             return result.CompiledAssembly;
         }
 
         #endregion Compilation at runtime
+
+        /// <summary>
+        /// Method that converts a string to an int, taking on consideration the existance of previous known cases
+        /// that have strings attached to numerical values.
+        /// </summary>
+        /// <param name="value">string value that will be converted.</param>
+        /// <returns>the value converted.</returns>
+        private int ConvertToInt(string value)
+        {
+            string[] arrayStringExceptions = new string[] { "m2" };
+            var splitted = value.Split(arrayStringExceptions, StringSplitOptions.None).FirstOrDefault();
+
+            return Convert.ToInt32(splitted != String.Empty ? splitted : value);
+        }
     }
 }

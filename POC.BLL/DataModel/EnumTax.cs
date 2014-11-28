@@ -84,6 +84,12 @@ namespace POC.BLL.DataModel.Enums
 
             [StringValue("Na seguinte data")]
             InFollowingDate = 21,
+
+            [StringValue("De")]
+            FromDate = 22,
+
+            [StringValue("até")]
+            ToDate = 23
         }
 
         public enum OperatorValueTypes
@@ -117,7 +123,13 @@ namespace POC.BLL.DataModel.Enums
             Q45 = 45,
 
             [StringValue("(Convert.ToDateTime({0}) - Convert.ToDateTime({1})).Days > {2}")]
-            Q46 = 46
+            Q46 = 46,
+
+            [StringValue("")]
+            TRIU,
+
+            [StringValue("")]
+            TRIULINHA
         }
     }
 }

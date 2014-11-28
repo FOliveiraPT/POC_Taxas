@@ -45,7 +45,7 @@
     <Compile Include="DataModel\EnumTax.cs" />
     <Compile Include="DataModel\GetTax_Result.cs" />
     <Compile Include="DataModel\ServiceTaxResults.cs" />
-    <Compile Include="GenericBusinessLogic.cs" />
+    <Compile Include="TaxBusinessLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
