@@ -5,248 +5,248 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="TaxModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
-        <EntityContainer Name="TaxModelStoreContainer">
-          <EntitySet Name="CHANNELS" EntityType="TaxModel.Store.CHANNELS" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="DISCOUNTS" EntityType="TaxModel.Store.DISCOUNTS" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="FORMULAS" EntityType="TaxModel.Store.FORMULAS" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="OPERATORS" EntityType="TaxModel.Store.OPERATORS" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ORDERTYPES" EntityType="TaxModel.Store.ORDERTYPES" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="TAXCONDS" EntityType="TaxModel.Store.TAXCONDS" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="TAXES" EntityType="TaxModel.Store.TAXES" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="TAXEXCLUSIONS" EntityType="TaxModel.Store.TAXEXCLUSIONS" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="UOPG" EntityType="TaxModel.Store.UOPG" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="VALUETYPES" EntityType="TaxModel.Store.VALUETYPES" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK_OPERATORS_VALUETYPES" Association="TaxModel.Store.FK_OPERATORS_VALUETYPES">
-            <End Role="VALUETYPES" EntitySet="VALUETYPES" />
-            <End Role="OPERATORS" EntitySet="OPERATORS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TAX_CHANNEL" Association="TaxModel.Store.FK_TAX_CHANNEL">
-            <End Role="CHANNELS" EntitySet="CHANNELS" />
-            <End Role="TAXES" EntitySet="TAXES" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TAX_DISCOUNT" Association="TaxModel.Store.FK_TAX_DISCOUNT">
-            <End Role="DISCOUNTS" EntitySet="DISCOUNTS" />
-            <End Role="TAXES" EntitySet="TAXES" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TAX_FORMULAS" Association="TaxModel.Store.FK_TAX_FORMULAS">
-            <End Role="FORMULAS" EntitySet="FORMULAS" />
-            <End Role="TAXES" EntitySet="TAXES" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TAX_ORDERTYPE" Association="TaxModel.Store.FK_TAX_ORDERTYPE">
-            <End Role="ORDERTYPES" EntitySet="ORDERTYPES" />
-            <End Role="TAXES" EntitySet="TAXES" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TAXCOND_TAX" Association="TaxModel.Store.FK_TAXCOND_TAX">
-            <End Role="TAXES" EntitySet="TAXES" />
-            <End Role="TAXCONDS" EntitySet="TAXCONDS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TAXCONDS_FORMULAS" Association="TaxModel.Store.FK_TAXCONDS_FORMULAS">
-            <End Role="FORMULAS" EntitySet="FORMULAS" />
-            <End Role="TAXCONDS" EntitySet="TAXCONDS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TAXEXCLUSIONS_TAXCOND" Association="TaxModel.Store.FK_TAXEXCLUSIONS_TAXCOND">
-            <End Role="TAXCONDS" EntitySet="TAXCONDS" />
-            <End Role="TAXEXCLUSIONS" EntitySet="TAXEXCLUSIONS" />
-          </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="CHANNELS">
-          <Key>
-            <PropertyRef Name="CHANNEL_ID" />
-          </Key>
-          <Property Name="CHANNEL_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="CHANNEL_DESCRIPTION" Type="nvarchar" MaxLength="50" />
-          <Property Name="CHANNEL_CREATEDATE" Type="datetime" />
-          <Property Name="CHANNEL_CODE" Type="varchar" Nullable="false" MaxLength="10" />
-        </EntityType>
-        <EntityType Name="DISCOUNTS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="VALUE" Type="float" Nullable="false" />
-        </EntityType>
-        <EntityType Name="FORMULAS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="NAME" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="FORMULA" Type="nvarchar(max)" Nullable="false" />
-        </EntityType>
-        <EntityType Name="OPERATORS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="VALUETYPE_ID" Type="int" Nullable="false" />
-          <Property Name="OPERATOR" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="VALUE" Type="nvarchar(max)" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ORDERTYPES">
-          <Key>
-            <PropertyRef Name="ORDERTYPE_ID" />
-          </Key>
-          <Property Name="ORDERTYPE_ID" Type="int" Nullable="false" />
-          <Property Name="ORDERTYPE_TITLE" Type="nvarchar" MaxLength="100" />
-          <Property Name="ORDERTYPE_DESCRIPTION" Type="nvarchar" MaxLength="1000" />
-          <Property Name="ORDERTYPE_XMLFORM" Type="nvarchar(max)" />
-          <Property Name="ORDERTYPE_BUSINESSUNITKEY" Type="varchar" Nullable="false" MaxLength="10" />
-          <Property Name="ORDERTYPE_GDCCID" Type="int" />
-          <Property Name="ORDERTYPE_NEEDSLOGIN" Type="bit" />
-          <Property Name="ORDERTYPE_CREATEDATE" Type="datetime" />
-          <Property Name="ORDERTYPE_PDFFORM_URL" Type="nvarchar" MaxLength="255" />
-          <Property Name="ORDERTYPE_REDIRECT" Type="nvarchar" MaxLength="500" />
-          <Property Name="ORDERTYPE_ORDER_SCHEMA" Type="nvarchar(max)" />
-          <Property Name="ORDERTYPE_ORDER_ROOTNAME" Type="nvarchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="TAXCONDS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="TAX_ID" Type="int" Nullable="false" />
-          <Property Name="FORMULA_ID" Type="int" />
-          <Property Name="FORM_ITEM_NAME" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="FORM_ITEM_VALUE" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="VALUE_IS_EQUAL" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="TAXES">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="ORDERTYPE_ID" Type="int" Nullable="false" />
-          <Property Name="DISCOUNT_ID" Type="int" />
-          <Property Name="CHANNEL_ID" Type="int" Nullable="false" />
-          <Property Name="FORMULA_ID" Type="int" />
-          <Property Name="NAME" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="DESCRIPTION" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="START_DATE" Type="datetime" Nullable="false" />
-          <Property Name="END_DATE" Type="datetime" />
-          <Property Name="VALUE" Type="decimal" />
-          <Property Name="SIMULATE" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="TAXEXCLUSIONS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="TAXCOND_ID" Type="int" />
-        </EntityType>
-        <EntityType Name="UOPG">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Services" Type="float" Nullable="false" />
-          <Property Name="Residence" Type="float" Nullable="false" />
-          <Property Name="Industry" Type="float" Nullable="false" />
-          <Property Name="Tourism" Type="float" Nullable="false" />
-        </EntityType>
-        <EntityType Name="VALUETYPES">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="VALUETYPE" Type="varchar" Nullable="false" MaxLength="255" />
-        </EntityType>
-        <Association Name="FK_OPERATORS_VALUETYPES">
-          <End Role="VALUETYPES" Type="TaxModel.Store.VALUETYPES" Multiplicity="1" />
-          <End Role="OPERATORS" Type="TaxModel.Store.OPERATORS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VALUETYPES">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OPERATORS">
-              <PropertyRef Name="VALUETYPE_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TAX_CHANNEL">
-          <End Role="CHANNELS" Type="TaxModel.Store.CHANNELS" Multiplicity="1" />
-          <End Role="TAXES" Type="TaxModel.Store.TAXES" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CHANNELS">
-              <PropertyRef Name="CHANNEL_ID" />
-            </Principal>
-            <Dependent Role="TAXES">
-              <PropertyRef Name="CHANNEL_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TAX_DISCOUNT">
-          <End Role="DISCOUNTS" Type="TaxModel.Store.DISCOUNTS" Multiplicity="0..1" />
-          <End Role="TAXES" Type="TaxModel.Store.TAXES" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DISCOUNTS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TAXES">
-              <PropertyRef Name="DISCOUNT_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TAX_FORMULAS">
-          <End Role="FORMULAS" Type="TaxModel.Store.FORMULAS" Multiplicity="0..1" />
-          <End Role="TAXES" Type="TaxModel.Store.TAXES" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FORMULAS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TAXES">
-              <PropertyRef Name="FORMULA_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TAX_ORDERTYPE">
-          <End Role="ORDERTYPES" Type="TaxModel.Store.ORDERTYPES" Multiplicity="1" />
-          <End Role="TAXES" Type="TaxModel.Store.TAXES" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ORDERTYPES">
-              <PropertyRef Name="ORDERTYPE_ID" />
-            </Principal>
-            <Dependent Role="TAXES">
-              <PropertyRef Name="ORDERTYPE_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TAXCOND_TAX">
-          <End Role="TAXES" Type="TaxModel.Store.TAXES" Multiplicity="1" />
-          <End Role="TAXCONDS" Type="TaxModel.Store.TAXCONDS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TAXES">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TAXCONDS">
-              <PropertyRef Name="TAX_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TAXCONDS_FORMULAS">
-          <End Role="FORMULAS" Type="TaxModel.Store.FORMULAS" Multiplicity="0..1" />
-          <End Role="TAXCONDS" Type="TaxModel.Store.TAXCONDS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FORMULAS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TAXCONDS">
-              <PropertyRef Name="FORMULA_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TAXEXCLUSIONS_TAXCOND">
-          <End Role="TAXCONDS" Type="TaxModel.Store.TAXCONDS" Multiplicity="0..1" />
-          <End Role="TAXEXCLUSIONS" Type="TaxModel.Store.TAXEXCLUSIONS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TAXCONDS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TAXEXCLUSIONS">
-              <PropertyRef Name="TAXCOND_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-      </Schema></edmx:StorageModels>
+  <EntityContainer Name="TaxModelStoreContainer">
+    <EntitySet Name="CHANNELS" EntityType="TaxModel.Store.CHANNELS" store:Type="Tables" Schema="TAX" />
+    <EntitySet Name="DISCOUNTS" EntityType="TaxModel.Store.DISCOUNTS" store:Type="Tables" Schema="TAX" />
+    <EntitySet Name="FORMULAS" EntityType="TaxModel.Store.FORMULAS" store:Type="Tables" Schema="TAX" />
+    <EntitySet Name="OPERATORS" EntityType="TaxModel.Store.OPERATORS" store:Type="Tables" Schema="TAX" />
+    <EntitySet Name="ORDERTYPES" EntityType="TaxModel.Store.ORDERTYPES" store:Type="Tables" Schema="TAX" />
+    <EntitySet Name="TAXCONDS" EntityType="TaxModel.Store.TAXCONDS" store:Type="Tables" Schema="TAX" />
+    <EntitySet Name="TAXES" EntityType="TaxModel.Store.TAXES" store:Type="Tables" Schema="TAX" />
+    <EntitySet Name="TAXEXCLUSIONS" EntityType="TaxModel.Store.TAXEXCLUSIONS" store:Type="Tables" Schema="TAX" />
+    <EntitySet Name="UOPG" EntityType="TaxModel.Store.UOPG" store:Type="Tables" Schema="TAX" />
+    <EntitySet Name="VALUETYPES" EntityType="TaxModel.Store.VALUETYPES" store:Type="Tables" Schema="TAX" />
+    <AssociationSet Name="FK_TAX_CHANNEL" Association="TaxModel.Store.FK_TAX_CHANNEL">
+      <End Role="CHANNELS" EntitySet="CHANNELS" />
+      <End Role="TAXES" EntitySet="TAXES" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TAX_DISCOUNT" Association="TaxModel.Store.FK_TAX_DISCOUNT">
+      <End Role="DISCOUNTS" EntitySet="DISCOUNTS" />
+      <End Role="TAXES" EntitySet="TAXES" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TAX_FORMULAS" Association="TaxModel.Store.FK_TAX_FORMULAS">
+      <End Role="FORMULAS" EntitySet="FORMULAS" />
+      <End Role="TAXES" EntitySet="TAXES" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TAXCONDS_FORMULAS" Association="TaxModel.Store.FK_TAXCONDS_FORMULAS">
+      <End Role="FORMULAS" EntitySet="FORMULAS" />
+      <End Role="TAXCONDS" EntitySet="TAXCONDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OPERATORS_VALUETYPES" Association="TaxModel.Store.FK_OPERATORS_VALUETYPES">
+      <End Role="VALUETYPES" EntitySet="VALUETYPES" />
+      <End Role="OPERATORS" EntitySet="OPERATORS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TAX_ORDERTYPE" Association="TaxModel.Store.FK_TAX_ORDERTYPE">
+      <End Role="ORDERTYPES" EntitySet="ORDERTYPES" />
+      <End Role="TAXES" EntitySet="TAXES" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TAXCOND_TAX" Association="TaxModel.Store.FK_TAXCOND_TAX">
+      <End Role="TAXES" EntitySet="TAXES" />
+      <End Role="TAXCONDS" EntitySet="TAXCONDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TAXEXCLUSIONS_TAXCOND" Association="TaxModel.Store.FK_TAXEXCLUSIONS_TAXCOND">
+      <End Role="TAXCONDS" EntitySet="TAXCONDS" />
+      <End Role="TAXEXCLUSIONS" EntitySet="TAXEXCLUSIONS" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="CHANNELS">
+    <Key>
+      <PropertyRef Name="CHANNEL_ID" />
+    </Key>
+    <Property Name="CHANNEL_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CHANNEL_DESCRIPTION" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="CHANNEL_CREATEDATE" Type="datetime" Nullable="true" />
+    <Property Name="CHANNEL_CODE" Type="varchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="DISCOUNTS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VALUE" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FORMULAS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NAME" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FORMULA" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OPERATORS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VALUETYPE_ID" Type="int" Nullable="false" />
+    <Property Name="OPERATOR" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="VALUE" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ORDERTYPES">
+    <Key>
+      <PropertyRef Name="ORDERTYPE_ID" />
+    </Key>
+    <Property Name="ORDERTYPE_ID" Type="int" Nullable="false" />
+    <Property Name="ORDERTYPE_TITLE" Type="nvarchar" Nullable="true" MaxLength="100" />
+    <Property Name="ORDERTYPE_DESCRIPTION" Type="nvarchar" Nullable="true" MaxLength="1000" />
+    <Property Name="ORDERTYPE_XMLFORM" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ORDERTYPE_BUSINESSUNITKEY" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="ORDERTYPE_GDCCID" Type="int" Nullable="true" />
+    <Property Name="ORDERTYPE_NEEDSLOGIN" Type="bit" Nullable="true" />
+    <Property Name="ORDERTYPE_CREATEDATE" Type="datetime" Nullable="true" />
+    <Property Name="ORDERTYPE_PDFFORM_URL" Type="nvarchar" Nullable="true" MaxLength="255" />
+    <Property Name="ORDERTYPE_REDIRECT" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="ORDERTYPE_ORDER_SCHEMA" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ORDERTYPE_ORDER_ROOTNAME" Type="nvarchar" Nullable="true" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="TAXCONDS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TAX_ID" Type="int" Nullable="false" />
+    <Property Name="FORMULA_ID" Type="int" Nullable="true" />
+    <Property Name="FORM_ITEM_NAME" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FORM_ITEM_VALUE" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="VALUE_IS_EQUAL" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TAXES">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ORDERTYPE_ID" Type="int" Nullable="false" />
+    <Property Name="DISCOUNT_ID" Type="int" Nullable="true" />
+    <Property Name="CHANNEL_ID" Type="int" Nullable="false" />
+    <Property Name="FORMULA_ID" Type="int" Nullable="true" />
+    <Property Name="NAME" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DESCRIPTION" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="START_DATE" Type="datetime" Nullable="false" />
+    <Property Name="END_DATE" Type="datetime" Nullable="true" />
+    <Property Name="VALUE" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+    <Property Name="SIMULATE" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TAXEXCLUSIONS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TAXCOND_ID" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="UOPG">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Services" Type="float" Nullable="false" />
+    <Property Name="Residence" Type="float" Nullable="false" />
+    <Property Name="Industry" Type="float" Nullable="false" />
+    <Property Name="Tourism" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VALUETYPES">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VALUETYPE" Type="varchar" Nullable="false" MaxLength="255" />
+  </EntityType>
+  <Association Name="FK_TAX_CHANNEL">
+    <End Role="CHANNELS" Type="TaxModel.Store.CHANNELS" Multiplicity="1" />
+    <End Role="TAXES" Type="TaxModel.Store.TAXES" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CHANNELS">
+        <PropertyRef Name="CHANNEL_ID" />
+      </Principal>
+      <Dependent Role="TAXES">
+        <PropertyRef Name="CHANNEL_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TAX_DISCOUNT">
+    <End Role="DISCOUNTS" Type="TaxModel.Store.DISCOUNTS" Multiplicity="0..1" />
+    <End Role="TAXES" Type="TaxModel.Store.TAXES" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DISCOUNTS">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TAXES">
+        <PropertyRef Name="DISCOUNT_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TAX_FORMULAS">
+    <End Role="FORMULAS" Type="TaxModel.Store.FORMULAS" Multiplicity="0..1" />
+    <End Role="TAXES" Type="TaxModel.Store.TAXES" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FORMULAS">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TAXES">
+        <PropertyRef Name="FORMULA_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TAXCONDS_FORMULAS">
+    <End Role="FORMULAS" Type="TaxModel.Store.FORMULAS" Multiplicity="0..1" />
+    <End Role="TAXCONDS" Type="TaxModel.Store.TAXCONDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FORMULAS">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TAXCONDS">
+        <PropertyRef Name="FORMULA_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OPERATORS_VALUETYPES">
+    <End Role="VALUETYPES" Type="TaxModel.Store.VALUETYPES" Multiplicity="1" />
+    <End Role="OPERATORS" Type="TaxModel.Store.OPERATORS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VALUETYPES">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="OPERATORS">
+        <PropertyRef Name="VALUETYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TAX_ORDERTYPE">
+    <End Role="ORDERTYPES" Type="TaxModel.Store.ORDERTYPES" Multiplicity="1" />
+    <End Role="TAXES" Type="TaxModel.Store.TAXES" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ORDERTYPES">
+        <PropertyRef Name="ORDERTYPE_ID" />
+      </Principal>
+      <Dependent Role="TAXES">
+        <PropertyRef Name="ORDERTYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TAXCOND_TAX">
+    <End Role="TAXES" Type="TaxModel.Store.TAXES" Multiplicity="1" />
+    <End Role="TAXCONDS" Type="TaxModel.Store.TAXCONDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TAXES">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TAXCONDS">
+        <PropertyRef Name="TAX_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TAXEXCLUSIONS_TAXCOND">
+    <End Role="TAXCONDS" Type="TaxModel.Store.TAXCONDS" Multiplicity="0..1" />
+    <End Role="TAXEXCLUSIONS" Type="TaxModel.Store.TAXEXCLUSIONS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TAXCONDS">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TAXEXCLUSIONS">
+        <PropertyRef Name="TAXCOND_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="TaxModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
@@ -513,118 +513,118 @@
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="TaxModelStoreContainer" CdmEntityContainer="TaxModelContainer">
-          <EntitySetMapping Name="CHANNELS">
-            <EntityTypeMapping TypeName="TaxModel.CHANNELS">
-              <MappingFragment StoreEntitySet="CHANNELS">
-                <ScalarProperty Name="CHANNEL_CODE" ColumnName="CHANNEL_CODE" />
-                <ScalarProperty Name="CHANNEL_CREATEDATE" ColumnName="CHANNEL_CREATEDATE" />
-                <ScalarProperty Name="CHANNEL_DESCRIPTION" ColumnName="CHANNEL_DESCRIPTION" />
-                <ScalarProperty Name="CHANNEL_ID" ColumnName="CHANNEL_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DISCOUNTS">
-            <EntityTypeMapping TypeName="TaxModel.DISCOUNTS">
-              <MappingFragment StoreEntitySet="DISCOUNTS">
-                <ScalarProperty Name="VALUE" ColumnName="VALUE" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FORMULAS">
-            <EntityTypeMapping TypeName="TaxModel.FORMULAS">
-              <MappingFragment StoreEntitySet="FORMULAS">
-                <ScalarProperty Name="FORMULA" ColumnName="FORMULA" />
-                <ScalarProperty Name="NAME" ColumnName="NAME" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OPERATORS">
-            <EntityTypeMapping TypeName="TaxModel.OPERATORS">
-              <MappingFragment StoreEntitySet="OPERATORS">
-                <ScalarProperty Name="VALUE" ColumnName="VALUE" />
-                <ScalarProperty Name="OPERATOR" ColumnName="OPERATOR" />
-                <ScalarProperty Name="VALUETYPE_ID" ColumnName="VALUETYPE_ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ORDERTYPES">
-            <EntityTypeMapping TypeName="TaxModel.ORDERTYPES">
-              <MappingFragment StoreEntitySet="ORDERTYPES">
-                <ScalarProperty Name="ORDERTYPE_ORDER_ROOTNAME" ColumnName="ORDERTYPE_ORDER_ROOTNAME" />
-                <ScalarProperty Name="ORDERTYPE_ORDER_SCHEMA" ColumnName="ORDERTYPE_ORDER_SCHEMA" />
-                <ScalarProperty Name="ORDERTYPE_REDIRECT" ColumnName="ORDERTYPE_REDIRECT" />
-                <ScalarProperty Name="ORDERTYPE_PDFFORM_URL" ColumnName="ORDERTYPE_PDFFORM_URL" />
-                <ScalarProperty Name="ORDERTYPE_CREATEDATE" ColumnName="ORDERTYPE_CREATEDATE" />
-                <ScalarProperty Name="ORDERTYPE_NEEDSLOGIN" ColumnName="ORDERTYPE_NEEDSLOGIN" />
-                <ScalarProperty Name="ORDERTYPE_GDCCID" ColumnName="ORDERTYPE_GDCCID" />
-                <ScalarProperty Name="ORDERTYPE_BUSINESSUNITKEY" ColumnName="ORDERTYPE_BUSINESSUNITKEY" />
-                <ScalarProperty Name="ORDERTYPE_XMLFORM" ColumnName="ORDERTYPE_XMLFORM" />
-                <ScalarProperty Name="ORDERTYPE_DESCRIPTION" ColumnName="ORDERTYPE_DESCRIPTION" />
-                <ScalarProperty Name="ORDERTYPE_TITLE" ColumnName="ORDERTYPE_TITLE" />
-                <ScalarProperty Name="ORDERTYPE_ID" ColumnName="ORDERTYPE_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TAXCONDS">
-            <EntityTypeMapping TypeName="TaxModel.TAXCONDS">
-              <MappingFragment StoreEntitySet="TAXCONDS">
-                <ScalarProperty Name="VALUE_IS_EQUAL" ColumnName="VALUE_IS_EQUAL" />
-                <ScalarProperty Name="FORM_ITEM_VALUE" ColumnName="FORM_ITEM_VALUE" />
-                <ScalarProperty Name="FORM_ITEM_NAME" ColumnName="FORM_ITEM_NAME" />
-                <ScalarProperty Name="FORMULA_ID" ColumnName="FORMULA_ID" />
-                <ScalarProperty Name="TAX_ID" ColumnName="TAX_ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TAXES">
-            <EntityTypeMapping TypeName="TaxModel.TAXES">
-              <MappingFragment StoreEntitySet="TAXES">
-                <ScalarProperty Name="SIMULATE" ColumnName="SIMULATE" />
-                <ScalarProperty Name="VALUE" ColumnName="VALUE" />
-                <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />
-                <ScalarProperty Name="START_DATE" ColumnName="START_DATE" />
-                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
-                <ScalarProperty Name="NAME" ColumnName="NAME" />
-                <ScalarProperty Name="FORMULA_ID" ColumnName="FORMULA_ID" />
-                <ScalarProperty Name="CHANNEL_ID" ColumnName="CHANNEL_ID" />
-                <ScalarProperty Name="DISCOUNT_ID" ColumnName="DISCOUNT_ID" />
-                <ScalarProperty Name="ORDERTYPE_ID" ColumnName="ORDERTYPE_ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TAXEXCLUSIONS">
-            <EntityTypeMapping TypeName="TaxModel.TAXEXCLUSIONS">
-              <MappingFragment StoreEntitySet="TAXEXCLUSIONS">
-                <ScalarProperty Name="TAXCOND_ID" ColumnName="TAXCOND_ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UOPG">
-            <EntityTypeMapping TypeName="TaxModel.UOPG">
-              <MappingFragment StoreEntitySet="UOPG">
-                <ScalarProperty Name="Tourism" ColumnName="Tourism" />
-                <ScalarProperty Name="Industry" ColumnName="Industry" />
-                <ScalarProperty Name="Residence" ColumnName="Residence" />
-                <ScalarProperty Name="Services" ColumnName="Services" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VALUETYPES">
-            <EntityTypeMapping TypeName="TaxModel.VALUETYPES">
-              <MappingFragment StoreEntitySet="VALUETYPES">
-                <ScalarProperty Name="VALUETYPE" ColumnName="VALUETYPE" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
+    <EntitySetMapping Name="CHANNELS">
+      <EntityTypeMapping TypeName="IsTypeOf(TaxModel.CHANNELS)">
+        <MappingFragment StoreEntitySet="CHANNELS">
+          <ScalarProperty Name="CHANNEL_ID" ColumnName="CHANNEL_ID" />
+          <ScalarProperty Name="CHANNEL_DESCRIPTION" ColumnName="CHANNEL_DESCRIPTION" />
+          <ScalarProperty Name="CHANNEL_CREATEDATE" ColumnName="CHANNEL_CREATEDATE" />
+          <ScalarProperty Name="CHANNEL_CODE" ColumnName="CHANNEL_CODE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DISCOUNTS">
+      <EntityTypeMapping TypeName="IsTypeOf(TaxModel.DISCOUNTS)">
+        <MappingFragment StoreEntitySet="DISCOUNTS">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="VALUE" ColumnName="VALUE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FORMULAS">
+      <EntityTypeMapping TypeName="IsTypeOf(TaxModel.FORMULAS)">
+        <MappingFragment StoreEntitySet="FORMULAS">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="FORMULA" ColumnName="FORMULA" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OPERATORS">
+      <EntityTypeMapping TypeName="IsTypeOf(TaxModel.OPERATORS)">
+        <MappingFragment StoreEntitySet="OPERATORS">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="VALUETYPE_ID" ColumnName="VALUETYPE_ID" />
+          <ScalarProperty Name="OPERATOR" ColumnName="OPERATOR" />
+          <ScalarProperty Name="VALUE" ColumnName="VALUE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ORDERTYPES">
+      <EntityTypeMapping TypeName="IsTypeOf(TaxModel.ORDERTYPES)">
+        <MappingFragment StoreEntitySet="ORDERTYPES">
+          <ScalarProperty Name="ORDERTYPE_ID" ColumnName="ORDERTYPE_ID" />
+          <ScalarProperty Name="ORDERTYPE_TITLE" ColumnName="ORDERTYPE_TITLE" />
+          <ScalarProperty Name="ORDERTYPE_DESCRIPTION" ColumnName="ORDERTYPE_DESCRIPTION" />
+          <ScalarProperty Name="ORDERTYPE_XMLFORM" ColumnName="ORDERTYPE_XMLFORM" />
+          <ScalarProperty Name="ORDERTYPE_BUSINESSUNITKEY" ColumnName="ORDERTYPE_BUSINESSUNITKEY" />
+          <ScalarProperty Name="ORDERTYPE_GDCCID" ColumnName="ORDERTYPE_GDCCID" />
+          <ScalarProperty Name="ORDERTYPE_NEEDSLOGIN" ColumnName="ORDERTYPE_NEEDSLOGIN" />
+          <ScalarProperty Name="ORDERTYPE_CREATEDATE" ColumnName="ORDERTYPE_CREATEDATE" />
+          <ScalarProperty Name="ORDERTYPE_PDFFORM_URL" ColumnName="ORDERTYPE_PDFFORM_URL" />
+          <ScalarProperty Name="ORDERTYPE_REDIRECT" ColumnName="ORDERTYPE_REDIRECT" />
+          <ScalarProperty Name="ORDERTYPE_ORDER_SCHEMA" ColumnName="ORDERTYPE_ORDER_SCHEMA" />
+          <ScalarProperty Name="ORDERTYPE_ORDER_ROOTNAME" ColumnName="ORDERTYPE_ORDER_ROOTNAME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TAXCONDS">
+      <EntityTypeMapping TypeName="IsTypeOf(TaxModel.TAXCONDS)">
+        <MappingFragment StoreEntitySet="TAXCONDS">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="TAX_ID" ColumnName="TAX_ID" />
+          <ScalarProperty Name="FORMULA_ID" ColumnName="FORMULA_ID" />
+          <ScalarProperty Name="FORM_ITEM_NAME" ColumnName="FORM_ITEM_NAME" />
+          <ScalarProperty Name="FORM_ITEM_VALUE" ColumnName="FORM_ITEM_VALUE" />
+          <ScalarProperty Name="VALUE_IS_EQUAL" ColumnName="VALUE_IS_EQUAL" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TAXES">
+      <EntityTypeMapping TypeName="IsTypeOf(TaxModel.TAXES)">
+        <MappingFragment StoreEntitySet="TAXES">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ORDERTYPE_ID" ColumnName="ORDERTYPE_ID" />
+          <ScalarProperty Name="DISCOUNT_ID" ColumnName="DISCOUNT_ID" />
+          <ScalarProperty Name="CHANNEL_ID" ColumnName="CHANNEL_ID" />
+          <ScalarProperty Name="FORMULA_ID" ColumnName="FORMULA_ID" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+          <ScalarProperty Name="START_DATE" ColumnName="START_DATE" />
+          <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />
+          <ScalarProperty Name="VALUE" ColumnName="VALUE" />
+          <ScalarProperty Name="SIMULATE" ColumnName="SIMULATE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TAXEXCLUSIONS">
+      <EntityTypeMapping TypeName="IsTypeOf(TaxModel.TAXEXCLUSIONS)">
+        <MappingFragment StoreEntitySet="TAXEXCLUSIONS">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="TAXCOND_ID" ColumnName="TAXCOND_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UOPG">
+      <EntityTypeMapping TypeName="IsTypeOf(TaxModel.UOPG)">
+        <MappingFragment StoreEntitySet="UOPG">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Services" ColumnName="Services" />
+          <ScalarProperty Name="Residence" ColumnName="Residence" />
+          <ScalarProperty Name="Industry" ColumnName="Industry" />
+          <ScalarProperty Name="Tourism" ColumnName="Tourism" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VALUETYPES">
+      <EntityTypeMapping TypeName="IsTypeOf(TaxModel.VALUETYPES)">
+        <MappingFragment StoreEntitySet="VALUETYPES">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="VALUETYPE" ColumnName="VALUETYPE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
@@ -639,6 +639,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="DefaultDatabaseSchema" Value="TAX" />
       </DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
